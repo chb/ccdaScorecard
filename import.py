@@ -1,7 +1,7 @@
 from lxml import etree
 d = etree.parse(open("CCD.sample.xml"))
 import ccd
-i = ccd.CCDImporter(d)
+i = ccd.ConsolidatedCDA(d)
 import simplejson
 import datetime
 
@@ -10,4 +10,4 @@ class HL7JsonEncoder(simplejson.JSONEncoder):
         if isinstance(o, datetime.datetime):
             return o.isoformat()
 
-print simplejson.dumps(i.ccd, sort_keys=True, indent=2, cls=HL7JsonEncoder)
+print simplejson.dumps(i.json, sort_keys=True, indent=2, cls=HL7JsonEncoder)

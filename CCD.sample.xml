@@ -2328,7 +2328,10 @@ VITAL SIGNS
 									<templateId root="2.16.840.1.113883.10.20.22.4.27"/>
 									<!-- Vital Sign Observation template -->
 									<id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
-									<code code="8302-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Height"/>
+                                    <code code="8302-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Height">
+									  <translation code="573621" displayName="Proventil 0.09 MG/ACTUAT inhalant solution" codeSystem="2.16.840.1.113883.6.88" codeSystemName="RxNorm"/>
+
+                                    </code>
 									<text>
 										<reference value="#vit1"/>
 									</text>
