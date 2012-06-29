@@ -1,64 +1,27 @@
-import datetime, copy, collections
+import datetime, copy, collections, hashlib
+
+BASE_URI = "http://smart-catcher/"
 
 ns = {
     "h":"urn:hl7-org:v3",
     "xsi": "http://www.w3.org/2001/XMLSchema-instance"
 }
 
-def xpath(doc, p):
-    r= doc.xpath(p, namespaces=ns)
-    return r
-
-def freeTextRef(doc, ref):
-    assert ref[0]=='#', "Invalid ref: %s"%ref
-    m = xpath(doc, "//*[@ID='%s']/text()"%ref[1:])
-    assert len(m)==1, "Not exactly 1 ref: %s, %s"%(m, ref)
-    return m[0]
-
-class SubStructure:
-    def __init__(self, jsonpath, card, xpath, next_step=None):
-        self.card = card
-        self.required = not card.startswith("0") and True or False
-        self.multiple = (card.endswith("*") or int(card[-1])>1) and True or False
-        self.xpath = xpath
-        self.jsonpath = jsonpath
-        self.next_step = next_step or (lambda x: x)
-
-    def run(self, doc, json):
-        j = [] 
-
-        if hasattr(self.xpath, '__call__'):
-            matches = self.xpath(doc)
-        else:
-            matches = xpath(doc, self.xpath)
-
-        if self.required:
-            assert len(matches) >0, "Needed >0 %s"%self.xpath
-
-        for m in matches:
-            m_result = self.next_step(m)
-            if hasattr(m_result, "json"):
-                j.append(m_result.json)
-            else:
-                j.append(m_result)
-
-        if not self.multiple: 
-            assert len(j) <= 1, "Not expecting multiple %s"%self.xpath
-            if len(j)>0:
-                j = j[0]
-
-        if j:
-            components = self.jsonpath.split(".")
-            path = json
-            for p in components[:-1]:
-                if p not in path:
-                    path[p] = {}
-                path = path[p]
-                    
-            path[components[-1]] = j
+OIDS = {
+"2.16.840.1.113883.1.11.19185" : ("HL7 Religion", "http://hl7.org/codes/ReligiousAffiliation#"),
+"2.16.840.1.113883.6.238" : ("CDC Race", "http://phinvads.cdc.gov/vads/ViewCodeSystemConcept.action?oid=2.16.840.1.113883.6.238&code="),
+"2.16.840.1.113883.5.2" : ("HL7 Marital Status", "http://hl7.org/codes/MaritalStatus#"),
+"2.16.840.1.113883.6.1": ("LOINC", "http://purl.bioontology.org/ontology/LNC/"),
+"2.16.840.1.113883.6.96":("SNOMED CT", "http://purl.bioontology.org/ontology/SNOMEDCT/"),
+"2.16.840.1.113883.19":("Good Health Clinic", "http://hl7.org/goodhealth/"),
+"2.16.840.1.113883.5.83": ("HL7 Result Interpetation", "http://hl7.org/codes/ResultInterpretation#"),
+"2.16.840.1.113883.5.111": ("HL7 Role", "http://hl7.org/codes/PersonalRelationship#"),
+"2.16.840.1.113883.5.1119": ("HL7 Address", "http://hl7.org/codes/Address#"),
+"2.16.840.1.113883.5.45": ("HL7 EntityName", "http://hl7.org/codes/EntityName#"),
+}
 
 InterpretationUse = {
-    'Carrier':'Carrier',
+    '_system': '2.16.840.1.113883.5.83',
     'B':'better',
     'D':'decreased',
     'U':'increased',
@@ -83,6 +46,7 @@ InterpretationUse = {
 }
 
 EntityNameUse = {
+    '_system': '2.16.840.1.113883.5.45',
     'A': 'Artist/Stage',
     'ABC': 'Alphabetic',
     'ASGN': 'Assigned',
@@ -99,6 +63,7 @@ EntityNameUse = {
 }
 
 PostalAddressUse = {
+    '_system': '2.16.840.1.113883.5.1119',
     'BAD': 'bad address',
     'CONF': 'confidential',
     'DIR': 'direct',
@@ -113,10 +78,11 @@ PostalAddressUse = {
 }
 
 TelecomUse = {
-'HP': 'primary home',
-'WP': 'work place',
-'MC': 'mobile contact',
-'HV': 'vacation home'
+    '_system': '2.16.840.1.113883.5.1119',
+    'HP': 'primary home',
+    'WP': 'work place',
+    'MC': 'mobile contact',
+    'HV': 'vacation home'
 }
 
 """
@@ -138,6 +104,60 @@ MaritalStatus = {
 'W ': 'Widowed '
 }
 """
+
+def xpath(doc, p):
+    r= doc.xpath(p, namespaces=ns)
+    return r
+
+def freeTextRef(doc, ref):
+    assert ref[0]=='#', "Invalid ref: %s"%ref
+    m = xpath(doc, "//*[@ID='%s']/text()"%ref[1:])
+    assert len(m)==1, "Not exactly 1 ref: %s, %s"%(m, ref)
+    return m[0]
+
+class SubStructure:
+    def __init__(self, jsonpath, card, xpath, next_step=None):
+        self.card = card
+        self.required = not card.startswith("0") and True or False
+        self.multiple = (card.endswith("*") or int(card[-1])>1) and True or False
+        self.xpath = xpath
+        self.jsonpath = jsonpath
+        self.next_step = next_step or (lambda x: x)
+
+    def run(self, doc, json, caller):
+        j = [] 
+
+        if hasattr(self.xpath, '__call__'):
+            matches = self.xpath(doc)
+        else:
+            matches = xpath(doc, self.xpath)
+
+        if self.required:
+            if len(matches) == 0:
+                caller.cardinality_error(self, doc, json)
+
+        for m in matches:
+            m_result = self.next_step(m)
+            if hasattr(m_result, "json"):
+                j.append(m_result.json)
+            else:
+                j.append(m_result)
+
+        if not self.multiple: 
+            assert len(j) <= 1, "Not expecting multiple %s"%self.xpath
+            if len(j)>0:
+                j = j[0]
+
+        if j:
+            components = self.jsonpath.split(".")
+            path = json
+            for p in components[:-1]:
+                if p not in path:
+                    path[p] = {}
+                path = path[p]
+                    
+            path[components[-1]] = j
+
 
 def HL7Timestamp(t):
     da = []
@@ -191,47 +211,24 @@ class Importer(object):
 
         return ret
 
-    @classmethod
-    def init_js(cls):
-        return 
+    def cardinality_error(self, substructure, doc, json):
+        self.errors.append((substructure, doc, json))
 
-    def __init__(self, doc):
-        self.json = copy.copy(self.js_template)
+    def __init__(self, doc, json=None):
+        self.json = json if json != None else copy.copy(self.js_template)
         self.doc = doc
-        
         self.json['@type'] = self.__class__.__name__    
+        self.errors = []
+
         for f in self.fields:
-            SubStructure(*f).run(doc, self.json)
+            SubStructure(*f).run(doc, self.json, self)
 
         self.extras()
+        if self.errors:
+            for e in self.errors:
+                print e[0].xpath,  e[1].tag, e[1].attrib, e[2]
 
-class Address(Importer):
-   fields = [
-           ("streetAddress", "1..4","h:streetAddressLine/text()"),
-           ("city", "1..1","h:city/text()"),
-           ("state", "0..1","h:state/text()"),
-           ("zip", "0..1","h:postalCode/text()"),
-           ("country", "0..1","h:country/text()"),
-           ("use", "0..1", "@use", StringMap(PostalAddressUse))
-           ] 
-
-class Name(Importer):
-   fields = [
-           ("prefix", "0..*","h:prefix/text()"),
-           ("given", "1..*","h:given/text()"),
-           ("family", "1..1","h:family/text()"),
-           ("suffix", "0..1","h:suffix/text()"),
-           ("use", "0..1", "@use", StringMap(EntityNameUse))
-           ] 
-
-OIDS = {
-"2.16.840.1.113883.1.11.19185" : ("HL7 Religion", "http://hl7.org/codes/ReligiousAffiliation#"),
-"2.16.840.1.113883.6.238" : ("CDC Race", "http://phinvads.cdc.gov/vads/ViewCodeSystemConcept.action?oid=2.16.840.1.113883.6.238&code="),
-"2.16.840.1.113883.5.2" : ("HL7 Marital Status", "http://hl7.org/codes/MaritalStatus#"),
-"2.16.840.1.113883.6.1": ("LOINC", "http://purl.bioontology.org/ontology/LNC/"),
-"2.16.840.1.113883.6.96":("SNOMED CT", "http://purl.bioontology.org/ontology/SNOMEDCT/"),
-"2.16.840.1.113883.19":("Good Health Clinic", "http://hl7.org/goodhealth/"),
-}
+        assert len(self.errors) == 0, "Finished with errors: %s" % len(self.errors)
 
 """
 <code code="329498" codeSystem="2.16.840.1.113883.6.88" displayName="Albuterol 0.09 MG/ACTUAT inhalant solution">
@@ -277,12 +274,19 @@ class ConceptDescriptor(Importer):
             ("code","1..1", "@code"),
             ("system","1..1", "@codeSystem"),
             ("systemName","1..1", "@codeSystemName"),
+            ("nullFlavor","0..1", "@nullFlavor"),
             ("translation","0..*", "h:translation", ConceptDescriptor),
            ]
 
     def extras(self):
+        if "nullFlavor" in self.json:
+#            self.json = {'nullFlavor': self.json['nullFlavor']}
+#TODO how on earth to define a reasonable approach to nullFlavor?
+            self.json = {}
+            self.errors = [] 
+            return
+
         oid = self.json["system"]
-        del self.json["system"]
         if oid in OIDS:
             name,url = OIDS[oid]
             if "systemName" not in self.json:
@@ -293,9 +297,7 @@ class ConceptDescriptor(Importer):
         self.json["uri"] = url+self.json["code"]
 
 class SimpleCode(ConceptDescriptor):
-    @property
-    def fields(self):
-      return [
+      fields = [
             ("code","1..1", "@code"),
             ("system","1..1", "@codeSystem"),
            ]
@@ -308,10 +310,46 @@ def SimpleCodeMap(m):
     _ret.__name__ = 'SimpleCode'
     return _ret
 
+def SimplestCodeMap(m):
+    def ret(val):
+        oid=m['_system']
+        name,uri=OIDS[oid]
+
+        r = {
+            '@type': 'SimpleCode',
+            'system': oid,
+            'systemName': name,
+            'code': val,
+            'label': m[val],
+            'uri': uri+val
+        }
+
+        return r
+    return ret
+
+class Address(Importer):
+   fields = [
+           ("streetAddress", "1..4","h:streetAddressLine/text()"),
+           ("city", "1..1","h:city/text()"),
+           ("state", "0..1","h:state/text()"),
+           ("zip", "0..1","h:postalCode/text()"),
+           ("country", "0..1","h:country/text()"),
+           ("use", "0..1", "@use", SimplestCodeMap(PostalAddressUse))
+           ] 
+
+class Name(Importer):
+   fields = [
+           ("prefix", "0..*","h:prefix/text()"),
+           ("given", "1..*","h:given/text()"),
+           ("family", "1..1","h:family/text()"),
+           ("suffix", "0..1","h:suffix/text()"),
+           ("use", "0..1", "@use", SimplestCodeMap(EntityNameUse))
+           ] 
+
 class Telecom(Importer):
     fields = [
        ("value", "1..1","@value"),
-       ("use", "0..1", "@use", StringMap(TelecomUse))
+       ("use", "0..1", "@use", SimplestCodeMap(TelecomUse))
     ]    
 
 class Guardian(Importer):
@@ -353,13 +391,25 @@ class Patient(Importer):
             ("medicalRecordNumbers","1..*", "h:id", Identifier),
             ("gender","1..1", "h:patient/h:administrativeGenderCode/@displayName"),
             ("birthTime","1..1", "h:patient/h:birthTime/@value", HL7Timestamp),
+            ("birthTimeResolution","1..1", "h:patient/h:birthTime/@value", HL7TimestampResolution),
            ]
 
 class PhysicalQuantity(Importer):
     fields = [
-            ("value","1..1", "@value"),
+            ("value","1..1", "@value", float),
             ("unit", "0..1", "@unit"),
     ] 
+
+def EntryIdentifier(t):
+    def ret(d):
+        r = xpath(d, "@root")
+        e = xpath(d, "@extension")
+        m = hashlib.md5()
+
+        m.update("".join(r+["/"]+e))
+        d = m.hexdigest()
+        return BASE_URI + this_patient['demographics']['medicalRecordNumbers'][0]['code'] + "/" + t + "/" + d 
+    return ret
 
 class VitalSignObservation(Importer):
     templateRoot='2.16.840.1.113883.10.20.22.4.27'
@@ -367,19 +417,20 @@ class VitalSignObservation(Importer):
             ("vitalName","1..1", "h:code", ConceptDescriptor),
             ("measuredAt", "1..1", "h:effectiveTime", EffectiveTime),
             ("physicalQuantity","1..1", "h:value[@xsi:type='PQ']", PhysicalQuantity),
-            ("id","1..1", "h:id", Identifier),
+            ("uri","1..*", "h:id", EntryIdentifier("VitalSignObservation")),
             ("label","0..1", "h:text/h:reference/@value"),
             ("interpretations", "0..*", "h:interpretationCode", SimpleCodeMap(InterpretationUse))
     ] 
 
     def extras(self):
-       if (self.json['label']):
+       if ('label' in self.json):
             self.json['label'] = freeTextRef(self.doc, self.json['label']) 
 
 class VitalSignsOrganizer(Importer):
     templateRoot='2.16.840.1.113883.10.20.22.4.26'
     fields = [
 #            ("name","0..1", "h:code", ConceptDescriptor),
+            ("uri","1..*", "h:id", EntryIdentifier("VitalSignsOrganizer")),
             ("measuredAt", "1..1", "h:effectiveTime", EffectiveTime),
             ("vitalSign", "1..*", VitalSignObservation.xpath, VitalSignObservation)
     ]
@@ -394,10 +445,10 @@ class VitalSignsSection(Importer):
 class ResultObservation(Importer):
     templateRoot='2.16.840.1.113883.10.20.22.4.2'
     fields = [
+            ("uri","1..*", "h:id", EntryIdentifier("ResultObservation")),
             ("resultName","1..1", "h:code", ConceptDescriptor),
             ("measuredAt", "1..1", "h:effectiveTime", EffectiveTime),
             ("physicalQuantity","1..1", "h:value[@xsi:type='PQ']", PhysicalQuantity),
-            ("id","1..1", "h:id", Identifier),
             ("label","0..1", "h:text/h:reference/@value"),
             ("interpretations", "0..*", "h:interpretationCode[@codeSystem='2.16.840.1.113883.5.83']", SimpleCodeMap(InterpretationUse))
     ] 
@@ -409,6 +460,7 @@ class ResultObservation(Importer):
 class ResultsOrganizer(Importer):
     templateRoot='2.16.840.1.113883.10.20.22.4.1'
     fields = [
+            ("uri","1..*", "h:id", EntryIdentifier("ResultsOrganizer")),
             ("batteryName","0..1", "h:code", ConceptDescriptor),
             ("result", "1..*", ResultObservation.xpath, ResultObservation)
     ]
@@ -423,10 +475,14 @@ class ResultsSection(Importer):
             ("results","0..*", ResultsOrganizer.xpath, ResultsOrganizer),
     ] 
 
+
+this_patient = {}
 class ConsolidatedCDA(Importer):
     fields = [
-            ("demographics", "1..*", "//h:recordTarget/h:patientRole", Patient),
+            ("demographics", "1..1", "//h:recordTarget/h:patientRole", Patient),
             ("vitals", "0..1", VitalSignsSection.xpath, VitalSignsSection),
             ("results", "0..1", ResultsSection.xpath, ResultsSection),
            ]
+    def __init__(self, doc):
+        super(ConsolidatedCDA, self).__init__(doc, this_patient)
 
