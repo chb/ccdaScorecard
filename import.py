@@ -19,9 +19,11 @@ if __name__ == '__main__':
     f = sys.argv[1]
     d = etree.parse(open(f))
     i=ccd.ConsolidatedCDA(d)
+    """
     raw_docs.insert({
         'raw': open(f).read(), 
         'received_at': datetime.datetime.utcnow()
         })
     docs.insert(i.json)
-#    simplejson.dumps(i.json, sort_keys=True, indent=2, cls=HL7JsonEncoder)
+    """
+    print simplejson.dumps(i.json, sort_keys=True, indent=2, cls=HL7JsonEncoder)
