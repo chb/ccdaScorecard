@@ -7,22 +7,77 @@ ns = {
     "xsi": "http://www.w3.org/2001/XMLSchema-instance"
 }
 
-OIDS = {
-"2.16.840.1.113883.6.238" : ("CDC Race", "http://phinvads.cdc.gov/vads/ViewCodeSystemConcept.action?oid=2.16.840.1.113883.6.238&code="),
-"2.16.840.1.113883.6.1": ("LOINC", "http://purl.bioontology.org/ontology/LNC/"),
-"2.16.840.1.113883.6.96":("SNOMED CT", "http://purl.bioontology.org/ontology/SNOMEDCT/"),
-"2.16.840.1.113883.19":("Good Health Clinic", "http://hl7.org/goodhealth/"),
-"2.16.840.1.113883.1.11.19185" : ("HL7 Religion", "http://hl7.org/codes/ReligiousAffiliation#"),
-"2.16.840.1.113883.5.2" : ("HL7 Marital Status", "http://hl7.org/codes/MaritalStatus#"),
-"2.16.840.1.113883.5.83": ("HL7 Result Interpretation", "http://hl7.org/codes/ResultInterpretation#"),
-"2.16.840.1.113883.5.111": ("HL7 Role", "http://hl7.org/codes/PersonalRelationship#"),
-"2.16.840.1.113883.5.1119": ("HL7 Address", "http://hl7.org/codes/Address#"),
-"2.16.840.1.113883.5.45": ("HL7 EntityName", "http://hl7.org/codes/EntityName#"),
-"2.16.840.1.113883.5.1": ("HL7 AdministrativeGender", "http://hl7.org/codes/AdministrativeGender#"),
-}
+class OID_Library(object):
+    registered = []
 
-InterpretationUse = {
-    '_system': '2.16.840.1.113883.5.83',
+    @classmethod
+    def register(cls, oidclass):
+        cls.registered.append(oidclass)
+
+    @classmethod
+    def by_oid(cls, oid):
+        return filter(lambda x: x.oid==oid, cls.registered)[0]
+
+    @classmethod
+    def by_name(cls, name):
+        return filter(lambda x: x.name==name, cls.registered)[0]
+
+@OID_Library.register
+class CDC_Race():
+    oid = "2.16.840.1.113883.6.238"
+    name = "CDC Race"
+    uri = "http://phinvads.cdc.gov/vads/ViewCodeSystemConcept.action?oid=2.16.840.1.113883.6.238&code="
+
+    
+@OID_Library.register
+class LOINC():
+    oid = "2.16.840.1.113883.6.1"
+    name = "LOINC"
+    uri =  "http://purl.bioontology.org/ontology/LNC/"
+
+@OID_Library.register
+class RXNORM():
+    oid = "2.16.840.1.113883.6.88"
+    name = "RXNORM"
+    uri =  "http://purl.bioontology.org/ontology/RXNORM/"
+
+
+@OID_Library.register
+class SNOMED():
+    oid = "2.16.840.1.113883.6.96"
+    name = "SNOMED CT"
+    uri =  "http://purl.bioontology.org/ontology/SNOMEDCT/"
+
+@OID_Library.register
+class GoodHealth():
+    oid = "2.16.840.1.113883.19"
+    name = "Good Health Clinic"
+    uri =  "http://hl7.org/goodhealth/"
+
+@OID_Library.register
+class ReligiousAffiliation():
+    oid = "2.16.840.1.113883.1.11.19185" 
+    name = "HL7 Religion"
+    uri =  "http://hl7.org/codes/ReligiousAffiliation#"
+
+@OID_Library.register
+class LanguageAbility():
+    oid = "2.16.840.1.113883.5.60" 
+    name = "HL7 LanguageAbility"
+    uri =  "http://hl7.org/codes/LanguageAbility#"
+
+@OID_Library.register
+class MaritalStatus():
+    oid = "2.16.840.1.113883.5.2" 
+    name = "HL7 Marital Status"
+    uri =  "http://hl7.org/codes/MaritalStatus#"
+
+@OID_Library.register
+class ResultInterpretation():
+    oid = "2.16.840.1.113883.5.83"
+    name = "HL7 Result Interpretation"
+    uri =  "http://hl7.org/codes/ResultInterpretation#"
+    table = {
     'B':'better',
     'D':'decreased',
     'U':'increased',
@@ -44,10 +99,39 @@ InterpretationUse = {
     'EX':'outside threshold',
     'HX':'above high threshold',
     'LX':'below low threshold',
-}
+    }
 
-EntityNameUse = {
-    '_system': '2.16.840.1.113883.5.45',
+@OID_Library.register
+class PersonalRelationship():
+    oid = "2.16.840.1.113883.5.111"
+    name = "HL7 Role"
+    uri =  "http://hl7.org/codes/PersonalRelationship#"
+
+@OID_Library.register
+class AddressUse():
+    oid = "2.16.840.1.113883.5.1119"
+    name = "HL7 Address"
+    uri =  "http://hl7.org/codes/Address#"
+    table = {
+    'BAD': 'bad address',
+    'CONF': 'confidential',
+    'DIR': 'direct',
+    'H': 'home address',
+    'HP': 'primary home',
+    'HV': 'vacation home',
+    'PHYS': 'physical visit address',
+    'PST': 'postal address',
+    'PUB': 'public',
+    'TMP': 'temporary',
+    'WP': 'work place'
+    }
+
+@OID_Library.register
+class EntityNameUse():
+    oid = "2.16.840.1.113883.5.45"
+    name = "HL7 EntityName"
+    uri =  "http://hl7.org/codes/EntityName#"
+    table = {
     'A': 'Artist/Stage',
     'ABC': 'Alphabetic',
     'ASGN': 'Assigned',
@@ -61,37 +145,18 @@ EntityNameUse = {
     'SNDX': 'Soundex',
     'SRCH': 'Search',
     'SYL': 'Syllabic'
-}
+    }
 
-PostalAddressUse = {
-    '_system': '2.16.840.1.113883.5.1119',
-    'BAD': 'bad address',
-    'CONF': 'confidential',
-    'DIR': 'direct',
-    'H': 'home address',
-    'HP': 'primary home',
-    'HV': 'vacation home',
-    'PHYS': 'physical visit address',
-    'PST': 'postal address',
-    'PUB': 'public',
-    'TMP': 'temporary',
-    'WP': 'work place'
-}
-
-TelecomUse = {
-    '_system': '2.16.840.1.113883.5.1119',
-    'HP': 'primary home',
-    'WP': 'work place',
-    'MC': 'mobile contact',
-    'HV': 'vacation home'
-}
-
-AdministrativeGenderUse = {
-'_system': '2.16.840.1.113883.5.1',
-'F': 'Female',
-'M': 'Male',
-'UN': 'Undifferentiated'
-}
+@OID_Library.register
+class AdministrativeGender():
+    oid = "2.16.840.1.113883.5.1"
+    name = "HL7 AdministrativeGender"
+    uri =  "http://hl7.org/codes/AdministrativeGender#"
+    table = {
+    'F': 'Female',
+    'M': 'Male',
+    'UN': 'Undifferentiated'
+    }
 
 """
 MaritalStatus = {
@@ -111,7 +176,7 @@ def xpath(doc, p):
     r= doc.xpath(p, namespaces=ns)
     return r
 
-def freeTextRef(doc, ref):
+def FreeTextRef(doc, ref):
     assert ref[0]=='#', "Invalid ref: %s"%ref
     m = xpath(doc, "//*[@ID='%s']/text()"%ref[1:])
     assert len(m)==1, "Not exactly 1 ref: %s, %s"%(m, ref)
@@ -196,6 +261,9 @@ class Importer(object):
     fields = []
     js_template = {}
 
+    def precleanup(self):
+        pass
+
     def cleanup(self):
         pass
 
@@ -231,6 +299,7 @@ class Importer(object):
             SubStructure(*f).run(doc, self)
 
         assert len(self.errors) == 0, "%s Finished with errors: %s" % (self.errors, len(self.errors))
+        self.precleanup()
 
     @property
     def subitems_flat(self):
@@ -271,17 +340,14 @@ class Identifier(Importer):
             ("extension","0..1", "@extension"),
            ]
 
-def SimplestCodeMap(val, m):
-    oid=m['_system']
-    name,uri=OIDS[oid]
+def SimplestCodeMap(val, o):
 
     r = {
         '@type': 'SimpleCode',
-        'system': oid,
-        'systemName': name,
+        'systemName': o.name,
         'code': val,
-        'label': m[val],
-        'uri': uri+val
+        'label': o.table[val],
+        'uri': o.uri+val
     }
 
     return r
@@ -290,7 +356,7 @@ class ConceptDescriptor(Importer):
     @property
     def fields(self):
       return [
-            ("label","1..1", "@displayName"),
+            ("label","0..1", "@displayName"),
             ("code","1..1", "@code"),
             ("system","1..1", "@codeSystem"),
             ("systemName","0..1", "@codeSystemName"),
@@ -298,19 +364,21 @@ class ConceptDescriptor(Importer):
             ("translation","0..*", "h:translation", ConceptDescriptor),
            ]
 
-    def cleanup(self):
+    def precleanup(self):
         if "nullFlavor" in self.subs:
             return
 
         oid = self.subs["system"]
-        if oid in OIDS:
-            name,url = OIDS[oid]
-            if "systemName" not in self.subs:
-                self.subs["systemName"] = name
-        else:
-            url = "urn:"+oid+"#"
-        url += self.subs["code"]
-        self.subs["uri"] = url
+        o = OID_Library.by_oid(oid)
+        if "label" not in self.subs:
+            self.subs["label"] = o.table[self.subs["code"]]
+        if "systemName" not in self.subs:
+            self.subs["systemName"] = o.name
+
+        #uri = "urn:"+oid+"#"
+        uri = o.uri + self.subs["code"]
+        self.subs["uri"] = uri
+        del self.subs["system"]
 
 class Address(Importer):
    fields = [
@@ -324,8 +392,7 @@ class Address(Importer):
 
    def cleanup(self):
        if ("use" in self.subs):
-           self.subs["use"] = SimplestCodeMap(self.subs["use"], PostalAddressUse) 
-
+           self.subs["use"] = SimplestCodeMap(self.subs["use"], OID_Library.by_name("HL7 Address"))['label']
 class Name(Importer):
    fields = [
            ("prefix", "0..*","h:prefix/text()"),
@@ -337,7 +404,7 @@ class Name(Importer):
 
    def cleanup(self):
        if ("use" in self.subs):
-           self.subs["use"] = SimplestCodeMap(self.subs["use"], EntityNameUse) 
+           self.subs["use"] = SimplestCodeMap(self.subs["use"], OID_Library.by_name("HL7 EntityName"))['label']
 
 class Telecom(Importer):
     fields = [
@@ -347,7 +414,7 @@ class Telecom(Importer):
 
     def cleanup(self):
        if ("use" in self.subs):
-           self.subs["use"] = SimplestCodeMap(self.subs["use"], TelecomUse) 
+           self.subs["use"] = SimplestCodeMap(self.subs["use"], OID_Library.by_name("HL7 Address"))['label']
 
 
 class Guardian(Importer):
@@ -357,6 +424,10 @@ class Guardian(Importer):
             ("name","1..*", "h:guardianPerson/h:name", Name),
             ("telecom","0..*", "h:telecom", Telecom),
            ]
+
+    def cleanup(self): 
+        if "relation" in self.subs:
+            self.subs["relation"] = self.subs["relation"].subs["label"]
 
 class LanguageCommunication(Importer):
     fields = [
@@ -408,10 +479,16 @@ class Patient(Importer):
 
     def cleanup(self):
         self.subs["uri"] = GenerateURI(self) 
+        self.subs["medicalRecordNumbers"] = map(lambda x: x.subs["extension"], self.subs["medicalRecordNumbers"])
+        self.subs["gender"] = self.subs["gender"].subs["label"]
 
-    def GetMRN(self):
-        ## Insert local logic for determining "the" identifier of several
-        return self.subs["medicalRecordNumbers"][0].subs["extension"]
+    _mrn = None
+    @property
+    def mrn(self):
+        if self._mrn: return self._mrn
+        # Insert local logic for determining "the" identifier of several
+        self._mrn = self.subs["medicalRecordNumbers"][0].subs["extension"]
+        return self._mrn
 
 def float_if_possible(x, parent):
     try:
@@ -433,8 +510,17 @@ class VitalSignObservation(Importer):
             ("measuredAt", "1..1", "h:effectiveTime", EffectiveTime),
             ("physicalQuantity","1..1", "h:value[@xsi:type='PQ']", PhysicalQuantity),
             ("label","0..1", "h:text/h:reference/@value"),
-            ("interpretations", "0..*", "h:interpretationCode")
-    ] 
+            ("interpretations", "0..*", "h:interpretationCode[@codeSystem='2.16.840.1.113883.5.83']", ConceptDescriptor)
+    ]
+
+    def cleanup(self):
+
+        if 'label' in self.subs:
+            self.subs['label'] = FreeTextRef(self.doc, self.subs['label']) 
+
+        if 'interpretations' in self.subs:
+            print self.subs['interpretations'][0].subs
+            self.subs['interpretations'] = map(lambda x: x.subs['label'], self.subs['interpretations'])
 
 class VitalSignsOrganizer(Importer):
     templateRoot='2.16.840.1.113883.10.20.22.4.26'
@@ -458,8 +544,16 @@ class ResultObservation(Importer):
             ("measuredAt", "1..1", "h:effectiveTime", EffectiveTime),
             ("physicalQuantity","1..1", "h:value[@xsi:type='PQ']", PhysicalQuantity),
             ("label","0..1", "h:text/h:reference/@value"),
-            ("interpretations", "0..*", "h:interpretationCode[@codeSystem='2.16.840.1.113883.5.83']")
+            ("interpretations", "0..*", "h:interpretationCode[@codeSystem='2.16.840.1.113883.5.83']", ConceptDescriptor)
     ] 
+
+    def cleanup(self):
+        if 'label' in self.subs:
+            self.subs['label'] = FreeTextRef(self.doc, self.subs['label']) 
+
+        if 'interpretations' in self.subs:
+            self.subs['interpretations'] = map(lambda x: x.subs['label'], self.subs['interpretations'])
+
 
 class ResultsOrganizer(Importer):
     templateRoot='2.16.840.1.113883.10.20.22.4.1'
@@ -488,6 +582,6 @@ class ConsolidatedCDA(Importer):
            ]
     def __init__(self, doc):
         super(ConsolidatedCDA, self).__init__(doc, parent=None)
-        self.record_id = self.subs['demographics'].GetMRN()
+        self.record_id = self.subs['demographics'].mrn
 
         super(ConsolidatedCDA, self).postprocess()
