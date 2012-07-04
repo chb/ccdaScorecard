@@ -1,25 +1,14 @@
 {
-  "@type": "ConsolidatedCDA",
-  "_id": null,
   "demographics": {
-    "@type": "Patient",
     "address": [
       {
-        "@type": "Address",
         "city": "Blue Bell",
         "country": "US",
         "state": "MA",
         "streetAddress": [
           "17 Daws Rd."
         ],
-        "use": {
-          "@type": "SimpleCode",
-          "code": "HP",
-          "label": "primary home",
-          "system": "2.16.840.1.113883.5.1119",
-          "systemName": "HL7 Address",
-          "uri": "http://hl7.org/codes/Address#HP"
-        },
+        "use": "primary home",
         "zip": "02368"
       }
     ],
@@ -28,55 +17,30 @@
     "gender": "Male",
     "guardian": [
       {
-        "@type": "Guardian",
         "address": [
           {
-            "@type": "Address",
             "city": "Blue Bell",
             "country": "US",
             "state": "MA",
             "streetAddress": [
               "17 Daws Rd."
             ],
-            "use": {
-              "@type": "SimpleCode",
-              "code": "HP",
-              "label": "primary home",
-              "system": "2.16.840.1.113883.5.1119",
-              "systemName": "HL7 Address",
-              "uri": "http://hl7.org/codes/Address#HP"
-            },
+            "use": "primary home",
             "zip": "02368"
           }
         ],
         "name": [
           {
-            "@type": "Name",
             "family": "Relative",
             "given": [
               "Ralph"
             ]
           }
         ],
-        "relation": {
-          "@type": "ConceptDescriptor",
-          "code": "GRFTH",
-          "label": "Grandfather",
-          "system": "2.16.840.1.113883.5.111",
-          "systemName": "HL7 Role code",
-          "uri": "http://hl7.org/codes/PersonalRelationship#GRFTH"
-        },
+        "relation": "Grandfather",
         "telecom": [
           {
-            "@type": "Telecom",
-            "use": {
-              "@type": "SimpleCode",
-              "code": "HP",
-              "label": "primary home",
-              "system": "2.16.840.1.113883.5.1119",
-              "systemName": "HL7 Address",
-              "uri": "http://hl7.org/codes/Address#HP"
-            },
+            "use": "primary home",
             "value": "tel:(781)555-1212"
           }
         ]
@@ -84,45 +48,27 @@
     ],
     "language": [
       {
-        "@type": "LanguageCommunication",
         "code": "fr-CN",
         "mode": {
-          "@type": "ConceptDescriptor",
           "code": "RWR",
           "label": "Receive Written",
-          "system": "2.16.840.1.113883.5.60",
           "systemName": "LanguageAbilityMode",
-          "uri": "urn:2.16.840.1.113883.5.60#RWR"
+          "uri": "http://hl7.org/codes/LanguageAbility#RWR"
         },
         "preferred": true
       }
     ],
     "maritalStatus": {
-      "@type": "ConceptDescriptor",
       "code": "M",
       "label": "Married",
-      "system": "2.16.840.1.113883.5.2",
       "systemName": "MaritalStatusCode",
       "uri": "http://hl7.org/codes/MaritalStatus#M"
     },
     "medicalRecordNumbers": [
-      {
-        "@type": "Identifier",
-        "code": "12345",
-        "label": "Good Health Clinic 12345",
-        "system": "2.16.840.1.113883.19",
-        "systemName": "Good Health Clinic",
-        "uri": "http://hl7.org/goodhealth/12345"
-      },
-      {
-        "@type": "Identifier",
-        "code": "111-00-1234",
-        "system": "2.16.840.1.113883.4.1",
-        "uri": "urn:2.16.840.1.113883.4.1#111-00-1234"
-      }
+      "12345",
+      "111-00-1234"
     ],
     "name": {
-      "@type": "Name",
       "family": "Everyman",
       "given": [
         "Adam",
@@ -131,294 +77,171 @@
       "prefix": [
         "Mr."
       ],
-      "use": {
-        "@type": "SimpleCode",
-        "code": "L",
-        "label": "Legal",
-        "system": "2.16.840.1.113883.5.45",
-        "systemName": "HL7 EntityName",
-        "uri": "http://hl7.org/codes/EntityName#L"
-      }
+      "use": "Legal"
     },
     "race": {
-      "@type": "ConceptDescriptor",
       "code": "2106-3",
       "label": "White",
-      "system": "2.16.840.1.113883.6.238",
       "systemName": "Race & Ethnicity - CDC",
       "uri": "http://phinvads.cdc.gov/vads/ViewCodeSystemConcept.action?oid=2.16.840.1.113883.6.238&code=2106-3"
     },
     "religion": {
-      "@type": "ConceptDescriptor",
       "code": "1013",
       "label": "Christian (non-Catholic, non-specific)",
-      "system": "2.16.840.1.113883.1.11.19185",
       "systemName": "HL7 Religious Affiliation ",
       "uri": "http://hl7.org/codes/ReligiousAffiliation#1013"
     },
     "telecom": [
       {
-        "@type": "Telecom",
-        "use": {
-          "@type": "SimpleCode",
-          "code": "HP",
-          "label": "primary home",
-          "system": "2.16.840.1.113883.5.1119",
-          "systemName": "HL7 Address",
-          "uri": "http://hl7.org/codes/Address#HP"
-        },
+        "use": "primary home",
         "value": "tel:(781)555-1212"
       }
-    ]
+    ],
+    "uri": "http://smart-catchers/records/12345/Patient"
   },
   "results": {
-    "@type": "ResultsSection",
     "results": [
       {
-        "@type": "ResultsOrganizer",
         "batteryName": {
-          "@type": "ConceptDescriptor",
           "code": "43789009",
           "label": "CBC WO DIFFERENTIAL",
-          "system": "2.16.840.1.113883.6.96",
           "systemName": "SNOMED CT",
           "uri": "http://purl.bioontology.org/ontology/SNOMEDCT/43789009"
         },
         "result": [
           {
-            "@type": "ResultObservation",
             "interpretations": [
-              {
-                "@type": "SimpleCode",
-                "code": "N",
-                "label": "Normal",
-                "system": "2.16.840.1.113883.5.83",
-                "systemName": "HL7 Result Interpetation",
-                "uri": "http://hl7.org/codes/ResultInterpretation#N"
-              }
+              "Normal"
             ],
             "measuredAt": {
-              "@type": "EffectiveTime",
               "point": "2000-03-23T14:30:00",
               "pointResolution": "minute"
             },
             "physicalQuantity": {
-              "@type": "PhysicalQuantity",
               "unit": "g/dl",
               "value": 13.2
             },
             "resultName": {
-              "@type": "ConceptDescriptor",
               "code": "30313-1",
               "label": "HGB",
-              "system": "2.16.840.1.113883.6.1",
               "systemName": "LOINC",
               "uri": "http://purl.bioontology.org/ontology/LNC/30313-1"
-            },
-            "uri": [
-              "http://smart-catcher/12345/ResultObservation/4fd644540ab8313c7d024b80c2d6a914"
-            ]
+            }
           },
           {
-            "@type": "ResultObservation",
             "interpretations": [
-              {
-                "@type": "SimpleCode",
-                "code": "N",
-                "label": "Normal",
-                "system": "2.16.840.1.113883.5.83",
-                "systemName": "HL7 Result Interpetation",
-                "uri": "http://hl7.org/codes/ResultInterpretation#N"
-              }
+              "Normal"
             ],
             "measuredAt": {
-              "@type": "EffectiveTime",
               "point": "2000-03-23T14:30:00",
               "pointResolution": "minute"
             },
             "physicalQuantity": {
-              "@type": "PhysicalQuantity",
               "unit": "10+3/ul",
               "value": 6.7
             },
             "resultName": {
-              "@type": "ConceptDescriptor",
               "code": "33765-9",
               "label": "WBC",
-              "system": "2.16.840.1.113883.6.1",
               "systemName": "LOINC",
               "uri": "http://purl.bioontology.org/ontology/LNC/33765-9"
-            },
-            "uri": [
-              "http://smart-catcher/12345/ResultObservation/4fd644540ab8313c7d024b80c2d6a914"
-            ]
+            }
           },
           {
-            "@type": "ResultObservation",
             "interpretations": [
-              {
-                "@type": "SimpleCode",
-                "code": "L",
-                "label": "Low",
-                "system": "2.16.840.1.113883.5.83",
-                "systemName": "HL7 Result Interpetation",
-                "uri": "http://hl7.org/codes/ResultInterpretation#L"
-              }
+              "Low"
             ],
             "measuredAt": {
-              "@type": "EffectiveTime",
               "point": "2000-03-23T14:30:00",
               "pointResolution": "minute"
             },
             "physicalQuantity": {
-              "@type": "PhysicalQuantity",
               "unit": "10+3/ul",
               "value": 123.0
             },
             "resultName": {
-              "@type": "ConceptDescriptor",
               "code": "26515-7",
               "label": "PLT",
-              "system": "2.16.840.1.113883.6.1",
               "systemName": "LOINC",
               "uri": "http://purl.bioontology.org/ontology/LNC/26515-7"
-            },
-            "uri": [
-              "http://smart-catcher/12345/ResultObservation/4fd644540ab8313c7d024b80c2d6a914"
-            ]
+            }
           }
-        ],
-        "uri": [
-          "http://smart-catcher/12345/ResultsOrganizer/142f4df9afa2c2fb9e7a24693039b004"
         ]
       }
     ]
   },
   "vitals": {
-    "@type": "VitalSignsSection",
     "vitalSigns": [
       {
-        "@type": "VitalSignsOrganizer",
         "measuredAt": {
-          "@type": "EffectiveTime",
           "point": "1999-11-14T00:00:00",
           "pointResolution": "day"
         },
-        "uri": [
-          "http://smart-catcher/12345/VitalSignsOrganizer/de080d6017405acae14dfaf7b61ac660"
-        ],
         "vitalSign": [
           {
-            "@type": "VitalSignObservation",
             "interpretations": [
-              {
-                "@type": "SimpleCode",
-                "code": "N",
-                "label": "Normal",
-                "system": "2.16.840.1.113883.5.83",
-                "systemName": "HL7 Result Interpetation",
-                "uri": "http://hl7.org/codes/ResultInterpretation#N"
-              }
+              "Normal"
             ],
             "label": "177 cm",
             "measuredAt": {
-              "@type": "EffectiveTime",
               "point": "1999-11-14T00:00:00",
               "pointResolution": "day"
             },
             "physicalQuantity": {
-              "@type": "PhysicalQuantity",
               "unit": "cm",
               "value": 177.0
             },
-            "uri": [
-              "http://smart-catcher/12345/VitalSignObservation/52da52d384ef6ecbf22ca7f70da42cf0"
-            ],
             "vitalName": {
-              "@type": "ConceptDescriptor",
               "code": "8302-2",
               "label": "Height",
-              "system": "2.16.840.1.113883.6.1",
               "systemName": "LOINC",
               "translation": [
                 {
-                  "@type": "ConceptDescriptor",
                   "code": "573621",
                   "label": "Proventil 0.09 MG/ACTUAT inhalant solution",
-                  "system": "2.16.840.1.113883.6.88",
                   "systemName": "RxNorm",
-                  "uri": "urn:2.16.840.1.113883.6.88#573621"
+                  "uri": "http://purl.bioontology.org/ontology/RXNORM/573621"
                 }
               ],
               "uri": "http://purl.bioontology.org/ontology/LNC/8302-2"
             }
           },
           {
-            "@type": "VitalSignObservation",
             "interpretations": [
-              {
-                "@type": "SimpleCode",
-                "code": "N",
-                "label": "Normal",
-                "system": "2.16.840.1.113883.5.83",
-                "systemName": "HL7 Result Interpetation",
-                "uri": "http://hl7.org/codes/ResultInterpretation#N"
-              }
+              "Normal"
             ],
             "label": "88 kg",
             "measuredAt": {
-              "@type": "EffectiveTime",
               "point": "1999-11-14T00:00:00",
               "pointResolution": "day"
             },
             "physicalQuantity": {
-              "@type": "PhysicalQuantity",
               "unit": "kg",
               "value": 86.0
             },
-            "uri": [
-              "http://smart-catcher/12345/VitalSignObservation/52da52d384ef6ecbf22ca7f70da42cf0"
-            ],
             "vitalName": {
-              "@type": "ConceptDescriptor",
               "code": "3141-9",
               "label": "Patient Body Weight - Measured",
-              "system": "2.16.840.1.113883.6.1",
               "systemName": "LOINC",
               "uri": "http://purl.bioontology.org/ontology/LNC/3141-9"
             }
           },
           {
-            "@type": "VitalSignObservation",
             "interpretations": [
-              {
-                "@type": "SimpleCode",
-                "code": "N",
-                "label": "Normal",
-                "system": "2.16.840.1.113883.5.83",
-                "systemName": "HL7 Result Interpetation",
-                "uri": "http://hl7.org/codes/ResultInterpretation#N"
-              }
+              "Normal"
             ],
             "label": "132/86 mmHg",
             "measuredAt": {
-              "@type": "EffectiveTime",
               "point": "1999-11-14T00:00:00",
               "pointResolution": "day"
             },
             "physicalQuantity": {
-              "@type": "PhysicalQuantity",
               "unit": "mm[Hg]",
               "value": 132.0
             },
-            "uri": [
-              "http://smart-catcher/12345/VitalSignObservation/52da52d384ef6ecbf22ca7f70da42cf0"
-            ],
             "vitalName": {
-              "@type": "ConceptDescriptor",
               "code": "8480-6",
               "label": "Intravascular Systolic",
-              "system": "2.16.840.1.113883.6.1",
               "systemName": "LOINC",
               "uri": "http://purl.bioontology.org/ontology/LNC/8480-6"
             }
@@ -426,117 +249,67 @@
         ]
       },
       {
-        "@type": "VitalSignsOrganizer",
         "measuredAt": {
-          "@type": "EffectiveTime",
           "point": "2000-04-07T00:00:00",
           "pointResolution": "day"
         },
-        "uri": [
-          "http://smart-catcher/12345/VitalSignsOrganizer/de080d6017405acae14dfaf7b61ac660"
-        ],
         "vitalSign": [
           {
-            "@type": "VitalSignObservation",
             "interpretations": [
-              {
-                "@type": "SimpleCode",
-                "code": "N",
-                "label": "Normal",
-                "system": "2.16.840.1.113883.5.83",
-                "systemName": "HL7 Result Interpetation",
-                "uri": "http://hl7.org/codes/ResultInterpretation#N"
-              }
+              "Normal"
             ],
             "label": "177 cm",
             "measuredAt": {
-              "@type": "EffectiveTime",
               "point": "2000-04-07T00:00:00",
               "pointResolution": "day"
             },
             "physicalQuantity": {
-              "@type": "PhysicalQuantity",
               "unit": "cm",
               "value": 177.0
             },
-            "uri": [
-              "http://smart-catcher/12345/VitalSignObservation/52da52d384ef6ecbf22ca7f70da42cf0"
-            ],
             "vitalName": {
-              "@type": "ConceptDescriptor",
               "code": "8302-2",
               "label": "Height",
-              "system": "2.16.840.1.113883.6.1",
               "systemName": "LOINC",
               "uri": "http://purl.bioontology.org/ontology/LNC/8302-2"
             }
           },
           {
-            "@type": "VitalSignObservation",
             "interpretations": [
-              {
-                "@type": "SimpleCode",
-                "code": "N",
-                "label": "Normal",
-                "system": "2.16.840.1.113883.5.83",
-                "systemName": "HL7 Result Interpetation",
-                "uri": "http://hl7.org/codes/ResultInterpretation#N"
-              }
+              "Normal"
             ],
             "label": "88 kg",
             "measuredAt": {
-              "@type": "EffectiveTime",
               "point": "2000-04-07T00:00:00",
               "pointResolution": "day"
             },
             "physicalQuantity": {
-              "@type": "PhysicalQuantity",
               "unit": "kg",
               "value": 88.0
             },
-            "uri": [
-              "http://smart-catcher/12345/VitalSignObservation/52da52d384ef6ecbf22ca7f70da42cf0"
-            ],
             "vitalName": {
-              "@type": "ConceptDescriptor",
               "code": "3141-9",
               "label": "Patient Body Weight - Measured",
-              "system": "2.16.840.1.113883.6.1",
               "systemName": "LOINC",
               "uri": "http://purl.bioontology.org/ontology/LNC/3141-9"
             }
           },
           {
-            "@type": "VitalSignObservation",
             "interpretations": [
-              {
-                "@type": "SimpleCode",
-                "code": "N",
-                "label": "Normal",
-                "system": "2.16.840.1.113883.5.83",
-                "systemName": "HL7 Result Interpetation",
-                "uri": "http://hl7.org/codes/ResultInterpretation#N"
-              }
+              "Normal"
             ],
             "label": "145/88 mmHg",
             "measuredAt": {
-              "@type": "EffectiveTime",
               "point": "2000-04-07T00:00:00",
               "pointResolution": "day"
             },
             "physicalQuantity": {
-              "@type": "PhysicalQuantity",
               "unit": "mm[Hg]",
               "value": 145.0
             },
-            "uri": [
-              "http://smart-catcher/12345/VitalSignObservation/52da52d384ef6ecbf22ca7f70da42cf0"
-            ],
             "vitalName": {
-              "@type": "ConceptDescriptor",
               "code": "8480-6",
               "label": "Intravascular Systolic",
-              "system": "2.16.840.1.113883.6.1",
               "systemName": "LOINC",
               "uri": "http://purl.bioontology.org/ontology/LNC/8480-6"
             }
