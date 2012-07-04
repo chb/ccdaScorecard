@@ -1,5 +1,7 @@
 Exploratory mapping of Consolidated CDA data to JSON, with a goal of preserving
-CCDA's data model (but applying friendly names to properties whenever possible. 
+CCDA's data model (but applying friendly names to properties whenever possible).
+
+Inspired by popHealth's approach to mapping C32 (+ stronger linked data flavor)
 
 `python import.py CCD.sample.xml > sample_ccda.json`
 
