@@ -519,7 +519,6 @@ class VitalSignObservation(Importer):
             self.subs['label'] = FreeTextRef(self.doc, self.subs['label']) 
 
         if 'interpretations' in self.subs:
-            print self.subs['interpretations'][0].subs
             self.subs['interpretations'] = map(lambda x: x.subs['label'], self.subs['interpretations'])
 
 class VitalSignsOrganizer(Importer):
