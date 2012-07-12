@@ -389,7 +389,7 @@ Allergies, Adverse Reactions, Alerts
 						<act classCode="ACT" moodCode="EVN">
 							<templateId root="2.16.840.1.113883.10.20.22.4.30"/>
 							<!-- ** Allergy problem act ** -->
-							<id root="36e3e930-7b14-11db-9fe1-0800200c9a66"/>
+							<id root="bc3d69e1-13a7-48a7-8735-b3e2d4b27c40"/>
 							<code code="48765-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Allergies, adverse reactions, alerts"/>
 							<statusCode code="active"/>
 							<effectiveTime value="20090909">
@@ -400,7 +400,7 @@ Allergies, Adverse Reactions, Alerts
 								<observation classCode="OBS" moodCode="EVN">
 									<!-- allergy observation template -->
 									<templateId root="2.16.840.1.113883.10.20.22.4.7"/>
-									<id root="4adc1020-7b14-11db-9fe1-0800200c9a66"/>
+									<id root="77abf944-0fc8-4924-b3b7-04a0ab322753"/>
 									<code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4"/>
 									<statusCode code="completed"/>
 									<effectiveTime>
@@ -468,7 +468,7 @@ Allergies, Adverse Reactions, Alerts
 						<act classCode="ACT" moodCode="EVN">
 							<templateId root="2.16.840.1.113883.10.20.22.4.30"/>
 							<!-- ** Allergy problem act ** -->
-							<id root="36e3e930-7b14-11db-9fe1-0800200c9a66"/>
+							<id root="3c17bacf-6b6e-4217-ac09-ab1d1abbf143"/>
 							<code code="48765-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Allergies, adverse reactions, alerts"/>
 							<statusCode code="active"/>
 							<effectiveTime value="20090909">
@@ -479,7 +479,7 @@ Allergies, Adverse Reactions, Alerts
 								<observation classCode="OBS" moodCode="EVN">
 									<!-- allergy observation template -->
 									<templateId root="2.16.840.1.113883.10.20.22.4.7"/>
-									<id root="4adc1020-7b14-11db-9fe1-0800200c9a66"/>
+									<id root="b2d5d01c-7ed7-4388-b68a-1e1bbf433562"/>
 									<code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4"/>
 									<statusCode code="completed"/>
 									<effectiveTime>
@@ -547,7 +547,7 @@ Allergies, Adverse Reactions, Alerts
 						<act classCode="ACT" moodCode="EVN">
 							<templateId root="2.16.840.1.113883.10.20.22.4.30"/>
 							<!-- ** Allergy problem act ** -->
-							<id root="36e3e930-7b14-11db-9fe1-0800200c9a66"/>
+							<id root="b5b3dcc3-1263-4cda-a012-39157676df68"/>
 							<code code="48765-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Allergies, adverse reactions, alerts"/>
 							<statusCode code="active"/>
 							<effectiveTime value="20090909">
@@ -1264,7 +1264,7 @@ RESULTS
 								<observation classCode="OBS" moodCode="EVN">
 									<!-- Result observation template -->
 									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id root="107c2dc0-67a5-11db-bd13-0800200c9a66"/>
+									<id root="fa537db2-562d-4e73-b0cb-622c4dbabd11"/>
 									<code code="33765-9" displayName="WBC" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
 										<originalText>
 											<reference value="#result2"/>
@@ -1296,7 +1296,7 @@ RESULTS
 								<observation classCode="OBS" moodCode="EVN">
 									<!-- Result observation template -->
 									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id root="107c2dc0-67a5-11db-bd13-0800200c9a66"/>
+									<id root="fbf2ffbc-d707-4e0f-b35a-591c69368789"/>
 									<code code="26515-7" displayName="PLT" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
 										<originalText>
 											<reference value="#result3"/>
@@ -2327,9 +2327,8 @@ VITAL SIGNS
 								<observation classCode="OBS" moodCode="EVN">
 									<templateId root="2.16.840.1.113883.10.20.22.4.27"/>
 									<!-- Vital Sign Observation template -->
-									<id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+									<id root="47f49e29-3fda-4705-91fb-5dfc59d6e181"/>
                                     <code code="8302-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Height">
-									  <translation code="573621" displayName="Proventil 0.09 MG/ACTUAT inhalant solution" codeSystem="2.16.840.1.113883.6.88" codeSystemName="RxNorm"/>
 
                                     </code>
 									<text>
@@ -2345,7 +2344,7 @@ VITAL SIGNS
 								<observation classCode="OBS" moodCode="EVN">
 									<templateId root="2.16.840.1.113883.10.20.22.4.27"/>
 									<!-- Vital Sign Observation template -->
-									<id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+									<id root="35884a0f-a6bf-42ec-8569-ca81690b06a0"/>
 									<code code="3141-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Patient Body Weight - Measured"/>
 									<text>
 										<reference value="#vit4"/>
@@ -2360,7 +2359,7 @@ VITAL SIGNS
 								<observation classCode="OBS" moodCode="EVN">
 									<templateId root="2.16.840.1.113883.10.20.22.4.27"/>
 									<!-- Vital Sign Observation template -->
-									<id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+									<id root="0a25a531-bca8-4f30-b9f5-694f46882936"/>
 									<code code="8480-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Intravascular Systolic"/>
 									<text>
 										<reference value="#vit5"/>
@@ -2377,7 +2376,7 @@ VITAL SIGNS
 						<organizer classCode="CLUSTER" moodCode="EVN">
 							<templateId root="2.16.840.1.113883.10.20.22.4.26"/>
 							<!-- Vital signs organizer template -->
-							<id root="c6f88320-67ad-11db-bd13-0800200c9a66"/>
+							<id root="820a8027-dc8f-40e1-99c8-5b519b863d9a"/>
 							<code code="46680005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED -CT" displayName="Vital signs"/>
 							<statusCode code="completed"/>
 							<effectiveTime value="20000407"/>
@@ -2385,7 +2384,7 @@ VITAL SIGNS
 								<observation classCode="OBS" moodCode="EVN">
 									<templateId root="2.16.840.1.113883.10.20.22.4.27"/>
 									<!-- Vital Sign Observation template -->
-									<id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+									<id root="39ea02da-ba57-44c8-ae40-af0e9757eb55"/>
 									<code code="8302-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Height"/>
 									<text>
 										<reference value="#vit2"/>
@@ -2400,7 +2399,7 @@ VITAL SIGNS
 								<observation classCode="OBS" moodCode="EVN">
 									<templateId root="2.16.840.1.113883.10.20.22.4.27"/>
 									<!-- Vital Sign Observation template -->
-									<id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+									<id root="a043ad6d-2113-4285-ae2c-413e50f075db"/>
 									<code code="3141-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Patient Body Weight - Measured"/>
 									<text>
 										<reference value="#vit4"/>
@@ -2415,7 +2414,7 @@ VITAL SIGNS
 								<observation classCode="OBS" moodCode="EVN">
 									<templateId root="2.16.840.1.113883.10.20.22.4.27"/>
 									<!-- Vital Sign Observation template -->
-									<id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+									<id root="8a1f3c61-f218-4d23-82c8-67116fded1c4"/>
 									<code code="8480-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Intravascular Systolic"/>
 									<text>
 										<reference value="#vit6"/>

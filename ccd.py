@@ -2,7 +2,7 @@ import datetime, copy, collections, hashlib
 from oids import OID_Library
 from processors import *
 
-BASE_URI = "http://ccda-receiver.smartplatforms.org/"
+BASE_URI = "http://ccda-receiver.smartplatforms.org"
 
 ns = {
     "h":"urn:hl7-org:v3",
@@ -244,15 +244,23 @@ class EffectiveTime(Importer):
 def GenerateURI(item):
     record_id = item.root.record_id
     typename = item.__class__.__name__
-    if "id" in item.subs:
-        itemid = item.subs['id']
-    else:
-        itemid="RANDOMID"
 
-    uri = "http://smart-catchers/records/%s"%record_id
+    if "id" in item.subs:
+        ii = item.subs['id']
+        if isinstance(ii, list):
+            ii=ii[0]
+ 
+        if "root" in ii.subs:
+            itemid = ii.subs["root"]
+        if "extension" in ii.subs:
+            itemid = ii.subs["extension"] + itemid
+        del item.subs["id"]
+    else:
+        itemid=RandomString(12)
+
+    uri = BASE_URI + "/records/%s"%record_id
     if typename=="Patient":
         return uri+"/Patient"
-
     return "%s/%s/%s"%(uri, typename, itemid)
 
 class Patient(Importer):
@@ -302,6 +310,7 @@ class PhysicalQuantity(Importer):
 class VitalSignObservation(Importer):
     templateRoot='2.16.840.1.113883.10.20.22.4.27'
     fields = [
+            ("id","1..1", "h:id", Identifier),
             ("vitalName","1..1", "h:code", ConceptDescriptor),
             ("measuredAt", "1..1", "h:effectiveTime", EffectiveTime),
             ("physicalQuantity","1..1", "h:value[@xsi:type='PQ']", PhysicalQuantity),
@@ -317,6 +326,8 @@ class VitalSignObservation(Importer):
         if 'interpretations' in self.subs:
             self.subs['interpretations'] = map(lambda x: x.subs['label'], self.subs['interpretations'])
 
+        self.subs["uri"] = GenerateURI(self) 
+
 class VitalSignsOrganizer(Importer):
     templateRoot='2.16.840.1.113883.10.20.22.4.26'
     fields = [
@@ -329,12 +340,13 @@ class VitalSignsSection(Importer):
 
     fields = [
 #            ("name","0..1", "h:code", ConceptDescriptor),
-            ("vitalSigns","0..*", VitalSignsOrganizer.xpath, VitalSignsOrganizer),
+            ("vitalSignOrganizers","0..*", VitalSignsOrganizer.xpath, VitalSignsOrganizer),
     ] 
 
 class ResultObservation(Importer):
     templateRoot='2.16.840.1.113883.10.20.22.4.2'
     fields = [
+            ("id","1..1", "h:id", Identifier),
             ("resultName","1..1", "h:code", ConceptDescriptor),
             ("measuredAt", "1..1", "h:effectiveTime", EffectiveTime),
             ("physicalQuantity","1..1", "h:value[@xsi:type='PQ']", PhysicalQuantity),
@@ -349,6 +361,7 @@ class ResultObservation(Importer):
         if 'interpretations' in self.subs:
             self.subs['interpretations'] = map(lambda x: x.subs['label'], self.subs['interpretations'])
 
+        self.subs["uri"] = GenerateURI(self) 
 
 class ResultsOrganizer(Importer):
     templateRoot='2.16.840.1.113883.10.20.22.4.1'
@@ -365,7 +378,7 @@ class ResultsSection(Importer):
     fields = [
             # TODO: define strategy for faking URIs for id-less sections
 #            ("name","0..1", "h:code", ConceptDescriptor),
-            ("results","0..*", ResultsOrganizer.xpath, ResultsOrganizer),
+            ("resultOrganizers","0..*", ResultsOrganizer.xpath, ResultsOrganizer),
     ] 
 
 

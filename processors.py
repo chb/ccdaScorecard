@@ -1,3 +1,5 @@
+import string
+import random
 import datetime
 
 def HL7Timestamp(t, parent):
@@ -32,4 +34,6 @@ def StringMap(m):
         return m[x]
     return transform
 
-
+def RandomString(length=12, choices=[string.letters]):
+  # FIXME: seed!
+  return "".join([random.choice(''.join(choices)) for i in xrange(length)])
