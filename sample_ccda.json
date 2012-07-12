@@ -92,10 +92,10 @@
         "value": "tel:(781)555-1212"
       }
     ],
-    "uri": "http://smart-catchers/records/12345/Patient"
+    "uri": "http://ccda-receiver.smartplatforms.org/records/12345/Patient"
   },
   "results": {
-    "results": [
+    "resultOrganizers": [
       {
         "batteryName": {
           "code": "43789009",
@@ -121,7 +121,8 @@
               "label": "HGB",
               "systemName": "LOINC",
               "uri": "http://purl.bioontology.org/ontology/LNC/30313-1"
-            }
+            },
+            "uri": "http://ccda-receiver.smartplatforms.org/records/12345/ResultObservation/107c2dc0-67a5-11db-bd13-0800200c9a66"
           },
           {
             "interpretations": [
@@ -140,7 +141,8 @@
               "label": "WBC",
               "systemName": "LOINC",
               "uri": "http://purl.bioontology.org/ontology/LNC/33765-9"
-            }
+            },
+            "uri": "http://ccda-receiver.smartplatforms.org/records/12345/ResultObservation/fa537db2-562d-4e73-b0cb-622c4dbabd11"
           },
           {
             "interpretations": [
@@ -159,14 +161,15 @@
               "label": "PLT",
               "systemName": "LOINC",
               "uri": "http://purl.bioontology.org/ontology/LNC/26515-7"
-            }
+            },
+            "uri": "http://ccda-receiver.smartplatforms.org/records/12345/ResultObservation/fbf2ffbc-d707-4e0f-b35a-591c69368789"
           }
         ]
       }
     ]
   },
   "vitals": {
-    "vitalSigns": [
+    "vitalSignOrganizers": [
       {
         "measuredAt": {
           "point": "1999-11-14T00:00:00",
@@ -186,18 +189,11 @@
               "unit": "cm",
               "value": 177.0
             },
+            "uri": "http://ccda-receiver.smartplatforms.org/records/12345/VitalSignObservation/47f49e29-3fda-4705-91fb-5dfc59d6e181",
             "vitalName": {
               "code": "8302-2",
               "label": "Height",
               "systemName": "LOINC",
-              "translation": [
-                {
-                  "code": "573621",
-                  "label": "Proventil 0.09 MG/ACTUAT inhalant solution",
-                  "systemName": "RxNorm",
-                  "uri": "http://purl.bioontology.org/ontology/RXNORM/573621"
-                }
-              ],
               "uri": "http://purl.bioontology.org/ontology/LNC/8302-2"
             }
           },
@@ -214,6 +210,7 @@
               "unit": "kg",
               "value": 86.0
             },
+            "uri": "http://ccda-receiver.smartplatforms.org/records/12345/VitalSignObservation/35884a0f-a6bf-42ec-8569-ca81690b06a0",
             "vitalName": {
               "code": "3141-9",
               "label": "Patient Body Weight - Measured",
@@ -234,6 +231,7 @@
               "unit": "mm[Hg]",
               "value": 132.0
             },
+            "uri": "http://ccda-receiver.smartplatforms.org/records/12345/VitalSignObservation/0a25a531-bca8-4f30-b9f5-694f46882936",
             "vitalName": {
               "code": "8480-6",
               "label": "Intravascular Systolic",
@@ -262,6 +260,7 @@
               "unit": "cm",
               "value": 177.0
             },
+            "uri": "http://ccda-receiver.smartplatforms.org/records/12345/VitalSignObservation/39ea02da-ba57-44c8-ae40-af0e9757eb55",
             "vitalName": {
               "code": "8302-2",
               "label": "Height",
@@ -282,6 +281,7 @@
               "unit": "kg",
               "value": 88.0
             },
+            "uri": "http://ccda-receiver.smartplatforms.org/records/12345/VitalSignObservation/a043ad6d-2113-4285-ae2c-413e50f075db",
             "vitalName": {
               "code": "3141-9",
               "label": "Patient Body Weight - Measured",
@@ -302,6 +302,7 @@
               "unit": "mm[Hg]",
               "value": 145.0
             },
+            "uri": "http://ccda-receiver.smartplatforms.org/records/12345/VitalSignObservation/8a1f3c61-f218-4d23-82c8-67116fded1c4",
             "vitalName": {
               "code": "8480-6",
               "label": "Intravascular Systolic",
