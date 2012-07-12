@@ -58,12 +58,7 @@
         "preferred": true
       }
     ],
-    "maritalStatus": {
-      "code": "M",
-      "label": "Married",
-      "systemName": "MaritalStatusCode",
-      "uri": "http://hl7.org/codes/MaritalStatus#M"
-    },
+    "maritalStatus": "Married",
     "medicalRecordNumbers": [
       "12345",
       "111-00-1234"

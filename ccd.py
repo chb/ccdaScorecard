@@ -2,7 +2,7 @@ import datetime, copy, collections, hashlib
 from oids import OID_Library
 from processors import *
 
-BASE_URI = "http://smart-catcher/"
+BASE_URI = "http://ccda-receiver.smartplatforms.org/"
 
 ns = {
     "h":"urn:hl7-org:v3",
@@ -275,6 +275,8 @@ class Patient(Importer):
         self.subs["uri"] = GenerateURI(self) 
         self.subs["medicalRecordNumbers"] = map(lambda x: x.subs["extension"], self.subs["medicalRecordNumbers"])
         self.subs["gender"] = self.subs["gender"].subs["label"]
+        if "maritalStatus" in self.subs:
+            self.subs["maritalStatus"] = self.subs["maritalStatus"].subs["label"]
 
     _mrn = None
     @property
