@@ -2,7 +2,7 @@ import datetime, copy, collections, hashlib
 from oids import OID_Library
 from processors import *
 
-BASE_URI = "http://ccda-receiver.smartplatforms.org"
+BASE_URI = "http://localhost:3000"
 
 ns = {
     "h":"urn:hl7-org:v3",
@@ -51,9 +51,12 @@ class SubStructure:
                 j = j[0]
         if j:
             caller.subs[self.subpath] = j
+
 class Importer(object):
     fields = []
     js_template = {}
+    standalone = False
+    ancestor_type = None
 
     def precleanup(self):
         pass
@@ -62,10 +65,18 @@ class Importer(object):
         pass
 
     @property
+    def ancestors(self):
+        ret = []
+        p=self
+        while p.parent:
+            p = p.parent
+            ret.append(p)
+        return ret
+
+    @property
     def root(self):
-        p = self
-        while p.parent: p = p.parent
-        return p
+        a = self.ancestors
+        return a[-1] if a else self
     
     @classmethod
     def xpath(cls, doc):
@@ -117,9 +128,30 @@ class Importer(object):
             return v.json
         return v
 
+    def add_parents(self, r):
+        r["links"] = {}
+        r = r["links"]
+
+        for a in self.ancestors:
+            if a.ancestor_type:
+                if "@id" not in a.subs:
+                    print "No URI for", a, a.subs
+                r[a.ancestor_type] = a.subs["@id"]
+        if not isinstance(self,Patient):
+            p = self.root.subs["demographics"]
+            r[p.ancestor_type] = p.subs["@id"]
+
+
     @property
     def json(self):
+        return self.to_json()
+
+    def to_json(self, root_p=False):
         r = {}
+
+        if root_p:
+            self.add_parents(r)
+
         for k,v in self.subs.iteritems():
             if type(v) == list:
                 r[k] = map(Importer.s_or_j, v)
@@ -264,6 +296,9 @@ def GenerateURI(item):
     return "%s/%s/%s"%(uri, typename, itemid)
 
 class Patient(Importer):
+    standalone = True
+    ancestor_type = "patient"
+
     fields = [
             ("name","1..1", "h:patient/h:name", Name),
             ("maritalStatus","0..1", "h:patient/h:maritalStatusCode", ConceptDescriptor),
@@ -280,7 +315,7 @@ class Patient(Importer):
            ]
 
     def cleanup(self):
-        self.subs["uri"] = GenerateURI(self) 
+        self.subs["@id"] = GenerateURI(self) 
         self.subs["medicalRecordNumbers"] = map(lambda x: x.subs["extension"], self.subs["medicalRecordNumbers"])
         self.subs["gender"] = self.subs["gender"].subs["label"]
         if "maritalStatus" in self.subs:
@@ -308,6 +343,7 @@ class PhysicalQuantity(Importer):
 
 
 class VitalSignObservation(Importer):
+    standalone = True
     templateRoot='2.16.840.1.113883.10.20.22.4.27'
     fields = [
             ("id","1..1", "h:id", Identifier),
@@ -326,15 +362,23 @@ class VitalSignObservation(Importer):
         if 'interpretations' in self.subs:
             self.subs['interpretations'] = map(lambda x: x.subs['label'], self.subs['interpretations'])
 
-        self.subs["uri"] = GenerateURI(self) 
+        self.subs["@id"] = GenerateURI(self) 
 
 class VitalSignsOrganizer(Importer):
+    standalone = True
+    ancestor_type = "organizer"
+
     templateRoot='2.16.840.1.113883.10.20.22.4.26'
     fields = [
 #            ("name","0..1", "h:code", ConceptDescriptor),
+            ("id","1..1", "h:id", Identifier),
             ("measuredAt", "1..1", "h:effectiveTime", EffectiveTime),
             ("vitalSign", "1..*", VitalSignObservation.xpath, VitalSignObservation)
     ]
+
+    def cleanup(self):
+        self.subs["@id"] = GenerateURI(self) 
+
 class VitalSignsSection(Importer):
     templateRoot='2.16.840.1.113883.10.20.22.2.4.1'
 
@@ -344,6 +388,7 @@ class VitalSignsSection(Importer):
     ] 
 
 class ResultObservation(Importer):
+    standalone = True
     templateRoot='2.16.840.1.113883.10.20.22.4.2'
     fields = [
             ("id","1..1", "h:id", Identifier),
@@ -361,14 +406,23 @@ class ResultObservation(Importer):
         if 'interpretations' in self.subs:
             self.subs['interpretations'] = map(lambda x: x.subs['label'], self.subs['interpretations'])
 
-        self.subs["uri"] = GenerateURI(self) 
+        self.subs["@id"] = GenerateURI(self) 
 
 class ResultsOrganizer(Importer):
+    standalone = True
+    ancestor_type = "organizer"
+
     templateRoot='2.16.840.1.113883.10.20.22.4.1'
     fields = [
+            ("id","1..1", "h:id", Identifier),
             ("batteryName","0..1", "h:code", ConceptDescriptor),
             ("result", "1..*", ResultObservation.xpath, ResultObservation)
     ]
+
+    def cleanup(self):
+        self.subs["@id"] = GenerateURI(self) 
+
+
 class ResultsSection(Importer):
     templateRoot=[
         '2.16.840.1.113883.10.20.22.2.3',
@@ -380,18 +434,21 @@ class ResultsSection(Importer):
 #            ("name","0..1", "h:code", ConceptDescriptor),
             ("resultOrganizers","0..*", ResultsOrganizer.xpath, ResultsOrganizer),
     ] 
-
-
 class ConsolidatedCDA(Importer):
+    standalone = True
     fields = [
+            ("id", "1..1", "h:id", Identifier),
             ("demographics", "1..1", "//h:recordTarget/h:patientRole", Patient),
             ("vitals", "0..1", VitalSignsSection.xpath, VitalSignsSection),
             ("results", "0..1", ResultsSection.xpath, ResultsSection),
            ]
+
+    ancestor_type = "document"
 
     def __init__(self, doc):
         super(ConsolidatedCDA, self).__init__(doc, parent=None)
 
     def precleanup(self):
         self.record_id = self.subs['demographics'].mrn
+        self.subs["@id"] = GenerateURI(self) 
         super(ConsolidatedCDA, self).postprocess()
