@@ -13,10 +13,7 @@ Lots of outstanding questions, including:
 * How to assign IDs to sections (which have none in CCDA)
 
 REST server setup:
-    $ npm install mongodb
-    $ npm install express
-    $ npm install supervisor -g
-
-    $ supervisor -- rest.js
+    $ npm install
+    $ ./node_modules/.bin/supervisor -- rest.js
 
 In Browser: `http://localhost:3000/records/12345/Patient`

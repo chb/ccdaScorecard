@@ -1,0 +1,14 @@
+{
+  "name": "json_ccda_rest",
+  "version": "0.0.1",
+  "description": "Serves JSON CCDA data over a REST API",
+  "author": "Josh Mandel <joshua.mandel@childrens.harvard.edu>",
+  "dependencies": {
+    "express": ">= 2.5.9",
+    "mongodb": ">= 1.0.2",
+    "supervisor":"*"
+  },
+  "devDependencies": {
+  },
+  "engine": "node >= 0.6.0"
+}
