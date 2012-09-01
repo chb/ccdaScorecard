@@ -12,15 +12,13 @@ Component.bubbleSteps(function(){
  }, this);
 });
 
-var Identifier = Component
-  .define("Identifier")
+var Identifier = Component.define("Identifier")
   .fields([
             ["root","1..1", "@root"],
             ["extension","0..1", "@extension"],
           ]);
   
-var ConceptDescriptor = Component
-  .define("CD")
+var ConceptDescriptor = Component.define("CD")
   .fields([
     ["label","0..1", "@displayName"],
     ["code","1..1", "@code"],
@@ -34,8 +32,7 @@ var ConceptDescriptor = Component
     return this.super_.run.apply(this, arguments);
   };
 
-var Address = Component
-  .define("Address")
+var Address = Component.define("Address")
   .fields([
     ["streetAddress", "1..4",   "h:streetAddressLine/text()"],
     ["city",          "1..1",   "h:city/text()"],
@@ -45,8 +42,7 @@ var Address = Component
     ["use",           "0..1",   "@use"]
   ]);
 
-var Name = Component
-  .define("Name")
+var Name = Component.define("Name")
   .fields([
     ["prefix", "0..*","h:prefix/text()"],
     ["given", "1..*","h:given/text()"],
@@ -55,15 +51,13 @@ var Name = Component
     ["use", "0..1", "@use"]
   ]);
 
-var Telecom = Component
-  .define("Telecom")
+var Telecom = Component.define("Telecom")
   .fields([
        ["value", "1..1","@value"],
        ["use", "0..1", "@use"]
     ]);
   
-var Guardian = Component
-  .define("Guardian")
+var Guardian = Component.define("Guardian")
   .fields([
             ["relation","0..1", "h:code", ConceptDescriptor],
             ["address","0..*", "h:addr", Address],
@@ -71,8 +65,7 @@ var Guardian = Component
             ["telecom","0..*", "h:telecom", Telecom],
            ]);
 
-var LanguageCommunication = Component
-  .define("LanguageCommunication")
+var LanguageCommunication = Component.define("LanguageCommunication")
   .fields([
        ["mode","0..1", "h:modeCode", ConceptDescriptor],
        ["proficiency","0..1", "h:proficiencyLevelCode", ConceptDescriptor],
@@ -80,8 +73,7 @@ var LanguageCommunication = Component
        ["preferred", "1..1","h:preferenceInd/@value", Processors.asBoolean],
     ]);
 
-var EffectiveTime = Component
-  .define("EffectiveTime")
+var EffectiveTime = Component.define("EffectiveTime")
   .fields([
             ["point","0..1", "@value", Processors.asTimestamp],
             ["pointResolution","0..1", "@value", Processors.asTimestampResolution],
@@ -90,15 +82,13 @@ var EffectiveTime = Component
             ["high","0..1", "h:high/@value", Processors.asTimestamp],
             ["highResolution","0..1", "h:high/@value", Processors.asTimestampResolution],
            ]);
-var PhysicalQuantity = Component
-  .define("PhysicalQuantity")
+var PhysicalQuantity = Component.define("PhysicalQuantity")
   .fields([
             ["value","1..1", "@value", Processors.asFloat], 
             ["unit", "0..1", "@unit"],
     ]);
 
-var VitalSignObservation = Component
-  .define("VitalSignObservation")
+var VitalSignObservation = Component.define("VitalSignObservation")
   .templateRoot("2.16.840.1.113883.10.20.22.4.27")
   .fields([
             ["id","1..1", "h:id", Identifier],
@@ -109,8 +99,7 @@ var VitalSignObservation = Component
             ["interpretations", "0..*", "h:interpretationCode[@codeSystem='2.16.840.1.113883.5.83']", ConceptDescriptor]
     ]);
 
-var VitalSignsOrganizer = Component
-  .define("VitalSignsOrganizer")
+var VitalSignsOrganizer = Component.define("VitalSignsOrganizer")
   .templateRoot("2.16.840.1.113883.10.20.22.4.26")
   .fields([
             ["id","1..1", "h:id", Identifier],
@@ -119,16 +108,14 @@ var VitalSignsOrganizer = Component
     ]);
 
 
-var VitalSignsSection = Component
-  .define("VitalSignsSection")
+var VitalSignsSection = Component.define("VitalSignsSection")
   .templateRoot("2.16.840.1.113883.10.20.22.2.4.1")
   .fields([
             ["name","0..1", "h:code", ConceptDescriptor],
             ["vitalSignOrganizers","0..*", VitalSignsOrganizer.templateXpath(), VitalSignsOrganizer],
     ]);
 
-var ResultObservation = Component
-  .define("ResultObservation")
+var ResultObservation = Component.define("ResultObservation")
   .templateRoot("2.16.840.1.113883.10.20.22.4.2")
   .fields([
             ["id","1..1", "h:id", Identifier],
@@ -139,8 +126,7 @@ var ResultObservation = Component
             ["interpretations", "0..*", "h:interpretationCode[@codeSystem='2.16.840.1.113883.5.83']", ConceptDescriptor]
     ]);
 
-var ResultsOrganizer = Component
-  .define("ResultsOrganizer")
+var ResultsOrganizer = Component.define("ResultsOrganizer")
   .templateRoot("2.16.840.1.113883.10.20.22.4.1")
   .fields([
             ["id","1..1", "h:id", Identifier],
@@ -148,8 +134,7 @@ var ResultsOrganizer = Component
             ["result", "1..*", ResultObservation.templateXpath(), ResultObservation]
     ]);
 
-var ResultsSection = Component
-  .define("ResultsSection")
+var ResultsSection = Component.define("ResultsSection")
   .templateRoot([
         '2.16.840.1.113883.10.20.22.2.3',
         '2.16.840.1.113883.10.20.22.2.3.1' // .1 for "entries required"
@@ -159,8 +144,7 @@ var ResultsSection = Component
             ["resultOrganizers","0..*", ResultsOrganizer.templateXpath(), ResultsOrganizer],
     ]);
 
-var Patient = Component
-  .define("Patient")
+var Patient = Component.define("Patient")
   .fields([
       ["name",                "1..1", "h:patient/h:name", Name],
       ["maritalStatus",       "0..1", "h:patient/h:maritalStatusCode", ConceptDescriptor],
@@ -178,8 +162,7 @@ var Patient = Component
 
 
 
-var CCDA = Component
-  .define("CCDA")
+var CCDA = Component.define("CCDA")
   .fields([
             ["id", "1..1", "h:id", Identifier],
             ["demographics", "1..1", "//h:recordTarget/h:patientRole", Patient],
