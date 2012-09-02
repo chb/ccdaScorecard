@@ -8,8 +8,7 @@
     "mongodb": ">= 1.0.2",
     "supervisor":"*",
     "libxmljs":"*",
-    "xpath.js":"*",
-    "xmldom":"*",
+    "xdate":"*",
     "optimist":"*"
   },
   "devDependencies": {

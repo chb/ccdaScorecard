@@ -1,3 +1,11 @@
+var XDate = require("xdate");
+
+/*
+ * Parser registartion never triggering... (?) 
+XDate.parsers.push(function(t){
+});
+*/
+
 var DEFAULT_NS = {
   "h": "urn:hl7-org:v3",
   "xsi": "http://www.w3.org/2001/XMLSchema-instance"
@@ -23,34 +31,27 @@ Processors.asFloat = function(v){
 };
 
 Processors.asTimestamp = function(v){
+  var t = Processors.asString(v);
 
-// TODO: use a date parsing library if any can properly handle HL7 dates.
-// otherwise, still need to handle timezone offsets in YYYYMMDDHHMM+XX 
+  if (t.indexOf('-') !== -1) {
+    return;
+  }
+  var ret = new XDate(0,0,1,0,0,0,0, true); // UTC mode
+  
+  if (t.length >= 4)
+    ret.setFullYear(parseInt(t.slice(0,4)));
+  if (t.length >= 6)
+    ret.setMonth(parseInt(t.slice(4,6))-1);
+  if (t.length >= 8)
+    ret.setDate(parseInt(t.slice(6,8)));
+  if (t.length >= 10)
+    ret.setHours(parseInt(t.slice(8,10)));
+  if (t.length >= 12)
+    ret.setMinutes(parseInt(t.slice(10,12)));
+  if (t.length >= 14)
+    ret.setSeconds(parseInt(t.slice(12,14)));
 
-    var t = Processors.asString(v);
-    var ret = new Date();// Object.create(Date.prototype);
-    ret.setMilliseconds(0);
-
-    ret.setFullYear(0);
-    ret.setMonth(0);
-    ret.setDate(1);
-    ret.setHours(0);
-    ret.setMinutes(0);
-    ret.setSeconds(0);
-
-    if (t.length >= 4)
-      ret.setFullYear(parseInt(t.slice(0,4)));
-    if (t.length >= 6)
-      ret.setMonth(parseInt(t.slice(4,6))-1);
-    if (t.length >= 8)
-      ret.setDate(parseInt(t.slice(6,8)));
-    if (t.length >= 10)
-      ret.setHours(parseInt(t.slice(8,10)));
-    if (t.length >= 12)
-      ret.setMinutes(parseInt(t.slice(10,12)));
-    if (t.length >= 14)
-      ret.setSeconds(parseInt(t.slice(12,14)));
-    return ret;
+  return ret;
 };
 
 Processors.asTimestampResolution =  function(v){
