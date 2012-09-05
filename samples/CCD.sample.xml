@@ -22,7 +22,7 @@
 	<!-- conforms to the document specific requirements  -->
 	<templateId root="2.16.840.1.113883.10.20.22.1.2"/>
 	<id extension="999021" root="2.16.840.1.113883.19"/>
-	<code codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" code="34133-9" displayName="Summarization of Episode Note"/>
+	<code codeSystem="2.16.840.1.113883.6.1" code="34133-9" displayName="Summarization of Episode Note"/>
 	<title>Good Health Health Summary</title>
 	<effectiveTime value="20050329171504+0500"/>
 	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>

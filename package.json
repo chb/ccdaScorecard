@@ -9,7 +9,9 @@
     "supervisor":"*",
     "libxmljs":"*",
     "xdate":"*",
-    "optimist":"*"
+    "optimist":"*",
+    "mocha":"*",
+    "should":"*"
   },
   "devDependencies": {
   },

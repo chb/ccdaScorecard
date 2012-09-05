@@ -1,7 +1,7 @@
 var lxml = require("libxmljs");
-var ccda = require('./ccd');
 var fs = require("fs");
 var util = require("util");
+var ccda = require('./lib/ccd');
 
 var argv = require('optimist')
   .usage('Convert a CCDA to JSON.\nUsage: $0')
