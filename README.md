@@ -22,6 +22,11 @@ $ ./node_modules/.bin/supervisor -- rest.js
 
 In Browser: `http://localhost:3000/records/12345/Patient`
 
+Testing:
+```
+$ ./node_modules/.bin/mocha -R spec
+```
+
 Lots of outstanding mapping questions, including:
 
 * How to deal with negation indicators? (Would like separate 'AllergyNegation' items, rathern than just a flag)
