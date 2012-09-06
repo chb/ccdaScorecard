@@ -1,5 +1,5 @@
 var assert = require("assert");
-var parser = require("../lib/parser.js");
+var Processor = require("../lib/processor.js");
 var ccd = require("../lib/ccd.js");
 
 function wrapText(t){
@@ -8,8 +8,8 @@ function wrapText(t){
 
 describe('HL7 Date parsing', function(){
   var t = wrapText("19541125")
-    , parsed = parser.Processors.asTimestamp(t)
-    , resolution = parser.Processors.asTimestampResolution(t);
+    , parsed = Processor.asTimestamp(t)
+    , resolution = Processor.asTimestampResolution(t);
 
   it('should parse a birthdate', function(){
     assert.equal(parsed.toISOString(), "1954-11-25T00:00:00Z");

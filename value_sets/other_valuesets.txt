@@ -1,0 +1,127 @@
+Value Set: HL7 BasicConfidentialityKind 2.16.840.1.113883.1.11.16926 STATIC 2010-04-21
+Code System(s): Confidentiality Code 2.16.840.1.113883.5.25
+Code Code System Print Name
+N Confidentiality Code Normal
+R Confidentiality Code Restricted
+V Confidentiality Code Very Restricted
+
+Value Set: Telecom Use (US Realm Header) 2.16.840.1.113883.11.20.9.20 DYNAMIC
+Code System(s): AddressUse 2.16.840.1.113883.5.1119
+Code Code System Print Name
+HP AddressUse primary home
+WP AddressUse work place
+MC AddressUse mobile contact
+HV AddressUse vacation home
+
+Value Set: LanguageAbilityProficiency 2.16.840.1.113883.1.11.12199 DYNAMIC
+Code System(s): LanguageAbilityProficiency 2.16.840.1.113883.5.61
+Description:
+A value representing the level of proficiency in a language.
+Code Code System Print Name
+E LanguageAbilityProficiency Excellent
+F LanguageAbilityProficiency Fair
+G LanguageAbilityProficiency Good
+P LanguageAbilityProficiency Poor
+
+Value Set: INDRoleclassCodes 2.16.840.1.113883.11.20.9.33 STATIC 2011-09-30
+Code System(s):
+Code
+RoleClass 2.16.840.1.113883.5.110
+Code System
+Print Name
+PRS RoleClass personal relationship
+NOK RoleClass next of kin
+CAREGIVER RoleClass caregiver
+AGNT RoleClass agent
+GUAR RoleClass guarantor
+ECON RoleClass emergency contact
+
+Value Set: EntityNameUse 2.16.840.1.113883.1.11.15913 STATIC 2005-05-01
+Code System(s):
+EntityNameUse 2.16.840.1.113883.5.45
+Code Code System Print Name
+A EntityNameUse Artist/Stage
+ABC EntityNameUse Alphabetic
+ASGN EntityNameUse Assigned
+C EntityNameUse License
+I EntityNameUse Indigenous/Tribal
+IDE EntityNameUse Ideographic
+L EntityNameUse Legal
+P EntityNameUse Pseudonym
+PHON EntityNameUse Phonetic
+R EntityNameUse Religious
+SNDX EntityNameUse Soundex
+SRCH EntityNameUse Search
+SYL EntityNameUse Syllabic
+
+Value Set: EntityPersonNamePartQualifier 2.16.840.1.113883.11.20.9.26 STATIC
+2011-09-30
+Code System(s):
+Code
+EntityNamePartQualifier 2.16.840.1.113883.5.43
+Code System
+Print Name
+AC academic
+AD EntityNamePartQualifier adopted
+BR EntityNamePartQualifier birth
+CL EntityNamePartQualifier callme
+IN EntityNamePartQualifier initial
+NB EntityNamePartQualifier nobility
+PR EntityNamePartQualifier professional
+SP EntityNamePartQualifier spouse
+TITLE EntityNamePartQualifier title
+VV EntityNamePartQualifier voorvoegsel
+
+Value Set: ProblemAct statusCode 2.16.840.1.113883.11.20.9.19 STATIC 2011-09-09
+Code System(s): ActStatus 2.16.840.1.113883.5.14
+Description: This value set indicates the status of the problem concern act
+Code Code System Print Name
+active ActStatus active
+suspended ActStatus suspended
+aborted ActStatus aborted
+completed ActStatus completed
+
+Value Set: AgePQ_UCUM 2.16.840.1.113883.11.20.9.21 DYNAMIC
+Code System(s): Unified Code for Units of Measure (UCUM) 2.16.840.1.113883.6.8
+Description: A valueSet of UCUM codes for representing age value units
+Code Code System Print Name
+min UCUM Minute
+h UCUM Hour
+d UCUM Day
+wk UCUM Week
+mo UCUM Month
+a UCUM Year
+
+
+Value Set: HITSPProblemStatus 2.16.840.1.113883.3.88.12.80.68 DYNAMIC
+Code System: SNOMED CT 2.16.840.1.113883.6.96
+Code Code System Display Name
+55561003 SNOMED CT Active
+73425007 SNOMED CT Inactive*
+413322009 SNOMED CT Resolved**
+
+Value Set: HealthStatus 2.16.840.1.113883.1.11.20.12 DYNAMIC
+Code System(s):
+Description:
+Code
+SNOMED CT 2.16.840.1.113883.6.96
+Represents the general health status of the patient.
+Code System Print Name
+81323004 SNOMED CT Alive and well
+313386006 SNOMED CT In remission
+162467007 SNOMED CT Symptom free
+161901003 SNOMED CT Chronically ill
+271593001 SNOMED CT Severely ill
+21134002 SNOMED CT Disabled
+161045001 SNOMED CT Severely disabled
+
+ 
+Value Set: Medication Fill Status 2.16.840.1.113883.3.88.12.80.64 DYNAMIC
+Code System: ActStatus 2.16.840.1.113883.5.14
+Code Code System Print Name
+aborted ActStatus Aborted
+completed ActStatus Completed
+
+SNOMED CT Subsumptions:
+2.16.840.1.113883.11.20.9.34 : "Patient education Value Set" << Education (409073007) 
+
