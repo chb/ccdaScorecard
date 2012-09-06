@@ -11,7 +11,8 @@
     "xdate":"*",
     "optimist":"*",
     "mocha":"*",
-    "should":"*"
+    "should":"*",
+    "node-uuid":"*"
   },
   "devDependencies": {
   },

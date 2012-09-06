@@ -5,7 +5,7 @@ from pymongo import Connection
 
 connection = Connection()
 db = connection.vocab
-value_sets = db.value_sets
+value_set_concepts = db.value_set_concepts
 
 service = HessianProxy("http://phinvads.cdc.gov/vocabService/v2")
 
@@ -36,13 +36,12 @@ def getCodeSystem(s):
     db.code_systems.insert(codeSystems[s])
     return codeSystems[s]
 
-PAGESIZE = 1000
+PAGESIZE = 500
 def fetchValueSet(vsoid):
     versions = service.getValueSetVersionsByValueSetOid(vsoid)
     vsid = sorted(versions.valueSetVersions, key=lambda x: x.versionNumber)[-1].id
-   
-    value_sets.remove({'valueSetOid':vsoid})
 
+    value_set_concepts.remove({'valueSetOid':vsoid})
     def fetchPage(pnum):
         return service.getValueSetConceptsByValueSetVersionId(vsid, pnum, PAGESIZE)
 
@@ -56,17 +55,19 @@ def fetchValueSet(vsoid):
         for r in p.valueSetConcepts:
             cs = getCodeSystem(r.codeSystemOid)
             rbson = toBSON(r)
+            rbson['codeSystemName'] = cs['name']
             rbson['valueSetOid'] = vsoid
-
-            value_sets.insert({
-                'conceptName': rbson['codeSystemConceptName'],    
-                'conceptCode': rbson['conceptCode'], 
-                'codeSystemName': cs['name'], 
-                'codeSystemOid': rbson['codeSystemOid'],    
-                'valueSetOid': rbson['valueSetOid'],    
-            })
+            value_set_concepts.insert(rbson)
 
         fetched += len(p.valueSetConcepts)
         print "fetched", fetched
         if fetched >= p.totalResults:
             break
+
+if __name__ == "__main__":
+    import json
+    s = open("phinvads_valueset_oids.json").read()
+    s = json.loads(s)
+    for k in s:
+	print "Fetching", s[k]
+        fetchValueSet(k)
