@@ -53,3 +53,18 @@ TODO:
 * POST receiver to write JSON to DB (current output is files only)
 * Example Mongo queries (e.g. "All patients w/ abnormal lab results since yesterday")
 
+Data questions:
+
+* what is a Medication Activity's or Immunization Activity's "code" element?
+  (CDA and RIM don't seem to say -- different from routeCode, or
+approachSiteCode).
+
+* "doseQuantity, if present, SHOULD contain zero or one [0..1]
+@unit="1", which SHALL be selected from ValueSet UCUM Units of
+Measure (case sensitive) 2.16.840.1.113883.1.11.12839
+DYNAMIC (CONF:8842)." -- how does one _select_ the value "1"? How is UCUM involved?
+
+* what is manufacturerOrganization or a manufacturedProduct? No datatype in RIM or CDA or CCDA
+
+(datatypes should be copied over from CDA spec!  This is a serious usability
+issue --> easy errors)

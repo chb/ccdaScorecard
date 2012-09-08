@@ -12,7 +12,8 @@
     "optimist":"*",
     "mocha":"*",
     "should":"*",
-    "node-uuid":"*"
+    "node-uuid":"*",
+		"underscore":"*"
   },
   "devDependencies": {
   },
