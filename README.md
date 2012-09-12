@@ -68,3 +68,7 @@ DYNAMIC (CONF:8842)." -- how does one _select_ the value "1"? How is UCUM involv
 
 (datatypes should be copied over from CDA spec!  This is a serious usability
 issue --> easy errors)
+
+* Severity free-text lives in a "text" element while medication free-text and immunization free-text are in a "code's" "original." 
+
+* What does it mean when a text has text _and_ a reference, and they both are non-emtpy and non-identical?

@@ -687,7 +687,6 @@ MEDICATIONS
 							<consumable>
 								<manufacturedProduct classCode="MANU">
 									<templateId root="2.16.840.1.113883.10.20.22.4.23"/>
-									<id/>
 									<manufacturedMaterial>
 										<code code="329498" codeSystem="2.16.840.1.113883.6.88" displayName="Albuterol 0.09 MG/ACTUAT inhalant solution">
 											<originalText>
@@ -748,7 +747,6 @@ MEDICATIONS
 									<product>
 										<manufacturedProduct classCode="MANU">
 											<templateId root="2.16.840.1.113883.10.20.22.4.23"/>
-											<id/>
 											<manufacturedMaterial>
 												<code code="329498" codeSystem="2.16.840.1.113883.6.88" displayName="Albuterol 0.09 MG/ACTUAT inhalant solution">
 													<originalText>
@@ -775,7 +773,6 @@ MEDICATIONS
 									<author>
 										<time nullFlavor="UNK"/>
 										<assignedAuthor>
-											<id/>
 											<addr nullFlavor="UNK"/>
 											<telecom nullFlavor="UNK"/>
 											<assignedPerson>
@@ -810,7 +807,6 @@ MEDICATIONS
 									<product>
 										<manufacturedProduct classCode="MANU">
 											<templateId root="2.16.840.1.113883.10.20.22.4.23"/>
-											<id/>
 											<manufacturedMaterial>
 												<code code="329498" codeSystem="2.16.840.1.113883.6.88" displayName="Albuterol 0.09 MG/ACTUAT inhalant solution">
 													<originalText>
@@ -825,7 +821,6 @@ MEDICATIONS
 									<performer>
 										<time nullFlavor="UNK"/>
 										<assignedEntity>
-											<id/>
 											<addr>
 												<streetAddressLine>17 Daws Rd.</streetAddressLine>
 												<city>Blue Bell</city>
@@ -1250,7 +1245,6 @@ RESULTS
 									<author>
 										<time/>
 										<assignedAuthor>
-											<id/>
 										</assignedAuthor>
 									</author>
 									<referenceRange>
@@ -1279,7 +1273,6 @@ RESULTS
 									<author>
 										<time/>
 										<assignedAuthor>
-											<id/>
 										</assignedAuthor>
 									</author>
 									<referenceRange>
@@ -1311,7 +1304,6 @@ RESULTS
 									<author>
 										<time/>
 										<assignedAuthor>
-											<id/>
 										</assignedAuthor>
 									</author>
 									<referenceRange>
@@ -1470,7 +1462,6 @@ ENCOUNTERS
 							<effectiveTime value="20000407"/>
 							<performer>
 								<assignedEntity>
-									<id/>
 									<code code="59058001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="General Physician"/>
 								</assignedEntity>
 							</performer>
@@ -1805,7 +1796,6 @@ IMMUNIZATIONS
 								<observation classCode="OBS" moodCode="EVN">
 									<templateId root="2.16.840.1.113883.10.20.22.4.53"/>
 									<!-- Immunization Refusal -->
-									<id/>
 									<code displayName="Patient Objection" code="PATOBJ" codeSystemName="HL7 ActNoImmunizationReason" codeSystem="2.16.840.1.113883.11.19725"/>
 									<statusCode code="completed"/>
 								</observation>
