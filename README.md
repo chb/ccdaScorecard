@@ -55,10 +55,6 @@ TODO:
 
 Data questions:
 
-* what is a Medication Activity's or Immunization Activity's "code" element?
-  (CDA and RIM don't seem to say -- different from routeCode, or
-approachSiteCode).
-
 * "doseQuantity, if present, SHOULD contain zero or one [0..1]
 @unit="1", which SHALL be selected from ValueSet UCUM Units of
 Measure (case sensitive) 2.16.840.1.113883.1.11.12839
@@ -71,4 +67,18 @@ issue --> easy errors)
 
 * Severity free-text lives in a "text" element while medication free-text and immunization free-text are in a "code's" "original." 
 
+reported:
 * What does it mean when a text has text _and_ a reference, and they both are non-emtpy and non-identical?
+
+reported:
+* ActReason code in examples is 2.16.840.1.113883.11.19725 ; but in the published table it is listed as 2.16.840.1.113883.5.8 .  Appears examples are wrong in the CCDA 1.1 spec + accompanying XML files.
+
+reported:
+* what is a Medication Activity's or Immunization Activity's "code" element?
+  (CDA and RIM don't seem to say -- different from routeCode, or
+approachSiteCode).
+
+
+
+
+
