@@ -10,17 +10,22 @@ $ cd json_ccda
 $ npm install
 ```
 
-Convert a CCD to JSON (currently outputs a file, doesn't load into DB):
+Convert a CCD to JSON, without loading into DB:
 ```
-$ node import.py CCD.sample.xml > sample_ccda.json
+$ node lib/ccda/import.py CCD.sample.xml -p 123 > sample_ccda.json
+```
+
+Convert and load into DB:
+```
+$ node lib/ccda/import.py CCD.sample.xml -p 123 -m 
 ```
 
 Launching REST server:
 ```
-$ ./node_modules/.bin/supervisor -- rest.js
+$ ./node_modules/.bin/supervisor -- lib/servers/rest.js
 ```
 
-In Browser: `http://localhost:3000/records/12345/Patient`
+In Browser: `http://localhost:3000/patient/12345/
 
 Testing:
 ```
