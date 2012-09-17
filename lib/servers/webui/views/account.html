@@ -1,0 +1,49 @@
+<% include partials/top.html %>
+<% include partials/authenticated-nav.html %>
+     <div  ng-controller="PatientSearchController">
+    <input id="patient-search" ng-model="searchterm" type="text" contenteditable class="span6 input-long search-query" placeholder="male John Smith 1982 John ... "> <span>Search for patients by keyword (name, gender, date, city, zip, dob, mrn...)</span>
+  <div id="patient-results" class="hero-unit">
+    <div class="container span4">
+    <table class="table table-striped">
+    <tr ng-repeat="result in patients">
+      <td>{{result.name.family}}, {{givens(result.name)}}</td><td> <i>{{result.birthTime | date}}</i></td>
+    </tr>
+  </table>
+</div>
+  </div>
+</div>
+<% include partials/bottom.html %>
+
+<script src="static/angular/angular.js"></script>
+
+<script>
+
+
+angular.module('patientSearchModule', [])
+.controller("PatientSearchController",  function PatientSearchController($scope, patientSearch) {
+  $scope.givens = function(name){
+    return name.givens.join(" ");
+  };
+  $scope.$watch("searchterm", function(){
+    console.log("st change" + $scope.searchterm);
+    var tokens = [];
+    ($scope.searchterm || "").split(/\s/).forEach(function(t){
+      tokens.push(t.toLowerCase());
+    });
+    $scope.tokens = tokens;
+    $scope.getmore();
+  });
+    $scope.getmore = function(){
+      patientSearch.search($scope.tokens).success(function(patients){
+        $scope.patients = patients;
+        $scope.$apply();
+      });
+    };
+  }).factory('patientSearch', function() {
+  return {
+    search: function(tokens){
+      return $.get("http://localhost:3000/patients/all/searchByTokens", {q:JSON.stringify(tokens)});
+    }  
+  };
+  });
+</script>

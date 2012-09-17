@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Bootstrap, from Twitter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
+    <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/static/bootstrap/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/bootstrap/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/bootstrap/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/static/bootstrap/ico/apple-touch-icon-57-precomposed.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">SMART CCDA Receiver</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>Apps ahead!  </h1>
+        <p>Please sign in to run apps on the SMART CCDA Receiver</p>
+        <p><a id="sign-in" class="btn btn-primary btn-large">Sign in securely with Persona &raquo;</a></p>
+      </div>
+
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span4">
+          <h2>BP Centiles App</h2>
+          <p>Painlessly view pediatric blood pressure readings in context, normalized according to NIH guidelines to take a child's age, gender, and height into account.  Instead of raw mmHg values, you'll see each measurement reported as a percentile for rapid classification of hypertension and prehypertension.</p>
+        </div>
+        <div class="span4">
+          <h2>Cardiac Risk App</h2>
+          <p>Instantly calculate and visualize a Reynolds Risk Score with SMART Cardiac Risk.  Incorporate patient demographics from the medical record, and run what-if scenarios to illustrate the benefits of smoking cessation and blood pressure control.</p>
+        </div>
+        <div class="span4">
+          <h2>Twinlist Med Rec App</h2>
+          <p>Simplify the process of medication reconciliation by visualizing the overlap between two medication lists.  Twinlist provides automated detection of brand-name and generic equivalents, and highlights similar drugs to help you spot any duplicated or unintended meds.</p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+      <p>&copy; Harvard Medical Scool / Boston Children's Hospital, 2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+  <form method="post" action="/auth/browserid" style="display:none">
+    <input type="text" name="assertion"></input>
+  </form>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/bootstrap/js/jquery.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-transition.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-alert.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-modal.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-tab.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-popover.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-button.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+    <script src="https://browserid.org/include.js" type="text/javascript"></script>
+    <script>
+      $(function(){
+        $("#sign-in").click(function() {
+          navigator.id.request({siteName: 'SMART CCDA Receiver'});
+        }); 
+        navigator.id.watch({
+          loggedInEmail: 'jmandel@gmail.comm',
+          onlogin: function(assertion) {
+            $("input").val(assertion);
+            $("form").submit();
+          },
+          onlogout: function() {
+            window.location="google.com";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
