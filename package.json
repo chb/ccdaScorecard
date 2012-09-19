@@ -16,6 +16,7 @@
 		"underscore":"*",
     "express": "*",
     "jade": "*",
+    "ejs": "*",
     "passport":"*",
     "passport-browserid":"*",
     "stylus": "*"
