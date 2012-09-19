@@ -40,7 +40,7 @@
       navigator.id.request({siteName: 'SMART CCDA Receiver'});
     }); 
     navigator.id && navigator.id.watch({
-      loggedInEmail: <% if (typeof user !== 'undefined') { %> '<%=user.email%>' <% } else { %>null <% } %>,
+      loggedInUser: <% if (typeof user !== 'undefined') { %> '<%=user.email%>' <% } else { %>null <% } %>,
       onlogin: function(assertion) {
         $.post("/auth/browserid", {assertion: assertion})
         .success(function(r){
