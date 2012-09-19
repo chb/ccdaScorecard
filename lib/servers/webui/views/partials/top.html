@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="patientSearchModule">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>SMART CCDA Receiver</title>
@@ -13,12 +13,43 @@
     <style type="text/css">
       body {
         padding-top: 60px;
+        overflow-y: scroll;
       }
       #patient-results {
         margin-top: 20px;
-        min-height: 300px;
+        min-height: 230px;
       }
-      
+      .shortcut {
+        text-decoration:underline;
+        float: none !important;
+        border: 0px !important;
+        padding: 0px !important;
+      }
+      td.gender {font-size: 30px; text-align: right;}
+      tr.patient-row {
+        cursor: pointer;
+      }
+      .step-bubble{
+          border-radius: 50%;
+          width: 70px;
+          height: 70px; 
+          background: #04C;
+          color: white;
+          text-align: center;
+          display: inline-block;
+          margin-right: -20px;
+          position: relative;
+          top: -20px;
+          left: -30px;
+      }
+
+      .step-bubble span {
+        margin-bottom: -20px;
+        font-weight: bold;
+        font-size: 70px;
+        display: inline-block;
+      }
+
     </style>
     <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -36,5 +67,5 @@
   </head>
 
   <body>
-
+    <div class="container">
 

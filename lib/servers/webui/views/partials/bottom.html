@@ -1,3 +1,4 @@
+</div>
 <div class="container">
   <hr>
   <footer>
@@ -31,20 +32,19 @@
     $("#fake-sign-in").click(function() {
       $.post("/auth/test", {email: "test@host.com"})
       .success(function(r){
-        window.location = window.location;
+        window.location.reload(true); 
       }); 
     }); 
 
     $("#sign-in").click(function() {
       navigator.id.request({siteName: 'SMART CCDA Receiver'});
     }); 
-
     navigator.id && navigator.id.watch({
       loggedInEmail: <% if (typeof user !== 'undefined') { %> '<%=user.email%>' <% } else { %>null <% } %>,
       onlogin: function(assertion) {
         $.post("/auth/browserid", {assertion: assertion})
         .success(function(r){
-          window.location = window.location;
+    window.location.reload(true); 
         }); 
       },
       onlogout: function() {
