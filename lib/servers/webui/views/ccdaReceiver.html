@@ -1,0 +1,15 @@
+<% include partials/top.html %>
+<% include partials/authenticated-nav.html %>
+ 
+<script src="/static/angular/angular.js"></script>
+<script src="/static/ccdaReceiver/modules.js"></script>
+<script src="/static/ccdaReceiver/controllers.js"></script>
+<script src="/static/ccdaReceiver/services.js"></script>
+<script src="/static/ccdaReceiver/directives.js"></script>
+
+<div ng-app="ccdaReceiver" ng-controller="MainController" >
+  <div ng-view>
+
+  </div>
+</div>
+<% include partials/bottom.html %>
