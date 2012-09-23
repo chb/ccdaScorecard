@@ -57,7 +57,7 @@ TODO:
 * POST receiver to write JSON to DB (current output is files only)
 * Example Mongo queries (e.g. "All patients w/ abnormal lab results since yesterday")
 
-[ ] Consider a separate 'links' collecition to offload  many:many relations.  Keep the fact documents cleaner.  But still need patient links for filtering without joins... (or can actually do this by convention + regix on _id:regex:^http:.../patient/123 (but implies we need a slash or huffman-coded pids. patient link is explicit -> better.)
+[x] Consider a separate 'links' collecition to offload  many:many relations.  Keep the fact documents cleaner.  But still need patient links for filtering without joins... (or can actually do this by convention + regix on _id:regex:^http:.../patient/123 (but implies we need a slash or huffman-coded pids. patient link is explicit -> better.)
 
 [ ] Batch request mode to issue multiple individual-URI GETs in a swell foop.
 [ ] Standalone and then integrated Validation of expected coding systems / constraints (explicit valuesets, snomed subsumptions, ucum, ?countries)
@@ -79,6 +79,8 @@ TODO:
 
 
 Data questions:
+
+If normalizing displayNames, lincensing terms ?require the value come from the SDO?
 
 * "doseQuantity, if present, SHOULD contain zero or one [0..1]
 @unit="1", which SHALL be selected from ValueSet UCUM Units of
