@@ -7,7 +7,7 @@
         <div class="thumbnail">
             <img src="/static/images/bp-centiles-thumbnail.png">
           <div class="caption">
-          <a ng=href="/apps/bp-centiles/patients/{{patientHelper.id(patient)}}" class="btn btn-block btn-primary">SMART BP Centiles</a>
+            <a ng-href="http://{{host}}:{{port}}/apps/bp-centiles/index.html?server={{baseUri}}&patient={{patientHelper.id(patient)}}#token=SeCrEt" target="_blank" class="btn btn-block btn-primary">SMART BP Centiles</a>
           </div>
         </div>
       </li>
@@ -15,7 +15,7 @@
         <div class="thumbnail">
             <img src="/static/images/cardiac-risk-thumbnail.png">
           <div class="caption">
-          <a ng=href="/apps/cardiac-risk/patients/{{patientHelper.id(patient)}}" class="btn btn-block btn-primary">SMART BP Centiles</a>
+            <a ng-href="http://{{host}}:{{port}}/apps/cardiac-risk/index.html?server={{baseUri}}&patient={{patientHelper.id(patient)}}#token=SeCrEt" target="_blank" class="btn btn-block btn-primary">SMART Cardiac Risk</a>
           </div>
         </div>
       </li>
@@ -23,7 +23,7 @@
         <div class="thumbnail">
             <img src="/static/images/twinlist-thumbnail.png">
           <div class="caption">
-          <a ng=href="/apps/twinlist/patients/{{patientHelper.id(patient)}}" class="btn btn-block btn-primary">SMART BP Centiles</a>
+            <a ng-href="http://{{host}}:{{port}}/apps/twinlist/index.html?server={{baseUri}}&patient={{patientHelper.id(patient)}}#token=SeCrEt" target="_blank" class="btn btn-block btn-primary">Twinlist Med Rec</a>
           </div>
         </div>
       </li>

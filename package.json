@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Import CCDA -> JSON.  Then serve resources over a RESTful API",
   "author": "Josh Mandel <joshua.mandel@childrens.harvard.edu>",
+  "scripts":{
+    "start": "node ./lib/servers.js"
+  },
   "dependencies": {
     "async": "*",
     "express": ">= 2.5.9",

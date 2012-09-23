@@ -1,6 +1,10 @@
 <% include partials/top.html %>
 <% include partials/authenticated-nav.html %>
- 
+<script>
+  var host = '<%= host%>';
+  var port = '<%= port%>';
+  var baseUri = '<%= baseUri%>';
+</script>
 <script src="/static/angular/angular.js"></script>
 <script src="/static/ccdaReceiver/modules.js"></script>
 <script src="/static/ccdaReceiver/controllers.js"></script>
