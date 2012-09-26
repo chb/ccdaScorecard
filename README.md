@@ -9,20 +9,24 @@ $ git clone https://github.com/jmandel/json_ccda
 $ cd json_ccda
 $ npm install
 ```
+Launching servers:
+```
+$ ./node_modules/.bin/supervisor lib/servers.js
+```
 
 Convert a CCD to JSON, without loading into DB:
 ```
-$ node lib/ccda/import.py CCD.sample.xml -p 123 > sample_ccda.json
+$ node lib/ccda/import.py -f CCD.sample.xml -p 123  --stdout > sample_ccda.json
 ```
 
-Convert and load into DB:
+Convert and load into MongoDB:
 ```
-$ node lib/ccda/import.py CCD.sample.xml -p 123 -m 
+$ node lib/ccda/import.py -f CCD.sample.xml -p 123 -m  
 ```
 
-Launching REST server:
+Load a CCDA via HTTP POST:
 ```
-$ ./node_modules/.bin/supervisor -- lib/servers/rest.js
+$ curl -X POST -d @CCD.sample.xml http://localhost:3000/patients/123/documents/ccda
 ```
 
 In Browser: `http://localhost:3000/patient/12345/
@@ -31,7 +35,6 @@ Testing:
 ```
 $ ./node_modules/.bin/mocha -R spec
 ```
-
 Lots of outstanding mapping questions, including:
 
 * How to deal with negation indicators? (Would like separate 'AllergyNegation' items, rathern than just a flag)
@@ -68,6 +71,15 @@ TODO:
 [ ] apply consistent units at import-time for vital signs? --> consider code + unit mapping in the import layer, or pushing out to apps
 
 [ ]how to handle results that don't really belong to panels? all-in-one, or one-per? 
+
+[ ] Add UCUM validation to physical quantities
+[ ] Dynamically subclass ConceptDescriptor / SimpleCode to declare valid or obligatory valuesets.
+  e.g. ["productName","0..1", 
+        ".//h:manufacturedMaterial/h:code", 
+        ConceptDescriptor.shall({valueSet: "1.2.3"})]
+
+
+[ ] Sweep over the entire tree for validations to bulk-execute. 
 
 [x] email struct doc WG to ask about IDs:  
 
