@@ -7,6 +7,11 @@ Attempting to catalog value sets required and recommended in CCDA.
 To import phinvads vocab:
 
 ```
-sudo pip install mustaine
-python import_phindas_vocab.py
+python import_phinvads_vocab.py
 ```
+
+TODO: resolve discrepency between value set vs. code system for Immunizations.  (CCDA is inconsistent).
+
+Effectively we want all concept from the code set: 2.16.840.1.113883.12.292
+... and we want to call that value set: 2.16.840.1.113883.3.88.12.80.22  (even though phinvads doesn't).
+
