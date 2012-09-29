@@ -5,3 +5,5 @@
 .project
 *#
 .#*
+*.swp
+node_modules
