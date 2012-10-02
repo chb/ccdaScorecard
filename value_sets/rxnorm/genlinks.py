@@ -1,3 +1,4 @@
+import json
 import sqlite3
 from pymongo import Connection
 
@@ -7,18 +8,75 @@ db = connection.rxnorm
 conn = sqlite3.connect('rxn.db')
 
 def doQ(q):
-    return [x[0] for x in conn.execute(q).fetchall()]
+    ret= [x[0] for x in conn.execute(q).fetchall()]
+    return ret
 
 def instr(l):
     return "('"+"','".join(l) +"')"
 
-def toing(rxcui, tty):
+def toBrandAndGeneric(rxcuis, tty):
     ret = []
-    for v in rxcui:
-        ret.extend(toing_helper(v, tty))
+    for rxcui in rxcuis:
+        ret.extend(doQ("select rxcui1 from rxnrel where rela='tradename_of' and rxcui2='%s' """%rxcui))
+    return ret 
+
+def toComponents(rxcuis, tty):
+    ret = []
+
+    if tty not in ("SBD", "SCD"):
+        return ret
+
+    for rxcui in rxcuis:
+        cs = doQ("select rxcui1 from rxnrel where rela='consists_of' and rxcui2='%s' """%rxcui)
+        for c in cs:
+            ret.extend(doQ("select rxcui from rxnconso where sab='RXNORM' and tty='SCDC' and rxcui='%s'"%c))        
+
     return set(ret)
 
-def toing_helper(rxcui, tty):
+def toTreatmentIntents(rxcuis, tty):
+    ret = []
+    for v in rxcuis:
+        ret.extend(toTreatmentIntents_helper(v, tty))
+    return set(ret)
+
+def toTreatmentIntents_helper(rxcui, tty):
+    assert tty=='IN'
+    ret = []
+    rxauis = doQ("select rxaui from rxnconso where tty='FN' and sab='NDFRT' and rxcui='%s'"%rxcui)
+    for a in rxauis:
+        a1 = doQ("select rxaui1 from rxnrel where rxaui2='%s' and rela='may_treat'"%a)
+        if len(a1)>0:
+            dz = doQ("select str from rxnconso c where c.tty='FN' and c.sab='NDFRT' and rxaui='%s'"%a1[0])
+            dz = map(lambda x: x.replace(" [Disease/Finding]", ""), dz)
+            ret.extend(dz)
+    return ret
+
+def toMechanism(rxcuis, tty):
+    ret = []
+    for v in rxcuis:
+        ret.extend(toMechanism_helper(v, tty))
+    return set(ret)
+
+def toMechanism_helper(rxcui, tty):
+    assert tty=='IN'
+    ret = []
+    rxauis = doQ("select rxaui from rxnconso where tty='FN' and sab='NDFRT' and rxcui='%s'"%rxcui)
+    for a in rxauis:
+        a1 = doQ("select rxaui1 from rxnrel where rxaui2='%s' and rela='has_mechanism_of_action'"%a)
+        if len(a1)>0:
+            moa = doQ("select str from rxnconso c where c.tty='FN' and c.sab='NDFRT' and rxaui='%s'"%a1[0])
+            moa = map(lambda x: x.replace(" [MoA]", ""), moa)
+            ret.extend(moa)
+    return ret
+
+
+def toIngredients(rxcuis, tty):
+    ret = []
+    for v in rxcuis:
+        ret.extend(toIngredients_helper(v, tty))
+    return set(ret)
+
+def toIngredients_helper(rxcui, tty):
     if tty=='IN': return [rxcui]
     
     if tty=='MIN': 
@@ -34,38 +92,38 @@ def toing_helper(rxcui, tty):
         return doQ("select rxcui1 from rxnrel where rxcui2 ='%s' and rela='has_ingredient'"%rxcui)
 
     if tty=='SBDF':
-        return toing(doQ("select rxcui1 from rxnrel where rxcui2='%s' and rela='tradename_of'"%rxcui), 'SCDF')
+        return toIngredients(doQ("select rxcui1 from rxnrel where rxcui2='%s' and rela='tradename_of'"%rxcui), 'SCDF')
 
     if tty=='SCDG':
         return doQ("select rxcui1 from rxnrel where rxcui2 ='%s' and rela='has_ingredient'"%rxcui)
 
     if tty=='SBDG':
-        return toing(doQ("select rxcui1 from rxnrel where rxcui2='%s' and rela='tradename_of'"%rxcui), 'SCDG')
+        return toIngredients(doQ("select rxcui1 from rxnrel where rxcui2='%s' and rela='tradename_of'"%rxcui), 'SCDG')
 
     if tty=='SBDC':
-        return toing(doQ("select rxcui1 from rxnrel where rxcui2='%s' and rela='tradename_of'"%rxcui), 'SCDC')
+        return toIngredients(doQ("select rxcui1 from rxnrel where rxcui2='%s' and rela='tradename_of'"%rxcui), 'SCDC')
 
     if tty=='SCDC':
         return doQ("select rxcui1 from rxnrel where rxcui2 ='%s' and rela='has_ingredient'"%rxcui)
 
     if tty=='SBD':
-        return toing(doQ("select rxcui1 from rxnrel where rxcui2='%s' and rela='tradename_of'"%rxcui), 'SCD')
+        return toIngredients(doQ("select rxcui1 from rxnrel where rxcui2='%s' and rela='tradename_of'"%rxcui), 'SCD')
 
     if tty=='SCD':
-        return toing(doQ("select rxcui1 from rxnrel where rxcui2='%s' and rela='consists_of'"%rxcui), 'SCDC')
+        return toIngredients(doQ("select rxcui1 from rxnrel where rxcui2='%s' and rela='consists_of'"%rxcui), 'SCDC')
 
     if tty=='BPCK' or tty=='GPCK':
-        return toing(doQ("select rxcui1 from rxnrel where rxcui2='%s' and rela='contains'"%rxcui), 'SCD')
+        return toIngredients(doQ("select rxcui1 from rxnrel where rxcui2='%s' and rela='contains'"%rxcui), 'SCD')
 
 """
-print toing(['369070'], 'SBDF')
-print toing(['901813'], 'SCDC')
-print toing(['209459'], 'SBD')
-print toing(['214181'], 'MIN')
-print toing(['203150'], 'PIN')
-print toing(['58930'], 'BN')
-print toing(['1092412'], 'BPCK')
-print toing(['1093075'], 'SCD')
+print toIngredients(['369070'], 'SBDF')
+print toIngredients(['901813'], 'SCDC')
+print toIngredients(['209459'], 'SBD')
+print toIngredients(['214181'], 'MIN')
+print toIngredients(['203150'], 'PIN')
+print toIngredients(['58930'], 'BN')
+print toIngredients(['1092412'], 'BPCK')
+print toIngredients(['1093075'], 'SCD')
 
 OCD	Obsolete clinical drug	295942
 SY	Designated synonym	47804
@@ -96,13 +154,17 @@ db.concepts.remove({})
 while True:
     c = cs.fetchone()
     if c == None: break
-    ii = toing([c[0]], c[1])
+    ii = toIngredients([c[0]], c[1])
     label = conn.execute("select str from rxnconso where SAB='RXNORM' and TTY in %s and rxcui='%s'"%(instr(drug_types), c[0])).fetchone()[0]
     r = {
         '_id': c[0],
         'label': label,
         'type': c[1],
-        'ingredients':list(ii)
+        'ingredients':list(ii),
+        'generics': list(toBrandAndGeneric([c[0]], c[1])),
+        'components': list(toComponents([c[0]], c[1])),
+#        'mechanisms': list(toMechanism(ii, "IN")),
+        'treatmentIntents': list(toTreatmentIntents(ii, "IN"))
     }
-    print r
+    print json.dumps(r, sort_keys=True, indent=2)
     db.concepts.insert(r)
