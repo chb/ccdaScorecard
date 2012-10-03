@@ -1,0 +1,12 @@
+{
+  "_id": "twinlist",
+  "name" : "Twinlist",
+  "oauth-client-type": "public",
+  "description" : "Simplify the process of medication reconciliation by visualizing the overlap between two medication lists. Twinlist provides automated detection of brand-name and generic equivalents, and highlights similar drugs to help you spot any duplicated or unintended meds.",
+  "author" : "Tiffany Chao (UMD)",
+  "version" : ".1a",
+  "mode" : "ui",
+  "scope" : "record",
+  "index" :  "{{app-root}}/bp-centiles/index.html",
+  "icon" :  "{{app-root}}/bp-centiles/icon.png"
+}

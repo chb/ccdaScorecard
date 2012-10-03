@@ -1,27 +1,12 @@
 {
+  "_id": "cardiac-risk",
+  "oauth-client-type": "public",
   "name" : "Cardiac Risk",
-  "description" : "A Visualization of Cardiology Bloodwork Results with the Framingham Risk Score",
-  "author" : "Implimentation: Arjun Sanyal, Children's Hospital Boston; Design: McCandless & Posavec http://informationisbeautiful.net",
-  "id" : "cardiac_risk@apps.smartplatforms.org",
+  "description" : "Instantly calculate and visualize a Reynolds Risk Score with SMART Cardiac Risk. Incorporate patient demographics from the medical record, and run what-if scenarios to illustrate the benefits of smoking cessation and blood pressure control.",
+  "author" : "Design: McCandless & Posavec (informationisbeautiful.net).  Implementation: Arjun Sanyal.",
   "version" : ".1a",
-  "optimalBrowserEnvironments": ["desktop"],
-  "supportedBrowserEnvironments": ["desktop", "tablet"],
-
   "mode" : "ui",
-  "scope": "record",
-
-  "index" : "http://sample-apps.smartplatforms.org/framework/cardio_risk_viz/index.html",
-  "icon" :  "http://sample-apps.smartplatforms.org/framework/cardio_risk_viz/icon.png",
-
-  "requires": {
-    "http://smartplatforms.org/terms#Demographics": {
-        "methods": ["GET"]
-    },
-    "http://smartplatforms.org/terms#LabResult": {
-        "methods": ["GET"],
-        "codes": [ "http://purl.bioontology.org/ontology/LNC/30522-7", 
-	  	           "http://purl.bioontology.org/ontology/LNC/2093-3", 
-                   "http://purl.bioontology.org/ontology/LNC/2085-9"]
-    }
-  }
+  "scope" : "record",
+  "index" :  "{{app-root}}/cardiac-risk/index.html",
+  "icon" :  "{{app-root}}/cardiac-risk/icon.png"
 }

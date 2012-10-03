@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "async": "*",
-    "express": ">= 2.5.9",
-    "mongodb": ">= 1.0.2",
+    "express": "*",
+    "mongodb": "*",
     "supervisor":"*",
     "libxmljs":"*",
     "xdate":"*",
@@ -23,6 +23,7 @@
     "ejs": "*",
     "passport":"*",
     "passport-browserid":"*",
+    "oauth2orize":"*",
     "stylus": "*"
   },
   "devDependencies": {

@@ -1,24 +1,12 @@
 {
+  "_id": "bp-centiles",
+  "oauth-client-type": "public",
   "name" : "BP Centiles",
-  "description" : "Displays blood pressure data with calculated percentiles (for pediatric patients)",
+  "description" : "Evaluate pediatric blood pressure readings in context, normalized according to NIH guidelines that incorporate a child's age, gender, and height. Instead of scrutinizing raw mmHg values, you'll see each measurement reported as a percentile for rapid classification of hypertension and prehypertension.",
   "author" : "Nikolai Schwertner",
-  "id" : "bp_centiles@apps.smartplatforms.org",
   "version" : ".1a",
-
   "mode" : "ui",
   "scope" : "record",
-
-  "index" :  "http://sample-apps.smartplatforms.org/framework/bp_centiles/index.html",
-  "icon" :  "http://sample-apps.smartplatforms.org/framework/bp_centiles/icon.png",
-
-  "smart_version": "0.4",
-
-  "requires" : {
-       "http://smartplatforms.org/terms#Demographics": {
-         "methods": ["GET"]
-       },
-       "http://smartplatforms.org/terms#VitalSigns": {
-         "methods": ["GET"]
-       }
-  }
+  "index" :  "{{app-root}}/bp-centiles/index.html",
+  "icon" :  "{{app-root}}/bp-centiles/icon.png"
 }
