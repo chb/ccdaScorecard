@@ -7,6 +7,8 @@
     "start": "node ./lib/servers.js"
   },
   "dependencies": {
+    "locomotive": "0.3.x",
+    "connect-powered-by": "0.1.x",
     "async": "*",
     "express": "*",
     "mongodb": "*",
@@ -24,7 +26,8 @@
     "passport":"*",
     "passport-browserid":"*",
     "oauth2orize":"*",
-    "stylus": "*"
+    "stylus": "*",
+    "mongoose": "*"
   },
   "devDependencies": {
   },

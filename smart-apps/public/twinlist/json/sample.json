@@ -1,0 +1,141 @@
+{
+    "reconciled": [
+        {
+            "identical": [
+            ], 
+            "med2": {
+                "units": "MG", 
+                "instructions": "VIAL; INJECT 1 VIAL SUBCUTANEOUSLY EVERY FRIDAY", 
+                "id": 0, 
+                "medication_name": "DARBEPOETIN", 
+                "dose": "60"
+            }, 
+            "med1": {
+                "units": "MG", 
+                "instructions": "VIAL; INJECT 1 VIAL SUBCUTANEOUSLY EVERY FRIDAY", 
+                "id": 1, 
+                "medication_name": "DARBEPOETIN", 
+                "dose": "60"
+            }, 
+            "mechanism": "Identical strings"
+        }, {
+            "identical": [
+            ], 
+            "med2": {
+	            "units": "MG", 
+	            "instructions": "TABLET; TAKE DAILY", 
+	            "id": 2, 
+	            "medication_name": "FOLIC ACID", 
+	            "dose": "1"
+            }, 
+            "med1": {
+	            "units": "MG", 
+	            "instructions": "TABLET; TAKE ONE DAILY", 
+	            "id": 3, 
+	            "medication_name": "FOLVITE", 
+	            "dose": "1"
+            }, 
+            "mechanism": "Brand name"
+        }, 
+        {
+            "identical": [
+                "NORMALIZED_DOSE", 
+                "UNITS", 
+                "DRUG_NAME", 
+                "FORMULATION", 
+                "SIG", 
+                "DOSE"
+            ], 
+            "med2": {
+                "units": "MG", 
+                "instructions": "TABLET; TAKE 1 TABLET DAILY", 
+                "id": 4, 
+                "medication_name": "CALCITROL", 
+                "dose": "0.25"
+            }, 
+            "med1": {
+                "units": "MG", 
+                "instructions": "TABLET; TAKE 1 TABLET DAILY", 
+                "id": 5, 
+                "medication_name": "CALCITROL", 
+                "dose": "0.25"
+            }, 
+            "mechanism": "Identical strings"
+        }, 
+        {
+            "identical": [
+                "NORMALIZED_DOSE", 
+                "UNITS", 
+                "DRUG_NAME", 
+                "FORMULATION", 
+                "SIG", 
+                "DOSE"
+            ], 
+            "med2": {
+                "units": "MG", 
+                "instructions": "TABLET; TAKE 1 TABLET PO EVERY DAY", 
+                "id": 6, 
+                "medication_name": "RAMIPRIL", 
+                "dose": "5"
+            }, 
+            "med1": {
+                "units": "MG", 
+                "instructions": "TABLET; TAKE 1 TABLET PO EVERY DAY", 
+                "id": 7, 
+                "medication_name": "RAMIPRIL", 
+                "dose": "5"
+            }, 
+            "mechanism": "Identical strings"
+        }, 
+        {
+            "identical": [], 
+            "med2": {
+                "units": "MG", 
+                "instructions": "TABLET; TAKE 1 TABLET PO EVERY 6 HOURS", 
+                "id": 8, 
+                "medication_name": "ACETAMINOPHEN", 
+                "dose": "325"
+            }, 
+            "med1": {
+                "units": "MG", 
+                "instructions": "TABLET; TAKE 1 TABLET PO EVERY 6 HOURS", 
+                "id": 9, 
+                "medication_name": "ACETAMINOPHEN", 
+                "dose": "32"
+            }, 
+            "mechanism": "Similar treatment intent"
+        }
+    ], 
+    "new_list_2": [
+        {
+            "units": "MG", 
+            "instructions": "CAPSULE; TAKE 1 CAPSULE PO DAILY", 
+            "id": 10, 
+            "medication_name": "OMEPRAZOLE", 
+            "dose": "40"
+        }, 
+        {
+            "units": "MG", 
+            "instructions": "TABLET; TAKE 1 TABLET PO Q24H", 
+            "id": 11, 
+            "medication_name": "CIPROFLOXACIN", 
+            "dose": "500"
+        }, 
+        {
+            "units": "MG", 
+            "instructions": "TABLET; TAKE 1 PO Q8H", 
+            "id": 12, 
+            "medication_name": "FERROUS GLUCONATE", 
+            "dose": "300"
+        }
+    ], 
+    "new_list_1": [
+        {
+            "units": "MG", 
+            "instructions": "TABLET; TAKE 1 TABLET PO", 
+            "id": 13, 
+            "medication_name": "MELOXICAM", 
+            "dose": "7.5"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+﻿<div ng-controller="PatientViewController">
+  <h1 class="pull-right"><div class="step-bubble"><span>2</span></div>App time <small>for {{givens(patient.name)}} {{patient.name.family}}</small></h1>
+  <br style="clear: both;" />
+  <div class="row-fluid">
+    <ul class="thumbnails">
+      <li class="span4">
+        <div class="thumbnail">
+            <img src="/static/images/bp-centiles-thumbnail.png">
+          <div class="caption">
+            <a ng-href="/ui/authorize/bp-centiles?patient=123" target="_blank" class="btn btn-block btn-primary">SMART BP Centiles</a>
+          </div>
+        </div>
+      </li>
+      <li class="span4">
+        <div class="thumbnail">
+            <img src="/static/images/cardiac-risk-thumbnail.png">
+          <div class="caption">
+            <a ng-href="http://{{host}}:{{port}}/apps/cardiac-risk/index.html?server={{baseUri}}&patient={{patientHelper.id(patient)}}#token=SeCrEt" target="_blank" class="btn btn-block btn-primary">SMART Cardiac Risk</a>
+          </div>
+        </div>
+      </li>
+      <li class="span4">
+        <div class="thumbnail">
+            <img src="/static/images/twinlist-thumbnail.png">
+          <div class="caption">
+            <a ng-href="http://{{host}}:{{port}}/apps/twinlist/html/twinlist.html?server={{baseUri}}&patient={{patientHelper.id(patient)}}#token=SeCrEt" target="_blank" class="btn btn-block btn-primary">Twinlist Med Rec</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
