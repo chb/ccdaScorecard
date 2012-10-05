@@ -4,7 +4,7 @@ var assert = require("assert");
 var Processor = require("../lib/ccda/processor.js");
 var ccda = require("../lib/ccda/ccd.js");
 var fs = require("fs");
-var config = require("../lib/config");
+var config = require("../config/config");
 var CCDAWriter = require("../lib/ccda/writer");
 
 function wrapText(t){
