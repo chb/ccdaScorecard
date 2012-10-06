@@ -4,7 +4,7 @@
   "description": "Import CCDA -> JSON.  Then serve resources over a RESTful API",
   "author": "Josh Mandel <joshua.mandel@childrens.harvard.edu>",
   "scripts":{
-    "start": "node ./lib/servers.js"
+    "start": "node ./server.js"
   },
   "dependencies": {
     "locomotive": "0.3.x",

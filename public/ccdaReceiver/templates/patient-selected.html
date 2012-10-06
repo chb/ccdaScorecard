@@ -5,9 +5,9 @@
     <ul class="thumbnails">
       <li class="span4">
         <div class="thumbnail">
-            <img src="/static/images/bp-centiles-thumbnail.png">
+            <img src="/static/images/bp-centiles-thumbnail.png"><!--"/ui/authorize/bp-centiles?patient=123"--> 
           <div class="caption">
-            <a ng-href="/ui/authorize/bp-centiles?patient=123" target="_blank" class="btn btn-block btn-primary">SMART BP Centiles</a>
+            <a ng-href="http://{{host}}:{{port}}/apps/bp-centiles/index.html?server={{baseUri}}&patient={{patientHelper.id(patient)}}#token=SeCrEt" target="_blank" class="btn btn-block btn-primary">SMART BP Centiles</a>
           </div>
         </div>
       </li>
