@@ -108,10 +108,11 @@ PatientController.demographics = function() {
   res = this.res;
   OneDoc("patients", base+req.url, req, res);
 };
+
 PatientController.links = function() {
   var req = this.req, 
   res = this.res;
-  OneDoc(req.params.collection+"_"+req.params.subcollection, base+req.url, req, res);
+  OneDoc("links", (base+req.url).match(/(.*)\/links$/)[1], req, res);
 };
 
 PatientController.searchByTokens = function() {
