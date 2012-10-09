@@ -1,6 +1,6 @@
 {
   "_id": "cardiac-risk",
-  "oauth-client-type": "public",
+  "oauthClientType": "public",
   "name" : "Cardiac Risk",
   "description" : "Instantly calculate and visualize a Reynolds Risk Score with SMART Cardiac Risk. Incorporate patient demographics from the medical record, and run what-if scenarios to illustrate the benefits of smoking cessation and blood pressure control.",
   "author" : "Design: McCandless & Posavec (informationisbeautiful.net).  Implementation: Arjun Sanyal.",

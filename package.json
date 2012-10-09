@@ -25,6 +25,7 @@
     "ejs": "*",
     "passport":"*",
     "passport-browserid":"*",
+    "passport-http-bearer":"*",
     "oauth2orize":"*",
     "stylus": "*",
     "mongoose": "*"

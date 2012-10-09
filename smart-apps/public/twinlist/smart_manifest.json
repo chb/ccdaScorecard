@@ -1,7 +1,7 @@
 {
   "_id": "twinlist",
   "name" : "Twinlist",
-  "oauth-client-type": "public",
+  "oauthClientType": "public",
   "description" : "Simplify the process of medication reconciliation by visualizing the overlap between two medication lists. Twinlist provides automated detection of brand-name and generic equivalents, and highlights similar drugs to help you spot any duplicated or unintended meds.",
   "author" : "Tiffany Chao (UMD)",
   "version" : ".1a",

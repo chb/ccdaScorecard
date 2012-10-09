@@ -1,6 +1,6 @@
 {
   "_id": "bp-centiles",
-  "oauth-client-type": "public",
+  "oauthClientType": "public",
   "name" : "BP Centiles",
   "description" : "Evaluate pediatric blood pressure readings in context, normalized according to NIH guidelines that incorporate a child's age, gender, and height. Instead of scrutinizing raw mmHg values, you'll see each measurement reported as a percentile for rapid classification of hypertension and prehypertension.",
   "author" : "Nikolai Schwertner",

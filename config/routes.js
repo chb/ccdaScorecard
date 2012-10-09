@@ -29,4 +29,9 @@ module.exports = function routes() {
   
   this.match('/patients/:pid/documents/ccda', 
     'patient#document', {via:'post'});
+
+  this.match('/auth/launch-app', 'auth#launch');
+  this.match('/auth/txn-details', 'auth#getOAuth2Transaction');
+  this.match('/auth/launch/begin', 'auth#begin', {via: 'post'});
+  this.match('/auth/launch/decide', 'auth#decide', {via: 'post'});
 };

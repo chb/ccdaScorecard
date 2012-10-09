@@ -1,11 +1,17 @@
-﻿<div ng-controller="PatientSearchController">
-  <h1><div class="step-bubble"><span>3</span></div>Authorize <span ng-bind="appName"></span> </h1>
-  <div id="auth-box"  style="overflow:auto" class="span10">
-    <div class="container span8">
-      <h3>... to access the SMART CCDA Receiver on your behalf</h3>
-      <button class="button">Authorize</button>
-      <button class="button">Deny</button>
+﻿<div ng-controller="AuthorizeAppController">
+  <h1><div class="step-bubble"><span>3</span></div>Authorize <span ng-bind="txn.client.name"></span> </h1>
+  <div class="container">
+    <div id="auth-box"  class="span10">
+      <div class="container span8">
+        <h3>to access the SMART CCDA Receiver on your behalf</h3>
+        <h2 ng-show="patientName">limited to one patient: {{patientName}}</h2>
+        <button id='authorize' class="button">Authorize</button>
+        <button id='deny' class="button">Deny</button>
+        <textarea>{{txn}}</textarea>
+      </div>
     </div>
+    <ng-switch on="needPatient()">
+    <div ng-switch-when="true" id="patient-results" ng-include="'/static/ccdaReceiver/templates/patient-search.html'"> </div>
   </div>
 </div>
 
