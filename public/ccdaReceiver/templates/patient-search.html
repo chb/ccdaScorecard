@@ -1,0 +1,57 @@
+<div ng-controller="PatientSearchController">
+  <div class="row">
+    <div class="span6">Search for patients by keyword (name, gender, date, city, zip, dob, mrn)</div>
+  </div>
+  <div class="row">
+    <div class="span6">
+        <input 
+        id="patient-search" 
+        class="span6 pull-left input-long " 
+        type="text" 
+        autofocus 
+        contenteditable 
+        focus-on-key="191" 
+        ng-model="searchterm" 
+        placeholder="male Smith 1982 John ... "></input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span6">
+      <div id="patient-results" ng-cloak>
+        <table class="table table-striped table-hover table-condensed">
+          <tr class="patient-row" ng-click="select($index)" ng-repeat="result in patients">
+            <td class="gender" ng-bind-html-unsafe="genderglyph[result.gender]"></td>
+            <td class="name">
+              <span ng-bind="patientHelper.name(result)"></span>
+            </td>
+            <td><i><span ng-bind="result.birthTime | date"/></i></td>
+            </tr>
+            <tr ng-repeat="blank in blanks">
+              <td class="gender"></td>
+              <td colspan="2">
+                <span ng-show="(patients.length==0) && $first">
+                  No matches -- try broadening your search.
+                </span>
+              </span>&nbsp;
+            </td>
+          </tr>
+        </table>
+
+        <ul class="pager">
+          <li class="previous pull-left" 
+          click-on-key="80"
+          ng-class="{true:'',false:'disabled'}[hasPrevious()]"
+          ng-click="previousPage()">
+          <a><span class="shortcut">P</span>revious {{nPerPage}}</a>
+          </li>
+          <li class="next  pull-right" 
+          click-on-key="78"
+          ng-class="{true:'',false:'disabled'}[hasNext()]"
+          ng-click="nextPage()">
+          <a><span class="shortcut">N</span>ext {{nPerPage}}</a></li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>
