@@ -30,13 +30,18 @@
     };
   };
 
-  SMART.oauthToken = window.location.hash.match(/token=(.*)/);
-  if (SMART.oauthToken) {
-    SMART.oauthToken = SMART.oauthToken[1];
+  var oauthResult = window.location.hash.match(/#(.*)/);
+  oauthResult = oauthResult ? oauthResult[1] : "";
+  oauthResult = oauthResult.split(/&/);
+
+  SMART.auth = {};
+  for (var i = 0; i < oauthResult.length; i++){
+    var kv = oauthResult[i].split(/=/);
+    SMART.auth[kv[0]] = kv[1];
   }
 
-  SMART.patient = params.patient;
-  SMART.server = params.server;
+  SMART.patient = decodeURIComponent(params.patient);
+  SMART.server = decodeURIComponent(params.server);
 
   window.location.hash="";
 

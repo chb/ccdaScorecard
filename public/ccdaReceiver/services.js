@@ -5,6 +5,24 @@ angular.module('ccdaReceiver').factory('authorization', function() {
         url: baseUri + "/auth/txn-details", 
         data:{ transaction_id: tid }
       });
+    },
+
+    decide: function(txn, allow, params){
+      var data = {transaction_id: txn.transactionID};
+      if (!allow){
+        data.cancel = true;
+      }
+      params = params || {};
+      angular.extend(data, params);
+
+      var form = "<form method='post' action='/auth/decide' id='decision'>";
+      for (var k in data){
+        form += "<input type='hidden' name='"+k+"' value='"+data[k]+"'>";
+      }
+      form += "</form>";
+      angular.element("body").append(form);
+      angular.element("#decision").submit();
+
     }
   };
 });

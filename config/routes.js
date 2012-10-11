@@ -9,7 +9,7 @@ module.exports = function routes() {
   this.match('/auth/browserid', 'auth#browserid', {via: 'post'});
   this.match('/logout', 'auth#logout');
 
-//  this.match('/patients*', 'auth#ensureAuthenticated', {via: 'all'});
+//  this.match('/patients/:pid*', 'auth#requirePatientAccess', {via: 'all'});
 
   this.match('/patients/all/searchByTokens', 'patient#searchByTokens');
 
@@ -32,6 +32,5 @@ module.exports = function routes() {
 
   this.match('/auth/launch-app', 'auth#launch');
   this.match('/auth/txn-details', 'auth#getOAuth2Transaction');
-  this.match('/auth/launch/begin', 'auth#begin', {via: 'post'});
-  this.match('/auth/launch/decide', 'auth#decide', {via: 'post'});
+  this.match('/auth/decide', 'auth#decide', {via: 'post'});
 };

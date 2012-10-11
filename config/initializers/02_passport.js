@@ -8,7 +8,7 @@ module.exports = function(){
   });
 
   passport.deserializeUser(function(email, done) {
-    done(null, { email: email });
+    done(null, { _id: email });
   });
 
 
@@ -17,7 +17,7 @@ module.exports = function(){
       audience: config.baseUri
     }, function(email, done) {
       process.nextTick(function () {
-        return done(null, { email: email })
+        return done(null, { _id: email })
       });
     })
   );

@@ -10,8 +10,18 @@ angular.module('ccdaReceiver').controller("MainController",
 angular.module('ccdaReceiver').controller("SelectPatientController",  
   function($scope, patient, patientSearch, $routeParams, $rootScope, $location) {
     $scope.onSelected = function(p){
-      var pid = patient.id(p);
-      $location.url("/ui/patient-selected/"+pid);
+      var pid = patient.id(p),
+      loc = "/ui/patient-selected/"+pid;
+      if ($scope.searchterm === $routeParams.q){
+      $location.url(loc);
+      }
+
+      $location.search("q", $scope.searchterm);
+      var off = $rootScope.$on("$routeUpdate", function(){
+      $location.url(loc);
+        off();
+      });
+
     };
   });
 
@@ -37,18 +47,7 @@ angular.module('ccdaReceiver').controller("SelectPatientController",
       };
 
       $scope.select = function(i){
-
-
-        if ($scope.searchterm === $routeParams.q){
-          return $scope.onSelected($scope.patients[i]);
-        }
-
-        $location.search("q", $scope.searchterm);
-        var off = $rootScope.$on("$routeUpdate", function(){
-          $scope.onSelected($scope.patients[i]);
-          off();
-        });
-
+        $scope.onSelected($scope.patients[i]);
       };
 
 
@@ -114,22 +113,53 @@ angular.module('ccdaReceiver').controller("SelectPatientController",
   angular.module('ccdaReceiver').controller("AuthorizeAppController",  
     function($scope, authorization, patient, patientSearch, $routeParams, $rootScope, $location) {
       $scope.patientHelper = patient;
+      $scope.patientName = "(choose below)";
+
       $scope.onSelected = function(p){
+        $scope.patient = p;
         $scope.patientName = patient.name(p) ;
       };
+
+      $scope.requestedScope = function(){
+        if ($scope.txn && $scope.txn.req.scope.indexOf("patient") !== -1){
+          return "patient";
+        }
+        if ($scope.txn && $scope.txn.req.scope.indexOf("user") !== -1){
+          return "user";
+        }
+        return null;
+      };
+
       $scope.needPatient = function(){
-        return ($scope.txn && $scope.txn.req.scope.indexOf("patient") !== -1 && $scope.txn.req.patient === undefined);
+        return ($scope.requestedScope() === "patient" && 
+        $scope.txn.req.patient === undefined);
+      };
+
+      $scope.decide = function(allow){
+        var params = {};
+        if ($scope.patient){
+          params.patient = patient.id($scope.patient);
+        }
+        authorization.decide($scope.txn, allow, params);
+      };
+
+      $scope.allow = function(){
+        $scope.decide(true);
+      };
+
+      $scope.deny = function(){
+        $scope.decide(false);
       };
 
       authorization.transactionDetails($location.search().transaction_id)
       .success(function(t){
         $scope.txn = t;
         if (t.req.patient) {
-        patientSearch.getOne(t.req.patient).success(function(p){
-        $scope.patient = p;
-        $scope.onSelected(p);
-        $scope.$apply();
-        });
+          patientSearch.getOne(t.req.patient).success(function(p){
+            $scope.patient = p;
+            $scope.onSelected(p);
+            $scope.$apply();
+          });
         };
         $scope.$apply();
       });
