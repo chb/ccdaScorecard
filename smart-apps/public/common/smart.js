@@ -43,6 +43,6 @@
   SMART.patient = decodeURIComponent(params.patient);
   SMART.server = decodeURIComponent(params.server);
 
-  window.location.hash="";
+//  window.location.hash="";
 
 }(window));

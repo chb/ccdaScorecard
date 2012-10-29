@@ -1,16 +1,18 @@
 var passport = require('passport')
 , config = require('../config')
-, BrowserIDStrategy = require('passport-browserid').Strategy;
+, BrowserIDStrategy = require('passport-browserid').Strategy
+, db = require('../../lib/model');
+
 module.exports = function(){ 
 
   passport.serializeUser(function(user, done) {
-    done(null, user.email);
+    console.log(user);
+    done(null, user._id);
   });
 
   passport.deserializeUser(function(email, done) {
-    done(null, { _id: email });
+    db.User.findOne({_id: email}, done);
   });
-
 
   passport.use(
     new BrowserIDStrategy({

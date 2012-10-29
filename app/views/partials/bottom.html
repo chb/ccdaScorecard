@@ -40,11 +40,15 @@
       navigator.id.request({siteName: 'SMART CCDA Receiver'});
     }); 
     navigator.id && navigator.id.watch({
-      loggedInUser: <% if (typeof user !== 'undefined') { %> '<%=user.email%>' <% } else { %>null <% } %>,
+      loggedInUser: <% if (typeof user !== 'undefined') { %> 
+        '<%=user._id%>' 
+        <% } else { %>
+        null 
+        <% } %>,
       onlogin: function(assertion) {
         $.post("/auth/browserid", {assertion: assertion})
         .success(function(r){
-    window.location.reload(true); 
+          window.location.reload(true); 
         }); 
       },
       onlogout: function() {

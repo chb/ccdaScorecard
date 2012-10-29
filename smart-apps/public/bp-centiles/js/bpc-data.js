@@ -33,7 +33,8 @@ if (!BPC) {
   BPC.get_demographics = function() {
     var dfd = $.Deferred();
     $.ajax({
-      method: "get",
+      type: "get",
+      data: {access_token: SMART.auth.access_token},
       url: SMART.server + "/patients/"+SMART.patient,
     dataType:"json"})
     .success(function(demos) {
@@ -67,11 +68,12 @@ if (!BPC) {
     };
 
     $.ajax({
-      method: "get",
+      type: "get",
       url: SMART.server + "/patients/"+SMART.patient+"/organizers/vitals",
       data: {
         limit: 10,
-        sort: {"vitals.measuredAt.point":-1}  
+        sort: {"vitals.measuredAt.point":-1},
+        access_token: SMART.auth.access_token
       },
       dataType:"json"
     }).success(function(vitals_organizers){

@@ -106,7 +106,7 @@ PatientController.entry = function() {
 PatientController.demographics = function() {
   var req = this.req, 
   res = this.res;
-  OneDoc("patients", base+req.url, req, res);
+  OneDoc("patients", base+'/patients/'+req.params.pid, req, res);
 };
 
 PatientController.links = function() {

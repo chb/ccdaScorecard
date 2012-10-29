@@ -9,8 +9,15 @@ module.exports = function routes() {
   this.match('/auth/browserid', 'auth#browserid', {via: 'post'});
   this.match('/logout', 'auth#logout');
 
-//  this.match('/patients/:pid*', 'auth#requirePatientAccess', {via: 'all'});
 
+  this.match('/internal/searchForPatients', 'auth#ensureAuthenticated');
+  this.match('/internal/searchForPatients', 'patient#searchByTokens');
+  this.match('/internal/getOnePatient/:pid', 'auth#ensureAuthenticated');
+  this.match('/internal/getOnePatient/:pid', 'patient#demographics');
+
+  this.match('/internal/addPatient/:pid', 'patient#document', {via: 'post'});
+
+  this.match('/patients/:pid*', 'auth#ensurePatientAccess', {via: 'all'});
   this.match('/patients/all/searchByTokens', 'patient#searchByTokens');
 
   this.match('/patients/:pid/:collection/:subcollection/:id/links', 
@@ -30,7 +37,9 @@ module.exports = function routes() {
   this.match('/patients/:pid/documents/ccda', 
     'patient#document', {via:'post'});
 
+  this.match('/auth/launch-app', 'auth#ensureAuthenticated');
   this.match('/auth/launch-app', 'auth#launch');
+
   this.match('/auth/txn-details', 'auth#getOAuth2Transaction');
   this.match('/auth/decide', 'auth#decide', {via: 'post'});
 };

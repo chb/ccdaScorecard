@@ -31,7 +31,7 @@ angular.module('ccdaReceiver').factory('patientSearch', function() {
   return {
     search: function(p){
       return $.ajax({
-        url: baseUri + "/patients/all/searchByTokens", 
+        url: baseUri + "/internal/searchForPatients", 
         data:{
           q:JSON.stringify(p.tokens),
           skip:p.skip,
@@ -39,7 +39,7 @@ angular.module('ccdaReceiver').factory('patientSearch', function() {
         }, dataType: "json"});
     },
     getOne: function(pid){
-      return $.ajax({url:baseUri+"/patients/"+pid, dataType:"json"});
+      return $.ajax({url:baseUri+"/internal/getOnePatient/"+pid, dataType:"json"});
     }  
   };
 });
