@@ -1,0 +1,62 @@
+</div>
+<div class="container">
+  <hr>
+  <footer>
+  <p>&copy; Harvard Medical Scool / Boston Children's Hospital, 2012</p>
+  </footer>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/static/bootstrap/js/bootstrap-transition.js"></script>
+<script src="/static/bootstrap/js/bootstrap-alert.js"></script>
+<script src="/static/bootstrap/js/bootstrap-modal.js"></script>
+<script src="/static/bootstrap/js/bootstrap-dropdown.js"></script>
+<script src="/static/bootstrap/js/bootstrap-scrollspy.js"></script>
+<script src="/static/bootstrap/js/bootstrap-tab.js"></script>
+<script src="/static/bootstrap/js/bootstrap-tooltip.js"></script>
+<script src="/static/bootstrap/js/bootstrap-popover.js"></script>
+<script src="/static/bootstrap/js/bootstrap-button.js"></script>
+<script src="/static/bootstrap/js/bootstrap-collapse.js"></script>
+<script src="/static/bootstrap/js/bootstrap-carousel.js"></script>
+<script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+<script src="https://browserid.org/include.js" type="text/javascript"></script>
+<script>
+  $(function(){
+
+    $("#sign-out").click(function() {
+      navigator.id.logout();
+    }); 
+
+    $("#fake-sign-in").click(function() {
+      $.post("/auth/test", {email: "test@host.com"})
+      .success(function(r){
+        window.location.reload(true); 
+      }); 
+    }); 
+
+    $("#sign-in").click(function() {
+      navigator.id.request({siteName: 'SMART CCDA Receiver'});
+    }); 
+    navigator.id && navigator.id.watch({
+      loggedInUser: <% if (typeof user !== 'undefined') { %> 
+        '<%=user._id%>' 
+        <% } else { %>
+        null 
+        <% } %>,
+      onlogin: function(assertion) {
+        $.post("/auth/browserid", {assertion: assertion})
+        .success(function(r){
+          window.location.reload(true); 
+        }); 
+      },
+      onlogout: function() {
+        console.log("onlogout called");
+        window.location="/logout";
+      }
+    });
+  });
+</script>
+  </body>
+</html>

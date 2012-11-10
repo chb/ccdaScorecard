@@ -4,7 +4,10 @@ module.exports = function routes() {
   this.root(function(req,res){res.redirect("/ui");});
 
   this.match('/ui*', 'auth#ensureAuthenticated');
-  this.match('/ui*', 'pages#main');
+  this.match('/ui*', 'ccda_receiver#main');
+
+  this.match('/abbi*', 'auth#ensurePatientAuthenticated');
+  this.match('/abbi*', 'abbi#main');
 
   this.match('/auth/browserid', 'auth#browserid', {via: 'post'});
   this.match('/logout', 'auth#logout');

@@ -12,7 +12,6 @@
     "async": "*",
     "express": "*",
     "mongodb": "*",
-    "supervisor":"*",
     "libxmljs":"*",
     "xdate":"*",
     "optimist":"*",
@@ -28,7 +27,8 @@
     "passport-http-bearer":"*",
     "oauth2orize":"*",
     "stylus": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "winston": "*"
   },
   "devDependencies": {
   },

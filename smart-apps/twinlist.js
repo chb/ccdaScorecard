@@ -1,5 +1,5 @@
 var fs = require("fs");
-var db = require("../config/config").db;
+var db = require("./config").db;
 var async = require("async");
 
 module.exports = function(app){

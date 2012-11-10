@@ -2,9 +2,9 @@ var locomotive = require('locomotive')
 , Controller = locomotive.Controller
 , config = require('../../config/config');
 
-var PagesController = new Controller();
+var CCDAReceiverController = new Controller();
 
-PagesController.main = function() {
+CCDAReceiverController.main = function() {
   this.title = 'SMART CCDA Receiver'
   this.render({
     user: this.req.user, 
@@ -13,4 +13,4 @@ PagesController.main = function() {
     port: config.publicPort
   });
 }
-module.exports = PagesController;
+module.exports = CCDAReceiverController;

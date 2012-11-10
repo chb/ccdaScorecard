@@ -1,0 +1,21 @@
+<% include partials/top.html %>
+<% include partials/authenticated-nav.html %>
+<script>
+  var user = <%- JSON.stringify(user)%>;
+  var host = <%- JSON.stringify(host)%>;
+  var port = <%- JSON.stringify(port)%>;
+  var baseUri = <%- JSON.stringify(baseUri)%>;
+</script>
+<script src="/static/angular/angular.js"></script>
+<script src="/static/abbi/modules.js"></script>
+<script src="/static/abbi/controllers.js"></script>
+<script src="/static/abbi/services.js"></script>
+<script src="/static/abbi/directives.js"></script>
+
+<div  >
+ABBI Manger.
+  <div ng-view>
+
+  </div>
+</div>
+<% include partials/bottom.html %>

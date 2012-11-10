@@ -1,5 +1,5 @@
 var locomotive = require('locomotive')
-
+, winston = require('winston')
 , Controller = locomotive.Controller
 , passport = require('passport')
 , model = require('../../lib/model')
@@ -10,7 +10,7 @@ var locomotive = require('locomotive')
 var AuthController = module.exports =  new Controller();
 
 AuthController.browserid = function() {
-  console.log("did bid auth" + JSON.stringify(this.req.user));
+  winston.info("did bid auth" + JSON.stringify(this.req.user));
   this.res.json(JSON.stringify(this.req.user));
 }
 AuthController.before('browserid', passport.authenticate('browserid'));
@@ -47,13 +47,13 @@ AuthController.before('launch', function(req, res, next){
   var server = this.__req.app.get('oauth2server');
 
   // attempt to short-circuit auth based on long-standing prefs
-  model.Token.checkForPriorAuthorization({
+  model.Authorization.checkForPriorAuthorization({
     user: req.user,
     app: req.oauth2.client,
     patient: req.oauth2.req.patient
   }, function(err, prior){
-    if (prior === true) { 
-      console.log("registered prior auth");
+    if (prior !== false) { 
+      winston.info("registered prior auth");
       // simulate the two necessary conditions of an approval decision
       req.oauth2.res = {allow: true};
       req.body.patient = req.oauth2.req.patient;
@@ -118,27 +118,35 @@ AuthController.before('decide', function(req, res, next){
 });
 
 AuthController.ensurePatientAccess = function() {
-  console.log("req pat ae", this.req.authInfo);
-  console.log("ensuring auth to query patient ", this.req.params.pid);
+  winston.info("req pat ae", this.req.authInfo);
+  winston.info("ensuring auth to query patient ", this.req.params.pid);
   var token = this.req.authInfo;
-  console.log("tolkenm", token);
-  if (this.req.authInfo.restrictions.scope.indexOf("patient") !== -1) {
-    if (this.req.authInfo.restrictions.patient !== this.req.params.pid){
-  console.log('wrong patietn by bearr', this.req.authInfo, this.req.params);
-      return this.next("Wrong patient");
+  if (this.req.authInfo.patient) {
+    if (this.req.authInfo.patient !== this.req.params.pid){
+  winston.info('wrong patietn by bearr', this.req.authInfo, this.req.params);
+      return this.next(new Error("Wrong patient"));
     }
   }
-  console.log('patient access OK by bearer token');
+  winston.info('patient access OK by bearer token');
   this.next(null);
 }
-AuthController.before("ensurePatientAccess", passport.authenticate('bearer', {session:false}));
 
-AuthController.ensureAuthenticated = function() {
-  console.log("ensuring auth to query patient ", this.req.params.pid);
+AuthController.before("ensurePatientAccess", 
+  passport.authenticate('oauth2Bearer', {session:false}));
+
+AuthController.ensurePatientAuthenticated = function() {
   if (this.req.isAuthenticated()){
     return this.next();
   }
-  this.res.render('login.ejs');
+  this.res.render('abbi/login.ejs');
+}
+
+AuthController.ensureAuthenticated = function() {
+  winston.info("ensuring auth to query patient ", this.req.params.pid);
+  if (this.req.isAuthenticated()){
+    return this.next();
+  }
+  this.res.render('ccda_receiver/login.ejs');
 }
 
 //TODO: complete
