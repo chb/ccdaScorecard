@@ -29,44 +29,27 @@ AuthController.before('getOAuth2Transaction', function(req, res, next){
   server.loadTransaction(req, res, next);
 });
 
-AuthController.launch = function() {
+AuthController.providerLaunch = function() {
   this.res.redirect('/ui/authorize?transaction_id='+this.req.oauth2.transactionID);
 }
 
-AuthController.before('launch', function(req, res, next){
-  var server = this.__req.app.get('oauth2server');
+AuthController.patientLaunch = function() {
+  this.res.redirect('/abbi/authorize?transaction_id='+this.req.oauth2.transactionID);
+}
+
+AuthController.findApp = function(){
+  var req = this.req, 
+  res = this.res, 
+  next = this.__next, 
+  server = this.__req.app.get('oauth2server');
+
   server.authorization(function(areq, done) {
     model.App.findOne({_id: areq.clientID}, function(err, app) {
       if (err) { return done(err); }
       return done(null, app, app.index);
     });
   })(req, res, next);
-});
-
-AuthController.before('launch', function(req, res, next){
-  var server = this.__req.app.get('oauth2server');
-
-  // attempt to short-circuit auth based on long-standing prefs
-  model.Authorization.checkForPriorAuthorization({
-    user: req.user,
-    app: req.oauth2.client,
-    patient: req.oauth2.req.patient
-  }, function(err, prior){
-    if (prior !== false) { 
-      winston.info("registered prior auth");
-      // simulate the two necessary conditions of an approval decision
-      req.oauth2.res = {allow: true};
-      req.body.patient = req.oauth2.req.patient;
-
-      return server.decision({
-        loadTransaction: false
-      }, onDecision)(req, res, next);
-    }
-    next();
-
-  });  
-});
-
+};
 
 AuthController.decide = function() {
   this.next(new Error(
@@ -123,7 +106,7 @@ AuthController.ensurePatientAccess = function() {
   var token = this.req.authInfo;
   if (this.req.authInfo.patient) {
     if (this.req.authInfo.patient !== this.req.params.pid){
-  winston.info('wrong patietn by bearr', this.req.authInfo, this.req.params);
+      winston.info('wrong patietn by bearr', this.req.authInfo, this.req.params);
       return this.next(new Error("Wrong patient"));
     }
   }
@@ -135,22 +118,30 @@ AuthController.before("ensurePatientAccess",
   passport.authenticate('oauth2Bearer', {session:false}));
 
 AuthController.ensurePatientAuthenticated = function() {
-  if (this.req.isAuthenticated()){
-    return this.next();
-  }
-  this.res.render('abbi/login.ejs');
-}
+    console.log(this.req.user);
+    if (!this.req.isAuthenticated()) {
+      return this.res.render('abbi/login.ejs');
+    }
 
-AuthController.ensureAuthenticated = function() {
-  winston.info("ensuring auth to query patient ", this.req.params.pid);
-  if (this.req.isAuthenticated()){
-    return this.next();
+    if (this.req.user.roles.indexOf("patient") === -1){
+      return this.res.redirect('forbidden');
+    }
+    return this.__next();
   }
-  this.res.render('ccda_receiver/login.ejs');
-}
 
-//TODO: complete
-AuthController.authorizeApp = function(){
-  var app = App.findOne(this.req.app);
-  var user = App.findOne(this.req.user);
-} 
+  AuthController.ensureProviderAuthenticated = function() {
+    winston.info("ensuring auth to query patient ", this.req.params.pid);
+    if (this.req.isAuthenticated() ){
+      return this.next();
+    }
+    if (this.req.isAuthenticated()){
+      this.req.logOut();
+    }
+    this.res.render('ccda_receiver/login.ejs');
+  }
+
+  //TODO: complete
+  AuthController.authorizeApp = function(){
+    var app = App.findOne(this.req.app);
+    var user = App.findOne(this.req.user);
+  } 

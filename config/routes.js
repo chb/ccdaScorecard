@@ -3,7 +3,7 @@
 module.exports = function routes() {
   this.root(function(req,res){res.redirect("/ui");});
 
-  this.match('/ui*', 'auth#ensureAuthenticated');
+  this.match('/ui*', 'auth#ensureProviderAuthenticated');
   this.match('/ui*', 'ccda_receiver#main');
 
   this.match('/abbi*', 'auth#ensurePatientAuthenticated');
@@ -13,11 +13,10 @@ module.exports = function routes() {
   this.match('/logout', 'auth#logout');
 
 
-  this.match('/internal/searchForPatients', 'auth#ensureAuthenticated');
+  this.match('/internal/searchForPatients', 'auth#ensureProviderAuthenticated');
   this.match('/internal/searchForPatients', 'patient#searchByTokens');
-  this.match('/internal/getOnePatient/:pid', 'auth#ensureAuthenticated');
+  this.match('/internal/getOnePatient/:pid', 'auth#ensureProviderAuthenticated');
   this.match('/internal/getOnePatient/:pid', 'patient#demographics');
-
   this.match('/internal/addPatient/:pid', 'patient#document', {via: 'post'});
 
   this.match('/patients/:pid*', 'auth#ensurePatientAccess', {via: 'all'});
@@ -40,8 +39,11 @@ module.exports = function routes() {
   this.match('/patients/:pid/documents/ccda', 
     'patient#document', {via:'post'});
 
-  this.match('/auth/launch-app', 'auth#ensureAuthenticated');
-  this.match('/auth/launch-app', 'auth#launch');
+  this.match('/auth/provider/launch-app', 'auth#findApp');
+  this.match('/auth/provider/launch-app', 'auth#providerLaunch');
+
+  this.match('/auth/patient/launch-app', 'auth#findApp');
+  this.match('/auth/patient/launch-app', 'auth#patientLaunch');
 
   this.match('/auth/txn-details', 'auth#getOAuth2Transaction');
   this.match('/auth/decide', 'auth#decide', {via: 'post'});
