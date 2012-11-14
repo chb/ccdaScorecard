@@ -59,9 +59,6 @@ var mongoVocabUrl = process.env.MONGOLAB_VOCAB_URI || generate_mongo_url(mongoVo
 var mongoRxnormUrl = process.env.MONGOLAB_RXNORM_URI || generate_mongo_url(mongoRxnorm); 
 var mongoAuthUrl = process.env.MONGOLAB_AUTH_URI || generate_mongo_url(mongoAuth); 
 
-var publicHost = process.env.publicHost || host;
-var publicPort = process.env.publicPort || port;
-
 var dbstate = new events.EventEmitter();
 
 function connectToDb(dburl, exportname){
@@ -86,11 +83,9 @@ function(err){
 
 module.exports = {
  	env: process.env.NODE_ENV || 'development',
-  port: port,
+  publicUri: process.env.PUBLIC_URI || "http://localhost:3000",
   host: host,
-  publicHost: publicHost,
-  publicPort: publicPort,
-  baseUri: "http://"+publicHost+":"+publicPort,
+  port: port,
   appServer: process.env.APP_SERVER || "http://localhost:3001/apps",
   db: {},
   dburls: {"auth": mongoAuthUrl },

@@ -7,8 +7,6 @@ Controller.main = function(req, res, next) {
   res.render('ccda_receiver/main',
     {
       user: req.user, 
-      baseUri: config.baseUri, 
-      host: config.publicHost, 
-      port: config.publicPort
+      publicUri: config.publicUri
     });
 };

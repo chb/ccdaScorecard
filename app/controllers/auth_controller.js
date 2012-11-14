@@ -67,7 +67,7 @@ function onDecision(req, done){
     return done(new Error("Patient doesn't match requested patient: " + startedWithPatient + " but ended with " + patient));
   }
 
-  var query = {server: config.baseUri};
+  var query = {server: config.publicUri};
   if (patient){
     query.patient = patient;
   }

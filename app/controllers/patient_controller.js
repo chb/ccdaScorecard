@@ -4,7 +4,7 @@ var passport = require('passport')
 , CCDAWriter = require("../../lib/ccda/writer")
 , ccda = require('../../lib/ccda/ccd');
 
-var base = config.baseUri;
+var base = config.publicUri;
 var Controller =  module.exports = {};
 
 function parseSort(s){

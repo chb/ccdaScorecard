@@ -2,7 +2,7 @@ angular.module('ccdaReceiver').factory('authorization', function() {
   return {
     transactionDetails: function(tid){
       return $.ajax({
-        url: baseUri + "/auth/txn-details", 
+        url: publicUri + "/auth/txn-details", 
         data:{ transaction_id: tid }
       });
     },
@@ -31,7 +31,7 @@ angular.module('ccdaReceiver').factory('patientSearch', function() {
   return {
     search: function(p){
       return $.ajax({
-        url: baseUri + "/internal/searchForPatients", 
+        url: publicUri + "/internal/searchForPatients", 
         data:{
           q:JSON.stringify(p.tokens),
           skip:p.skip,
@@ -39,7 +39,7 @@ angular.module('ccdaReceiver').factory('patientSearch', function() {
         }, dataType: "json"});
     },
     getOne: function(pid){
-      return $.ajax({url:baseUri+"/internal/getOnePatient/"+pid, dataType:"json"});
+      return $.ajax({url:publicUri+"/internal/getOnePatient/"+pid, dataType:"json"});
     }  
   };
 });
