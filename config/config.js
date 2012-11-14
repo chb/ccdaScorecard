@@ -91,6 +91,7 @@ module.exports = {
   publicHost: publicHost,
   publicPort: publicPort,
   baseUri: "http://"+publicHost+":"+publicPort,
+  appServer: process.env.APP_SERVER || "http://localhost:3001/apps",
   db: {},
   dburls: {"auth": mongoAuthUrl },
   dbstate: dbstate,

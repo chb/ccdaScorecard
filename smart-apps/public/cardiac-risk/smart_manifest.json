@@ -6,7 +6,7 @@
   "author" : "Design: McCandless & Posavec (informationisbeautiful.net).  Implementation: Arjun Sanyal.",
   "version" : ".1a",
   "mode" : "ui",
-  "scope" : "record",
+  "scope" : "patient",
   "index" :  "{{app-root}}/cardiac-risk/index.html",
   "icon" :  "{{app-root}}/cardiac-risk/icon.png"
 }

@@ -6,7 +6,7 @@
   "author" : "Nikolai Schwertner",
   "version" : ".1a",
   "mode" : "ui",
-  "scope" : "record",
+  "scope" : "patient",
   "index" :  "{{app-root}}/bp-centiles/index.html",
   "icon" :  "{{app-root}}/bp-centiles/icon.png"
 }

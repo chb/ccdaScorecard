@@ -4,62 +4,60 @@ var locomotive = require('locomotive')
 , passport = require('passport')
 , model = require('../../lib/model')
 , url = require('url')
-, config = require('../../config/config.js')
+, config = require('../../config')
 , qs = require('querystring');
 
-var AuthController = module.exports =  new Controller();
+var app = config.app;
+var oauthServer = app.get('oauth2server');
 
-AuthController.browserid = function() {
-  winston.info("did bid auth" + JSON.stringify(this.req.user));
-  this.res.json(JSON.stringify(this.req.user));
-}
-AuthController.before('browserid', passport.authenticate('browserid'));
-
-AuthController.logout = function() {
-  this.req.logOut();
-  this.res.redirect('/');
-}
-
-AuthController.getOAuth2Transaction = function(){
-  this.res.json(this.req.oauth2);
+var Controller =  module.exports = {};
+Controller.needLogin = function(view){
+  return function(req, res, next){
+    if (!req.user) {
+      return res.render(view);
+    }
+    next();
+  };
 };
 
-AuthController.before('getOAuth2Transaction', function(req, res, next){
-  var server = this.__req.app.get('oauth2server');
-  server.loadTransaction(req, res, next);
-});
+Controller.browseridresponse = function(req, res, next) {
+  winston.info("did bid auth" + JSON.stringify(req.user));
+  res.json(JSON.stringify(req.user));
+};
 
-AuthController.providerLaunch = function() {
-  this.res.redirect('/ui/authorize?transaction_id='+this.req.oauth2.transactionID);
+Controller.logout = function(req, res, next) {
+  req.logOut();
+  res.redirect('/');
 }
 
-AuthController.patientLaunch = function() {
-  this.res.redirect('/abbi/authorize?transaction_id='+this.req.oauth2.transactionID);
-}
+Controller.getOAuth2Transaction = [
+  oauthServer.loadTransaction,
+  function(req, res, next){
+    res.json(req.oauth2);
+  }
+];
 
-AuthController.findApp = function(){
-  var req = this.req, 
-  res = this.res, 
-  next = this.__next, 
-  server = this.__req.app.get('oauth2server');
 
-  server.authorization(function(areq, done) {
+Controller.launch = function(view) {
+  return [
+    findApp,
+    function(req, res, next) {
+      res.redirect(view + '?transaction_id='+req.oauth2.transactionID);
+    }
+  ];
+};
+
+var findApp = oauthServer.authorization(function(areq, done) {
     model.App.findOne({_id: areq.clientID}, function(err, app) {
       if (err) { return done(err); }
       return done(null, app, app.index);
     });
-  })(req, res, next);
-};
+  });
 
-AuthController.decide = function() {
-  this.next(new Error(
-  "Failed to handle request in oauth2orize middleware."));
-};
-
-AuthController.before('decide', function(req, res, next){
-  var server = this.__req.app.get('oauth2server');
-  server.loadTransaction(req, res, next);
-});
+Controller.decide = [
+  oauthServer.loadTransaction,
+  oauthServer.decision({loadTransaction: false}, onDecision)
+];
 
 function onDecision(req, done){
   var patient = req.body.patient;
@@ -90,58 +88,72 @@ function onDecision(req, done){
     patient: patient || "all", 
     scope: req.oauth2.req.scope || []
   });
-}
+};
 
-AuthController.before('decide', function(req, res, next){
-  var server = this.__req.app.get('oauth2server');
+Controller.tokenHasPatientAccess = [
+  passport.authenticate('oauth2Bearer', {session:false}),
+  function(req, res, next) {
 
-  // TODO the decision middleware passes token and state but not scope.
-  // to meet the spec, scope is required anytime it's changed.
-  server.decision({loadTransaction: false}, onDecision )(req, res, next);
-});
+    winston.info("req pat ae"+ req.authInfo);
+    winston.info("ensuring auth to query patient "+ req.params.pid);
 
-AuthController.ensurePatientAccess = function() {
-  winston.info("req pat ae", this.req.authInfo);
-  winston.info("ensuring auth to query patient ", this.req.params.pid);
-  var token = this.req.authInfo;
-  if (this.req.authInfo.patient) {
-    if (this.req.authInfo.patient !== this.req.params.pid){
-      winston.info('wrong patietn by bearr', this.req.authInfo, this.req.params);
-      return this.next(new Error("Wrong patient"));
+    var token = req.authInfo;
+    if (req.authInfo.patient) {
+      if (req.authInfo.patient === req.params.pid){
+        return next();
+      }
     }
+    else {
+      if (req.user.roles.indexOf("provider") !== -1){
+        return next();
+      }
+      if (req.user.authorizedForPatients && 
+        req.user.authorizedForPatients.indexOf(req.params.pid) !== -1) {
+          return next();
+
+        }
+    }
+    winston.info('NO patient access by bearer token');
+    return next(new Error("Wrong patient"));
   }
-  winston.info('patient access OK by bearer token');
-  this.next(null);
-}
+];
 
-AuthController.before("ensurePatientAccess", 
-  passport.authenticate('oauth2Bearer', {session:false}));
+Controller.needPatientAccess = function(req, res, next) {
+  winston.info("ensuring auth to query patient "+ req.params.pid);
 
-AuthController.ensurePatientAuthenticated = function() {
-    console.log(this.req.user);
-    if (!this.req.isAuthenticated()) {
-      return this.res.render('abbi/login.ejs');
-    }
-
-    if (this.req.user.roles.indexOf("patient") === -1){
-      return this.res.redirect('forbidden');
-    }
-    return this.__next();
+  if (req.user.roles.indexOf("provider") !== -1) {
+    return next();
   }
 
-  AuthController.ensureProviderAuthenticated = function() {
-    winston.info("ensuring auth to query patient ", this.req.params.pid);
-    if (this.req.isAuthenticated() ){
-      return this.next();
-    }
-    if (this.req.isAuthenticated()){
-      this.req.logOut();
-    }
-    this.res.render('ccda_receiver/login.ejs');
+  if (req.user.roles.indexOf("patient") !== -1){
+    if (req.user.authorizedForPatients && 
+      req.user.authorizedForPatients.indexOf(req.params.pid) !== -1) {
+        return next();
+      }
+      return next(new Error("no access to patient" + req.params.pid));
   }
 
-  //TODO: complete
-  AuthController.authorizeApp = function(){
-    var app = App.findOne(this.req.app);
-    var user = App.findOne(this.req.user);
-  } 
+  return next(new Error("no valid user roles"));
+};
+
+Controller.ensurePatientAuthenticated = function(req, res, next) {
+  console.log(req.user);
+  if (!req.isAuthenticated()) {
+    return res.render('abbi/login.ejs');
+  }
+
+  if (req.user.roles.indexOf("patient") === -1){
+    return res.redirect('forbidden');
+  }
+  return next();
+};
+
+Controller.needProvider = function(view){
+  return function(req, res, next) {
+    winston.info("ensuring auth to query patient ", req.params.pid);
+    if (req.isAuthenticated() && req.user.roles.indexOf("provider") !== -1){
+      return next();
+    }
+    res.render(view);
+  };
+};

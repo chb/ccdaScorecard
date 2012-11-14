@@ -1,9 +1,8 @@
 var fs = require("fs");
-var config = require('../config/config');
+var config = require('../config');
 var db = require('../lib/db');
 var model = require('../lib/model');
 
-var loadToken = loadModel(model.Token);
 var loadUser = loadModel(model.User);
 
 model.App.collection.drop();
@@ -11,26 +10,27 @@ var applist = ["bp-centiles", "cardiac-risk", "twinlist"];
 applist.forEach(loadApp);
 
 model.User.collection.drop();
-var userlist = [{_id: "jmandel@gmail.com", roles: ["admin", "provider"]}];
+var userlist =  [];
+
+userlist.push({_id: "jmandel@gmail.com", roles: ["admin", "provider"]});
+userlist.push({_id: "patient@dilute.net", roles: ["patient"], authorizedForPatients: ["1557780", "1137192"]});
+
 userlist.forEach(loadUser);
 
 model.Token.collection.drop();
-var tokenlist = [{
- _id: "abc",
- app: "bp-centiles",
- user: "jmandel@gmail.com"
-}];
-tokenlist.forEach(loadToken);
+model.Authorization.collection.drop();
 
 function loadApp(a){
   var manifest = fs.readFileSync( __dirname + "/../smart-apps/public/" + a + "/smart_manifest.json");
-  manifest = manifest.toString().replace(/{{app-root}}/g, config.baseUri + "/apps")
+  manifest = manifest.toString().replace(/{{app-root}}/g, config.appServer)
+  console.log(manifest);
   var app = new model.App(JSON.parse(manifest));
   app.save();
 };
 
 function loadModel(m){
   return function(v) {
+    console.log(v);
     var n = new m(v);
     n.save();
   };

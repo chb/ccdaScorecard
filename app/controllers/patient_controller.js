@@ -1,12 +1,11 @@
-var locomotive = require('locomotive')
-, Controller = locomotive.Controller
-, passport = require('passport')
-, config = require('../../config/config')
+var passport = require('passport')
+, config = require('../../config')
 , db = config.db
 , CCDAWriter = require("../../lib/ccda/writer")
 , ccda = require('../../lib/ccda/ccd');
 
 var base = config.baseUri;
+var Controller =  module.exports = {};
 
 function parseSort(s){
   var ret = {};
@@ -46,11 +45,8 @@ var OneDoc = function(collection, uri, req, res){
 
 var ALL='all';
 
-var PatientController = module.exports =  new Controller();
 
-PatientController.raw = function() {
-  var req = this.req, 
-  res = this.res;
+Controller.raw = function(req, res, next) {
   var uri = (base+req.url).match(/(.*)\/raw$/)[1];
   db.patients.collection("raw", function(err, collection) {
     console.log("rawdoc: " + JSON.stringify(uri));
@@ -61,9 +57,7 @@ PatientController.raw = function() {
   });
 };
 
-PatientController.entries = function() {
-  var req = this.req, 
-  res = this.res;
+Controller.entries = function(req, res, next) {
   console.log("||"+req.query.q+"||");
 
   var q = req.query.q || {};
@@ -78,9 +72,7 @@ PatientController.entries = function() {
   AllDocs(req.params.collection+"_"+req.params.subcollection, {q:q, limit: limit, skip: skip, sort: sort}, req, res);
 };
 
-PatientController.document = function() {
-  var req = this.req, 
-  res = this.res;
+Controller.document = function(req, res, next) {
   var p = {
     p: req.params.pid,
     r: req.query.r || true,
@@ -98,27 +90,18 @@ PatientController.document = function() {
     });
   });
 };
-PatientController.entry = function() {
-  var req = this.req, 
-  res = this.res;
+Controller.entry = function(req, res, next) {
   OneDoc(req.params.collection+"_"+req.params.subcollection, base+req.url, req, res);
 };
-PatientController.demographics = function() {
-  var req = this.req, 
-  res = this.res;
+Controller.demographics = function(req, res, next) {
   OneDoc("patients", base+'/patients/'+req.params.pid, req, res);
 };
 
-PatientController.links = function() {
-  var req = this.req, 
-  res = this.res;
+Controller.links = function(req, res, next) {
   OneDoc("links", (base+req.url).match(/(.*)\/links$/)[1], req, res);
 };
 
-PatientController.searchByTokens = function() {
-  var req = this.req, 
-  res = this.res;
-
+Controller.searchByTokens = function(req, res, next) {
   var q = JSON.parse(req.query.q || "[]");
   var limit = parseInt(req.query.limit) || 10;
   var skip = parseInt(req.query.skip) || 0;
@@ -137,6 +120,3 @@ PatientController.searchByTokens = function() {
   console.log(match, limit, skip);
   AllDocs("patients", {q:match, limit:limit, sort:{'name.family':1}, skip:skip},req, res);
 }
-console.log("CS", PatientController.searchByTokens);
-
-
