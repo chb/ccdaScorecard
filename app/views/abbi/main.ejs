@@ -2,18 +2,15 @@
 <% include partials/authenticated-nav.html %>
 <script>
   var user = <%- JSON.stringify(user)%>;
-  var host = <%- JSON.stringify(host)%>;
-  var port = <%- JSON.stringify(port)%>;
-  var baseUri = <%- JSON.stringify(baseUri)%>;
+  var publicUri = <%- JSON.stringify(publicUri)%>;
 </script>
 <script src="/static/angular/angular.js"></script>
+<script src="/static/smartBox/modules.js"></script>
+<script src="/static/smartBox/services.js"></script>
+<script src="/static/smartBox/directives.js"></script>
 <script src="/static/abbi/modules.js"></script>
 <script src="/static/abbi/controllers.js"></script>
-<script src="/static/abbi/services.js"></script>
-<script src="/static/abbi/directives.js"></script>
-
-<div  >
-ABBI Manger.
+<div ng-app="abbi" ng-controller="MainController" >
   <div ng-view>
 
   </div>

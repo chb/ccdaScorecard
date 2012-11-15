@@ -2,15 +2,19 @@ var locomotive = require('locomotive')
 , Controller = locomotive.Controller
 , config = require('../../config/config');
 
-var AbbiController = new Controller();
+var Controller = module.exports = {};
 
-AbbiController.main = function() {
-  this.title = 'SMART CCDA Receiver'
-  this.render({
-    user: this.req.user, 
-    baseUri: config.baseUri, 
-    host: config.publicHost, 
-    port: config.publicPort
+Controller.main = function(req, res, next) {
+  res.render('abbi/main',
+  {
+    user: req.user, 
+    publicUri: config.publicUri
   });
 }
-module.exports = AbbiController;
+
+Controller.wrongRole = function(req, res, next) {
+  res.render('abbi/wrong-role', {
+    user: req.user, 
+    publicUri: config.publicUri
+  });
+}

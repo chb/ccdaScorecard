@@ -1,4 +1,5 @@
 var express = require('express')
+, winston = require('winston')
 , poweredBy = require('connect-powered-by')
 , passport = require('passport')
 , https = require('https')
@@ -45,4 +46,5 @@ function launch() {
   require('./initializers/routes');
   
   app.listen(config.port);
+  winston.info("launched server on port " + config.port);
 };

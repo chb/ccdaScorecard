@@ -1,4 +1,4 @@
-angular.module('ccdaReceiver').directive('focusOnKey', function() {
+angular.module('smartBox').directive('focusOnKey', function() {
   var keyToElement = { };
   var listener = function(e){
     if (keyToElement[e.keyCode]){
@@ -19,7 +19,7 @@ angular.module('ccdaReceiver').directive('focusOnKey', function() {
   };
 });
 
-angular.module('ccdaReceiver').directive('clickOnKey', function() {
+angular.module('smartBox').directive('clickOnKey', function() {
   var keyToElement = { };
   var listener = function(e){
     if (!e.altKey){return;}

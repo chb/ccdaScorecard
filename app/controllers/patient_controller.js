@@ -97,6 +97,19 @@ Controller.demographics = function(req, res, next) {
   OneDoc("patients", base+'/patients/'+req.params.pid, req, res);
 };
 
+Controller.batchDemographics = function(req, res, next) {
+  var myPatients = [];
+
+  req.user.authorizedForPatients.forEach(function(p){
+    myPatients.push(base+'/patients/'+p);
+  });
+
+  AllDocs("patients", {
+    q:{_id: {"$in": myPatients}},
+    sort:{'name.family':1}
+    } ,req, res);
+};
+
 Controller.links = function(req, res, next) {
   OneDoc("links", (base+req.url).match(/(.*)\/links$/)[1], req, res);
 };

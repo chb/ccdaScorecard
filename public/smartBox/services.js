@@ -1,5 +1,8 @@
-angular.module('ccdaReceiver').factory('authorization', function() {
+angular.module('smartBox').factory('authorization', function() {
   return {
+    signOut: function(){
+          navigator.id.logout();
+    },
     transactionDetails: function(tid){
       return $.ajax({
         url: publicUri + "/auth/txn-details", 
@@ -27,7 +30,7 @@ angular.module('ccdaReceiver').factory('authorization', function() {
   };
 });
 
-angular.module('ccdaReceiver').factory('patientSearch', function() {
+angular.module('smartBox').factory('patientSearch', function() {
   return {
     search: function(p){
       return $.ajax({
@@ -44,7 +47,7 @@ angular.module('ccdaReceiver').factory('patientSearch', function() {
   };
 });
 
-angular.module('ccdaReceiver').factory('patient', function() {
+angular.module('smartBox').factory('patient', function() {
   return {
     id: function(p){
       if (!p || !p._id) return "noval";
@@ -54,6 +57,23 @@ angular.module('ccdaReceiver').factory('patient', function() {
       var ret = p.name.givens.join(" ");
       ret =  ret + " " + p.name.family;
       return ret;
+    }
+  };
+});
+
+angular.module('smartBox').factory('user', function() {
+  return {
+    getPatients: function(){
+      return $.ajax({
+        url:publicUri+"/internal/getPatients/"+user._id, 
+        dataType:"json"
+      });
+    },
+    getAuthorizations: function(){
+      return $.ajax({
+        url:publicUri+"/internal/getAuthorizations/"+user._id, 
+        dataType:"json"
+      });
     }
   };
 });

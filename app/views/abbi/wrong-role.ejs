@@ -1,0 +1,18 @@
+<% include partials/top.html %>
+<% include partials/authenticated-nav.html %>
+<script>
+  var user = <%- JSON.stringify(user)%>;
+  var publicUri = <%- JSON.stringify(publicUri)%>;
+</script>
+
+    <div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>Please sign in as a patient.</h1>
+      </div>
+
+      <% include partials/approw.html %>
+
+    </div> <!-- /container -->
+<% include partials/bottom.html %>

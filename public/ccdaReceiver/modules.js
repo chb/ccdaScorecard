@@ -1,4 +1,4 @@
-angular.module('ccdaReceiver', [], function($routeProvider, $locationProvider){
+angular.module('ccdaReceiver', ['smartBox'], function($routeProvider, $locationProvider){
 
   $routeProvider.when('/ui/select-patient', {
     templateUrl:'/static/ccdaReceiver/templates/select-patient.html',
@@ -18,5 +18,3 @@ angular.module('ccdaReceiver', [], function($routeProvider, $locationProvider){
   $locationProvider.html5Mode(true);
 
 });
-
-

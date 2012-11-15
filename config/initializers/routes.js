@@ -4,6 +4,7 @@ var app = config.app;
 
 var Auth = require('../../app/controllers/auth_controller');
 var CCDA = require('../../app/controllers/ccda_receiver_controller');
+var ABBI = require('../../app/controllers/abbi_controller');
 var Patient = require('../../app/controllers/patient_controller');
 
 app.get('/', function(req,res){ res.redirect("/ui"); });
@@ -19,14 +20,29 @@ app.all('/ui*',
   CCDA.main
 );
 
-app.all('/abbi*', 'auth#ensurePatientAuthenticated');
-app.all('/abbi*', 'abbi#main');
+app.all('/abbi*', 
+  Auth.needLogin('abbi/login'), 
+  Auth.needPatient(ABBI.wrongRole),
+  ABBI.main
+);
 
 app.all('/logout', Auth.logout);
 
 app.all('/internal/searchForPatients', 
   Auth.needLogin(),
   Patient.searchByTokens
+);
+
+app.get('/internal/getPatients/:uid', 
+  Auth.needLogin(),
+  Auth.needUserMatch,
+  Patient.batchDemographics
+);
+
+app.get('/internal/getAuthorizations/:uid', 
+  Auth.needLogin(),
+  Auth.needUserMatch,
+  Auth.getAuthorizations
 );
 
 app.get('/internal/getOnePatient/:pid', 

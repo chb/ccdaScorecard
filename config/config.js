@@ -48,10 +48,10 @@ var generate_mongo_url = function(obj){
   obj.port = (obj.port || 27017);
   obj.db = (obj.db || 'test');
   if(obj.username && obj.password){
-    return "mongodb://" + obj.username + ":" + obj.password + "@" + obj.hostname + ":" + obj.port + "/" + obj.db;
+    return "mongodb://" + obj.username + ":" + obj.password + "@" + obj.hostname + ":" + obj.port + "/" + obj.db + "?safe=true";
   }
   else{
-    return "mongodb://" + obj.hostname + ":" + obj.port + "/" + obj.db;
+    return "mongodb://" + obj.hostname + ":" + obj.port + "/" + obj.db + "?safe=true";
   }
 }
 var mongoPatientsUrl = process.env.MONGOLAB_PATIENTS_URI || generate_mongo_url(mongoPatients); 

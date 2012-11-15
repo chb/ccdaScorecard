@@ -1,0 +1,15 @@
+﻿<div ng-controller="UserStatsController" >
+    <h1><div class="step-bubble"><span>1</span></div>Your stats</small></h1>
+  <div ng-repeat="auth in authorizations">
+    <em> {{auth.created | date}}</em>
+    <img ng-src="{{auth.app.icon}}">
+    Authorized: <b>{{auth.app.name}}</b>
+    To access: <b>{{patientName(auth.patient)}}</b>
+    <br>
+    <button class='btn'>Revoke access from {{auth.app.name}}</button>
+    <hr>
+  </div>
+  <div id="patient-results" ng-include="'/static/abbi/templates/patient-search.html'">
+  </div>
+</div>
+

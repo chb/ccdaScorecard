@@ -27,7 +27,7 @@ Controller.browseridresponse = function(req, res, next) {
 
 Controller.logout = function(req, res, next) {
   req.logOut();
-  res.redirect('/');
+  res.redirect('back');
 }
 
 Controller.getOAuth2Transaction = [
@@ -48,11 +48,11 @@ Controller.launch = function(view) {
 };
 
 var findApp = oauthServer.authorization(function(areq, done) {
-    model.App.findOne({_id: areq.clientID}, function(err, app) {
-      if (err) { return done(err); }
-      return done(null, app, app.index);
-    });
+  model.App.findOne({_id: areq.clientID}, function(err, app) {
+    if (err) { return done(err); }
+    return done(null, app, app.index);
   });
+});
 
 Controller.decide = [
   oauthServer.loadTransaction,
@@ -118,6 +118,18 @@ Controller.tokenHasPatientAccess = [
   }
 ];
 
+Controller.needUserMatch = function(req, res, next) {
+  winston.info("ensuring user matches req");
+  if (req.params.uid === req.user._id){
+    return next();
+  } 
+
+  var e = new Error("User does not match request");
+  e.status = 403;
+
+  return next(e);
+};
+
 Controller.needPatientAccess = function(req, res, next) {
   winston.info("ensuring auth to query patient "+ req.params.pid);
 
@@ -148,12 +160,40 @@ Controller.ensurePatientAuthenticated = function(req, res, next) {
   return next();
 };
 
-Controller.needProvider = function(view){
-  return function(req, res, next) {
-    winston.info("ensuring auth to query patient ", req.params.pid);
-    if (req.isAuthenticated() && req.user.roles.indexOf("provider") !== -1){
-      return next();
-    }
-    res.render(view);
+Controller.needRole = function(role, view) {
+  return  function(view){
+    return function(req, res, next) {
+      winston.info("ensuring auth to query patient ", req.params.pid);
+      if (req.isAuthenticated() && req.user.roles.indexOf(role) !== -1){
+        return next();
+      }
+      if (typeof view === "function") {
+        return view(req, res, next);
+      } 
+      else if (typeof view === "string") {
+        return res.render(view);
+      } else if (typeof view === "object"){
+        if (view.redirect) {
+          return res.redirect(view.redirect);
+        } else if (view.render) {
+          return res.render(view.render); 
+        }
+      }
+    };
   };
+};
+
+Controller.needProvider = Controller.needRole("provider");
+Controller.needPatient = Controller.needRole("patient");
+Controller.needAdmin = Controller.needRole("admin");
+
+
+Controller.getAuthorizations = function(req, res, next){
+  model.Authorization
+    .find({user: req.params.uid},{_id: false})
+    .populate('app')
+    .exec(function(err, aa) {
+    if (err) {return next(err);}
+    return res.json(aa);
+  });
 };
