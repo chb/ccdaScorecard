@@ -23,7 +23,7 @@
 <script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
 <script src="https://browserid.org/include.js" type="text/javascript"></script>
 <script>
-  $(function(){
+  $(window).load(function(){
 
     $("#sign-out").click(function() {
       navigator.id.logout();
@@ -43,7 +43,7 @@
       loggedInUser: <% if (typeof user !== 'undefined') { %> 
         '<%=user._id%>' 
         <% } else { %>
-        null 
+        null
         <% } %>,
       onlogin: function(assertion) {
         $.post("/auth/browserid", {assertion: assertion})
@@ -54,6 +54,11 @@
       onlogout: function() {
         console.log("onlogout called");
         window.location="/logout";
+      },
+      onready: function(){
+      <% if (typeof logout !== "undefined") { %>
+        navigator.id.logout();
+      <% }%>
       }
     });
   });
