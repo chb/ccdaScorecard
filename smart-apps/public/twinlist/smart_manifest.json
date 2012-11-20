@@ -7,6 +7,6 @@
   "version" : ".1a",
   "mode" : "ui",
   "scope" : "patient",
-  "index" :  "{{app-root}}/bp-centiles/index.html",
-  "icon" :  "{{app-root}}/bp-centiles/icon.png"
+  "index" :  "{{app-root}}/twinlist/html/twinlist.html",
+  "icon" :  "{{app-root}}/twinlist/icon.png"
 }

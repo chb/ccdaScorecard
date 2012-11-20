@@ -43,8 +43,9 @@ function connectToDb(dburl, exportname){
   };
 };
 
-connectToDb(mongoRxnormUrl, "rxnorm", function(err){
+connectToDb(mongoRxnormUrl, "rxnorm")(function(err){
   dbstate.emit("ready");
+  console.log("ready", mongoRxnormUrl);
   dbstate.on = function(x, f){if (x==="ready") f();};
 });
 

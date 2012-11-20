@@ -7,9 +7,10 @@ function extractData() {
   p.hsCRP = {};
 
   var get_demographics  = $.ajax({
-    method: "get",
+    type: "get",
     url: SMART.server + "/patients/"+SMART.patient,
-    dataType:"json"
+    dataType:"json",
+    data: {access_token: SMART.auth.access_token}
   }).success(function(demos){
 
     p.givenName = {value:demos.name.givens.join(" ")};
@@ -50,10 +51,19 @@ function extractData() {
   }
 
   var get_labs = $.ajax({
-    method: "get",
+    type: "get",
     url: SMART.server + "/patients/"+SMART.patient + "/entries/results",
-    data: {q: {"resultName.code": {"$in":["30522-7", "2093-3", "2085-9", "8470-6"]}}},
-  dataType:"json"}).success(function(labs){
+    data: {
+      access_token: SMART.auth.access_token,
+      q: {
+        "resultName.code": {"$in":[
+          "30522-7", "2093-3", "2085-9", "8470-6"
+        ]
+        }
+      }
+    },
+    dataType:"json"
+  }).success(function(labs){
 
 
     var $labs = SMART.selector(labs);
@@ -68,9 +78,9 @@ function extractData() {
     $labs.byCode("http://purl.bioontology.org/ontology/LNC/2085-9").forEach(function(HDL){
       p.HDL = HDL.physicalQuantity;
     });
-  
+
     try {
-       p.LDL = {value: p.cholesterol.value - p.HDL.value};
+      p.LDL = {value: p.cholesterol.value - p.HDL.value};
     } catch (e) { }
 
     p.smoker_p = {'value': false};
@@ -79,9 +89,10 @@ function extractData() {
   });
 
   var get_vitals = $.ajax({
-    method: "get",
+    type: "get",
     url: SMART.server + "/patients/"+SMART.patient + "/entries/vitals",
     data: {
+      access_token: SMART.auth.access_token,
       q: {"vitalName.uri": "http://purl.bioontology.org/ontology/LNC/8480-6"},
         sort: {"measuredAt.point": -1},
         limit: 1

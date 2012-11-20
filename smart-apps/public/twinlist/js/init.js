@@ -4,8 +4,10 @@ $(function() {
   var jsonSource = utils.qs["json_src"];
 
   $.ajax({
+    type: "get",
     url: SMART.server + "/patients/"+SMART.patient+"/sections/medications",
-    dataType:"json"
+    dataType:"json",
+    data: {access_token: SMART.auth.access_token}
   }).success(function(medLists) {
     medLists.sort(function(a,b){
       a = a.medicationsPrescribed;
