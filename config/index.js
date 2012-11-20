@@ -18,6 +18,7 @@ function launch() {
   app.use(express.logger());
   app.use(express.favicon());
 
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.use('/static', express.static(__dirname + '/../public'));
 
   app.use (function(req, res, next) {

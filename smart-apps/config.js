@@ -4,7 +4,7 @@ var Server = require('mongodb').Server;
 var events = require('events');
 var async = require('async');
 
-var port = (process.env.VMC_APP_PORT || 3000);
+var port = (process.env.VMC_APP_PORT || 3001);
 var host = (process.env.VCAP_APP_HOST || 'localhost');
 
 var mongoRxnorm = {

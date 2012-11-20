@@ -4,6 +4,7 @@ var passport = require('passport')
 , BearerStrategy = require('passport-http-bearer').Strategy
 , model = require('../../lib/model.js')
 , uuid = require('node-uuid')
+, ObjectID = require('mongodb').ObjectID
 , oauth2orize = require('oauth2orize')
 , transactionLoader = require('../../node_modules/oauth2orize/lib/middleware/transactionLoader');
 
@@ -25,27 +26,28 @@ server.deserializeClient(function(_id, done) {
 });
 
 server.grant(oauth2orize.grant.token(function(client, user, ares, done) {
-  winston.log("new token for ", user);
+  winston.info("new token for ", user);
 
   var baseAuth = {
     app: client._id,
     user: user._id,
+    patient: "all"
   }
+
   if (ares.patient){
-    baseAuth.patient = ares.patient
+    baseAuth.patient = ares.patient;
   }
 
-  model.Authorization.checkForPriorAuthorization(baseAuth, 
+  model.Authorization.findOneAndUpdate(
+ // workaroud https://jira.mongodb.org/browse/SERVER-1351
+    {_id: JSON.stringify(baseAuth)},
+    {"$set": baseAuth},
+    {upsert: true},
     function(err, newAuth){
-      if (newAuth === false){
-        newAuth = new model.Authorization(baseAuth);
-        newAuth.save(generateToken);
-      } else {
-        generateToken(null, newAuth);
-      }
-
-      function generateToken(err, newAuth) {
-        console.log(err, 'created/found auth', newAuth);
+        if (err){
+          throw new Error("Couldn't create an authorization: " + err);
+        }
+        winston.info('created/found auth'+ newAuth);
         var t = new model.Token({
           _id: uuid.v4(),
           authorization: newAuth._id,
@@ -56,11 +58,8 @@ server.grant(oauth2orize.grant.token(function(client, user, ares, done) {
           if (err) { return done(err); }
           done(null, t._id);
         });
-        console.log("Saving a new token!",  t);
-      };
-
+        winston.info("Saving a new token!"+ t);
     });
-
 }));
 
 // bulk up the request representation by including the patient
@@ -88,7 +87,7 @@ passport.use('oauth2Bearer', new BearerStrategy(
         winston.info("looked for"+ accessToken+ token+ authorization);
         if (err) { return done(err); }
         if (!token) { return done(null, false); }
-        winston.log("A gret sucess", token);
+        winston.info("A gret sucess", token);
         done(null, authorization.user, authorization);
       });
     });

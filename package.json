@@ -4,14 +4,15 @@
   "description": "Import CCDA -> JSON.  Then serve resources over a RESTful API",
   "author": "Josh Mandel <joshua.mandel@childrens.harvard.edu>",
   "scripts":{
-    "start": "node ./server.js"
+   "start": "node ./launch.js"
   },
   "dependencies": {
+    "bson": "*",
     "locomotive": "0.3.x",
     "connect-powered-by": "0.1.x",
     "async": "*",
     "express": "*",
-    "mongodb": "*",
+    "mongodb": "git://github.com/jmandel/node-mongodb-native.git#87fa2b206e399a6a9e8ffd07df243d979e363918",
     "libxmljs":"*",
     "xdate":"*",
     "optimist":"*",
