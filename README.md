@@ -1,27 +1,36 @@
 Exploratory mapping of Consolidated CDA data to JSON, with a goal of preserving
 CCDA's data model (but applying friendly names to properties whenever possible).
 
-Inspired by popHealth's approach to mapping C32 (+ stronger linked data flavor)
+Inspired by popHealth's approach to mapping C32 (+ more Linked Data flavor)
 
 Setup
 ```
-$ git clone https://github.com/jmandel/json_ccda
+$ git clone https://github.com/chb/json_ccda
 $ cd json_ccda
 $ npm install
+$ cd smart-apps
+$ npm install
 ```
-Launching servers:
+
+Launching API server:
 ```
-$ ./node_modules/.bin/supervisor lib/servers.js
+$ node launch.js
+```
+
+Launching App server:
+```
+$ cd son_ccda/smart-apps
+$ node launch.js
 ```
 
 Convert a CCD to JSON, without loading into DB:
 ```
-$ node lib/ccda/import.py -f CCD.sample.xml -p 123  --stdout > sample_ccda.json
+$ node lib/ccda/import.js -f CCD.sample.xml -p 123  --stdout > sample_ccda.json
 ```
 
 Convert and load into MongoDB:
 ```
-$ node lib/ccda/import.py -f CCD.sample.xml -p 123 -m  
+$ node lib/ccda/import.js -f CCD.sample.xml -p 123 --mongo-db
 ```
 
 Load a CCDA via HTTP POST:
