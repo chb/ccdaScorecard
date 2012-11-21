@@ -35,7 +35,7 @@ var dbstate = new events.EventEmitter();
 
 function connectToDb(dburl, exportname){
   return function(cb){
-    mongodb.connect(dburl, {server: {auto_reconnect: true}}, function(err, conn){ 
+    mongodb.connect(dburl, {db: {safe: true}, server: {auto_reconnect: true}}, function(err, conn){ 
       module.exports.db[exportname] = conn;
       cb(err);
     });
