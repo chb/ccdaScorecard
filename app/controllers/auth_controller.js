@@ -1,6 +1,4 @@
-var locomotive = require('locomotive')
-, winston = require('winston')
-, Controller = locomotive.Controller
+var winston = require('winston')
 , passport = require('passport')
 , model = require('../../lib/model')
 , url = require('url')

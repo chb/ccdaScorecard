@@ -21,6 +21,17 @@ function launch() {
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.use('/static', express.static(__dirname + '/../public'));
 
+  app.enable('trust proxy');
+
+  app.use (function(req, res, next) {
+    winston.info("protocol: " + req.protocol);
+    if (!req.secure && config.publicUri.match(/^https/)) {
+      winston.info("redirecting to secure: " + req.originalUrl);
+      return res.redirect(config.publicUri + req.originalUrl);
+    }
+    next();
+  });
+
   app.use (function(req, res, next) {
     req.rawBody = '';
     req.setEncoding('utf8');

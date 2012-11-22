@@ -1,6 +1,4 @@
-var locomotive = require('locomotive')
-, Controller = locomotive.Controller
-, config = require('../../config/config');
+var config = require('../../config/config');
 
 var Controller = module.exports = {};
 
