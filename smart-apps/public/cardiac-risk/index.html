@@ -25,7 +25,8 @@
 
     <script>
 
-      extractData().then(function(p){
+      extractData().done(function(p){
+      console.log(p);
         var missing_data_array = report_missing_data(p);
         if (missing_data_array.length > 0) {
           $('#errors')

@@ -8,26 +8,41 @@
     $.extend(params, ret);
   });
 
-  var SMART = window.SMART = {};
+  var SMART = window.SMART || (window.SMART = {debug: true});
 
   SMART.selector = function(doc){
+    return new selector(doc); 
+  };
 
-    var match = function(s){
-      return JSONSelect.match(s, doc);
-    };
-    var forEach =function(s, cb){
-      return JSONSelect.forEach(s, doc, cb);
-    };
-    var byCode = function(uri){
-      return match(':has(:root > :root >  .uri:val("'+uri+'"))'); 
+  function selector(doc){
+    this.doc = doc;
+  };
+
+  selector.prototype.match = function(s){
+    return JSONSelect.match(s, this.doc);
+  };
+
+  selector.prototype.forEach =function(s, cb){
+    return JSONSelect.forEach(s, this.doc, cb);
+  };
+
+  selector.prototype.byCode = function(p){
+
+    var match, clauses = [];
+
+    function clause(v){
+      clauses.push(':has( :root >  .'+v+':val("'+p[v]+'"))');
     };
 
-    return {
-      doc: doc,
-      match: match,
-      forEach: forEach,
-      byCode: byCode
-    };
+    ['uri', 'systemName', 'code'].forEach(function(v){
+      if (p[v]){
+        clause(v);
+      }
+    });
+
+    match = ':has(:root > '+clauses.join('')+' )';
+
+    return this.match(match); 
   };
 
   var oauthResult = window.location.hash.match(/#(.*)/);
@@ -43,6 +58,9 @@
   SMART.patient = decodeURIComponent(params.patient);
   SMART.server = decodeURIComponent(params.server);
 
-//  window.location.hash="";
+  // don't expose hash in the URL while in production mode
+  if (SMART.debug !== true) {
+    window.location.hash="";
+  }
 
 }(window));

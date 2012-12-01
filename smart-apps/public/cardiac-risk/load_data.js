@@ -56,26 +56,24 @@ function extractData() {
     data: {
       access_token: SMART.auth.access_token,
       q: {
-        "resultName.code": {"$in":[
-          "30522-7", "2093-3", "2085-9", "8470-6"
-        ]
+        "resultName.code":{
+          "$in":["30522-7", "2093-3", "2085-9", "8470-6"]
         }
       }
     },
     dataType:"json"
   }).success(function(labs){
 
-
     var $labs = SMART.selector(labs);
-    $labs.byCode("http://purl.bioontology.org/ontology/LNC/30522-7").forEach(function(hscrp){
+    $labs.byCode({code:"30522-7"}).forEach(function(hscrp){
       p.hsCRP = hscrp.physicalQuantity;
     });
 
-    $labs.byCode("http://purl.bioontology.org/ontology/LNC/2093-3").forEach(function(cholesterol){
+    $labs.byCode({code:"2093-3"}).forEach(function(cholesterol){
       p.cholesterol = cholesterol.physicalQuantity;
     });
 
-    $labs.byCode("http://purl.bioontology.org/ontology/LNC/2085-9").forEach(function(HDL){
+    $labs.byCode({code:"2085-9"}).forEach(function(HDL){
       p.HDL = HDL.physicalQuantity;
     });
 
@@ -94,11 +92,11 @@ function extractData() {
     data: {
       access_token: SMART.auth.access_token,
       q: {"vitalName.uri": "http://purl.bioontology.org/ontology/LNC/8480-6"},
-        sort: {"measuredAt.point": -1},
-        limit: 1
+      sort: {"measuredAt.point": -1},
+      limit: 1
     },
-  dataType:"json"})
-  .success(function(sbp){
+    dataType:"json"
+  }).success(function(sbp){
 
     if (sbp.length === 1){
       p.sbp = sbp[0].physicalQuantity;
@@ -106,6 +104,7 @@ function extractData() {
     else {
       p.sbp = {'value': 120}
     }
+    console.log(p.sbp);
   });
 
 
@@ -113,6 +112,7 @@ function extractData() {
 
   $.when(get_demographics, get_vitals, get_labs)
   .then( function () {
+    console.log(p);
     d.resolve(p);
   },
   function (message) {

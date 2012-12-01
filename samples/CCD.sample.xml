@@ -864,6 +864,7 @@ PROBLEM LIST
 -->
 			<component>
 				<section>
+					<templateId root="2.16.840.1.113883.10.20.22.2.5.1"/>
 					<templateId root="2.16.840.1.113883.10.20.22.2.5"/>
 					<code code="11450-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="PROBLEM LIST"/>
 					<title>PROBLEMS</title>
@@ -2203,7 +2204,7 @@ SOCIAL HISTORY
 					</text>
 					<entry typeCode="DRIV">
 						<observation classCode="OBS" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.38"/>
+							<templateId root="2.16.840.1.113883.10.20.22.4.78"/>
 							<!--  ********  Social history observation template   ******** -->
 							<id root="9b56c25d-9104-45ee-9fa4-e0f3afaa01c1"/>
 							<code code="230056004" codeSystem="2.16.840.1.113883.6.96" displayName="Cigarette smoking">

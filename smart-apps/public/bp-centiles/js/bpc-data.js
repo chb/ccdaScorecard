@@ -39,12 +39,10 @@ if (!BPC) {
     dataType:"json"})
     .success(function(demos) {
       var d = {
-
         name: demos.name.givens.join(" ") + " "+  demos.name.family,
         gender: demos.gender.toLowerCase(),
         birthday: demos.birthTime
       };
-      console.log(d);
       dfd.resolve(d);
     })
     .error(function(e) {
@@ -81,7 +79,7 @@ if (!BPC) {
       var $vitals = SMART.selector(vitals_organizers);
       window.$vitals = $vitals;
 
-      $vitals.byCode("http://purl.bioontology.org/ontology/LNC/8302-2")
+      $vitals.byCode({code:"8302-2", systemName:"LOINC"})
         .forEach(function(height){
           if (height.physicalQuantity.unit !== "m") {throw "unknown units" + height;}
           vitals.heightData.push({
@@ -89,11 +87,10 @@ if (!BPC) {
             height: height.physicalQuantity.value
           }); 
         });
-
       vitals_organizers.forEach(function(o){
         var $o = SMART.selector(o);
-        var systolic = $o.byCode("http://purl.bioontology.org/ontology/LNC/8480-6");
-        var diastolic = $o.byCode("http://purl.bioontology.org/ontology/LNC/8462-4");
+        var systolic = $o.byCode({code:"8480-6", systemName:"LOINC"});
+        var diastolic = $o.byCode({code:"8462-4", systemName:"LOINC"});
 
         if (systolic.length !== 1 || diastolic.length !== 1){
           return;
@@ -120,7 +117,7 @@ if (!BPC) {
         });
 
       });
-      console.log(vitals);
+
         dfd.resolve(vitals);
     })
     .error(function(e) {
