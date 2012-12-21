@@ -7,15 +7,6 @@ var async = require('async');
 var port = (process.env.VMC_APP_PORT || 3000);
 var host = (process.env.VCAP_APP_HOST || 'localhost');
 
-var mongoPatients = {
-  "hostname":"localhost",
-  "port":27017,
-  "username":"",
-  "password":"",
-  "name":"",
-  "db":"ccda_receiver"
-}
-
 var mongoVocab = {
   "hostname":"localhost",
   "port":27017,
@@ -25,22 +16,13 @@ var mongoVocab = {
   "db":"vocab"
 }
 
-var mongoRxnorm = {
+var mongoCcdaScorecard = {
   "hostname":"localhost",
   "port":27017,
   "username":"",
   "password":"",
   "name":"",
-  "db":"rxnorm"
-}
-
-var mongoAuth = {
-  "hostname":"localhost",
-  "port":27017,
-  "username":"",
-  "password":"",
-  "name":"",
-  "db":"auth"
+  "db":"ccdaScorecard"
 }
 
 var generate_mongo_url = function(obj){
@@ -54,10 +36,8 @@ var generate_mongo_url = function(obj){
     return "mongodb://" + obj.hostname + ":" + obj.port + "/" + obj.db + "?safe=true";
   }
 }
-var mongoPatientsUrl = process.env.MONGOLAB_PATIENTS_URI || generate_mongo_url(mongoPatients); 
 var mongoVocabUrl = process.env.MONGOLAB_VOCAB_URI || generate_mongo_url(mongoVocab); 
-var mongoRxnormUrl = process.env.MONGOLAB_RXNORM_URI || generate_mongo_url(mongoRxnorm); 
-var mongoAuthUrl = process.env.MONGOLAB_AUTH_URI || generate_mongo_url(mongoAuth); 
+var mongoCcdaScorecardUrl = process.env.MONGOLAB_CCDA_SCORECARD_URI || generate_mongo_url(mongoCcdaScorecard); 
 
 var dbstate = new events.EventEmitter();
 
@@ -68,6 +48,7 @@ function connectToDb(dburl, exportname){
       server: {auto_reconnect: true}
     }, function(err, conn){ 
       module.exports.db[exportname] = conn;
+      console.log(dburl, Object.keys( module.exports.db));
       cb(err);
     });
 
@@ -75,9 +56,8 @@ function connectToDb(dburl, exportname){
 };
 
 async.parallel([
-  connectToDb(mongoPatientsUrl, "patients"),
   connectToDb(mongoVocabUrl, "vocab"),
-  connectToDb(mongoRxnormUrl, "rxnorm"),
+  connectToDb(mongoCcdaScorecardUrl, "ccdaScorecard"),
 ],
 function(err){
   dbstate.emit("ready");
@@ -86,12 +66,11 @@ function(err){
 
 module.exports = {
  	env: process.env.NODE_ENV || 'development',
-  publicUri: process.env.PUBLIC_URI || "http://localhost:3000",
-  host: host,
   port: port,
+  host: host,
+  publicUri: process.env.PUBLIC_URI || "http://localhost:3000",
   appServer: process.env.APP_SERVER || "http://localhost:3001/apps",
   db: {},
-  dburls: {"auth": mongoAuthUrl },
   dbstate: dbstate,
   shutdown: function(){
     Object.keys(module.exports.db).forEach(function(k){

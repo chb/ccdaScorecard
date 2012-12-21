@@ -1,0 +1,14 @@
+{
+  "id": "problemstatus",
+  "description": "Determine whether problem status is expressed consistently",
+  "bestPractice": "Each concern act should contain exactly one problem.  If the concern act status code is 'completed', the problem should have a status observation with a value of 'Resolved' or 'Inactive'.  If the concern act status code is 'active', the problem should have a status observation with a value of 'Active'.",
+  "grades": {
+    "N/A": "Empty problem list",
+    "P": "Each problem has consistent active/complete status",
+    "F": "Some problems have inconsistent active/complete status"
+  },
+  "ranges": [
+    [1, 1, "P"],
+    [0, 1, "F"]
+  ]
+}

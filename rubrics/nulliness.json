@@ -1,0 +1,21 @@
+{
+  "id": "nulliness",
+  "description": "Measures the prevalence of nullFlavor codes across an entire C-CDA",
+  "bestPractice": "High-quality data are *coded* data. Codes should codes, not 'nullFlavor'",
+  "computes": "Ratio of (nullFlavor : nullFlavor + code) usage",
+  "grades": {
+    "A": "> 90% of codes have a non-null value",
+    "B": "> 80% of codes have a non-null value",
+    "C": "> 70% of codes have a non-null value",
+    "D": "> 60% of codes have a non-null value",
+    "F": "< 60% of codes have a non-null value",
+    "N/A": "No codes or nullFlavor used in the entire document. Unlikely..."
+  },
+  "ranges": [
+    [0.9, 1.0, "A"],
+    [0.8, 0.9, "B"],
+    [0.7, 0.8, "C"],
+    [0.6, 0.7, "D"],
+    [0, 0.6, "F"]
+  ]
+}

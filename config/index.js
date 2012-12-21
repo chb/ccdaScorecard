@@ -53,9 +53,7 @@ function launch() {
   app.use(passport.session());
   app.use(app.router);
 
-  require('./initializers/passport');
-  require('./initializers/oauth2');
-  require('./initializers/routes');
+  require('../routes');
   
   app.listen(config.port);
   winston.info("launched server on port " + config.port);

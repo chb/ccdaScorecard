@@ -3,9 +3,11 @@ from mustaine.client import HessianProxy
 import mustaine
 from pymongo import Connection
 
+PAGESIZE = 500
+
 connection = Connection()
 db = connection.vocab
-value_set_concepts = db.value_set_concepts
+value_set_concepts = db.valueSetConcepts
 
 service = HessianProxy("http://phinvads.cdc.gov/vocabService/v2")
 
@@ -23,7 +25,7 @@ def toBSON(o):
     return ret
 
 codeSystems = {}
-for cs in db.code_systems.find({}):
+for cs in db.codeSystems.find({}):
     codeSystems[cs['oid']] = cs
 
 def getCodeSystem(s):
@@ -33,10 +35,9 @@ def getCodeSystem(s):
     c = service.getCodeSystemByOid(s)
     assert c.totalResults == 1, "Got != 1 code system result for oid %s"%s
     codeSystems[s] = toBSON(c.codeSystems[0])
-    db.code_systems.insert(codeSystems[s])
+    db.codeSystems.insert(codeSystems[s])
     return codeSystems[s]
 
-PAGESIZE = 500
 def fetchValueSet(vsoid):
     versions = service.getValueSetVersionsByValueSetOid(vsoid)
     vsid = sorted(versions.valueSetVersions, key=lambda x: x.versionNumber)[-1].id

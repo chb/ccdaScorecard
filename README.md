@@ -3,6 +3,12 @@ CCDA's data model (but applying friendly names to properties whenever possible).
 
 Inspired by popHealth's approach to mapping C32 (+ more Linked Data flavor)
 
+Requirements:
+* Ubuntu >=12.04
+* Mongodb >=2.2
+* nodejs >=v0.8
+* libxml2 and libxml2-dev
+
 Setup
 ```
 $ git clone https://github.com/chb/json_ccda

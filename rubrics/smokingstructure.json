@@ -1,0 +1,13 @@
+{
+  "id": "smokingstructure",
+  "description": "Ensures that smoking status is only recorded with discrete 'smoking status observation' elements.",
+  "bestPractice": "Smoking status should be recorded in a discrete 'smoking status observation', not in the more generic, less-computable 'social history observation'.",
+  "grades": {
+    "P": "Smoking status is recorded in a discrete observation",
+    "F": "Smoking status is not recorded in a discrete observation"
+  },
+  "ranges": [
+    [1, 1, "P"],
+    [0, 1, "F"]
+  ]
+}

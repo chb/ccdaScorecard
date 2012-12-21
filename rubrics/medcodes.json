@@ -1,0 +1,19 @@
+{
+  "id": "medcodes",
+  "description": "Percentage of medications that have an RxNorm Semantic Clinical Drug code.",
+  "bestPractice": "C-CDA medication lists should contain medications coded as RxNorom Semantic Clinical Drugs. This means (for example) products on the level of 'loratadine 10mg oral tablet'.",
+  "grades": {
+    "A": "> 90% of medications have an RxNorm SCD code",
+    "B": "> 80% of medications have an RxNorm SCD code",
+    "C": "> 70% of medications have an RxNorm SCD code",
+    "D": "> 60% of medications have an RxNorm SCD code",
+    "F": "< 60% of medications have an RxNorm SCD code"
+  },
+  "ranges": [
+    [0.9, 1.0, "A"],
+    [0.8, 0.9, "B"],
+    [0.7, 0.8, "C"],
+    [0.6, 0.7, "D"],
+    [0, 0.6, "F"]
+  ]
+}

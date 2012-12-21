@@ -1,0 +1,20 @@
+{
+  "id": "problemcodes",
+  "description": "Determine whether problems are coded with the recommended SNOMED subset.",
+  "bestPractice": "Each problem in the problem list should be coded with a SNOMED code from the HITSP Problem List valueset (OID 2.16.840.1.113883.3.88.12.3221.7.4).",
+  "grades": {
+    "N/A": "Empty problem list",
+    "A": ">90% of problems have an appropriate SNOMED code",
+    "B": "75-90% of problems have an appropriate SNOMED code",
+    "C": "50-75% of problems have an appropriate SNOMED code",
+    "D": "30-50% of problems have an appropriate SNOMED code",
+    "F": "<30% of problems have an appropriate SNOMED code"
+  },
+  "ranges": [
+    [0.9, 1, "A"],
+    [0.75, 0.9, "B"],
+    [0.5, 0.75, "C"],
+    [0.3, 0.5, "D"],
+    [0, 0.3, "F"]
+  ]
+}

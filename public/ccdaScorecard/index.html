@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SMART C-CDA Scorecard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Le styles -->
+<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+<script src="/static/bootstrap/js/jquery.js"></script>
+<style type="text/css">
+body {
+  padding-top: 60px;
+  overflow-y: scroll;
+}
+#pasteHere {
+  width: 100%
+}
+.comparison {margin-bottom: 20px;}
+.grade {margin-right: 10px;}
+
+</style>
+<link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<!-- Le fav and touch icons -->
+<link rel="shortcut icon" href="/static/bootstrap/ico/favicon.ico">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/bootstrap/ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/bootstrap/ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/bootstrap/ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="/static/bootstrap/ico/apple-touch-icon-57-precomposed.png">
+</head>
+
+<body>
+<div class="container">
+
+
+  <div class="navbar navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="#">SMART C-CDA Scorecard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <div class="hero-unit">
+      <h1>Your C-CDA.  Beautiful.</h1>
+    </div>
+
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="span12">
+        <h2>Paste and go.</h2>
+        <textarea AUTOFOCUS id="pasteHere" placeholder="Your C-CDA here"></textarea><br>
+        <button id="scoreMe" class="btn">Score me!</button>
+        <button id="example" class="btn">Show me an example</button>
+      </div>
+    </div>
+
+    <div id="feedbackSection" class="row">
+      <div class="span12">
+        <h2>Your scorecard</h2>
+        <div id="scorecard">
+
+        </div>
+      </div>
+    </div>
+  </div> <!-- /container -->
+</div>
+<div class="container">
+  <hr>
+  <footer>
+    <p>&copy; Harvard Medical School / Boston Children's Hospital, 2012</p>
+  </footer>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/static/bootstrap/js/bootstrap-transition.js"></script>
+<script src="/static/bootstrap/js/bootstrap-alert.js"></script>
+<script src="/static/bootstrap/js/bootstrap-modal.js"></script>
+<script src="/static/bootstrap/js/bootstrap-dropdown.js"></script>
+<script src="/static/bootstrap/js/bootstrap-scrollspy.js"></script>
+<script src="/static/bootstrap/js/bootstrap-tab.js"></script>
+<script src="/static/bootstrap/js/bootstrap-tooltip.js"></script>
+<script src="/static/bootstrap/js/bootstrap-popover.js"></script>
+<script src="/static/bootstrap/js/bootstrap-button.js"></script>
+<script src="/static/bootstrap/js/bootstrap-collapse.js"></script>
+<script src="/static/bootstrap/js/bootstrap-carousel.js"></script>
+<script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+<script>
+$(function(){
+
+  var stats, rubrics, example;
+
+  $.ajax({ url: "/v1/ccda-scorecard/stats" }).success(function(r){
+    stats = r;
+    console.log("stats", stats);
+  });
+
+  $.ajax({ url: "/v1/ccda-scorecard/rubrics" }).success(function(r){
+    rubrics = r;
+    console.log("rubrics", r);
+  });
+
+  $.ajax({ url: "./example.ccda.xml", dataType: "text"}).success(function(r){
+    example = r;
+  });
+
+  $("#example").click(function(){
+    $("#pasteHere").val(example);
+    $("#scoreMe").click();
+  });
+
+
+  $("#scoreMe").click(function(){
+    var content = $("#pasteHere").val().trim();
+    console.log("Requesting score for ", content.length);
+    $.ajax({
+      type: "post",
+      url: "/v1/ccda-scorecard/request", 
+      data: content
+    }).success(function(scores){
+      scores.forEach(function(s){
+        $("#scorecard").append(makeScore(s)); 
+      });
+    });
+  });
+
+  function sum(o){
+    var ret = 0;
+    Object.keys(o).forEach(function(k){
+      ret += o[k];
+    });
+    return ret;
+  };
+
+  function makeScore(s){
+    console.log("one score", s);
+
+    var rubric = rubrics[s.rubric];
+    var peers = stats[s.rubric];
+
+    ret = "<div>" + 
+      "<span class='badge grade'>" + s.grade + " </span>" + 
+      "<div><b>"+s.rubric+"</b>: " + rubric.description + " </div>" + 
+      "<div><b>Best practice</b>: " + rubric.bestPractice + " </div>" + 
+
+      "<div class='comparison'><small>How does your document stack up?: "  + 
+      Object.keys(peers.counts).map(function(c){
+      return c+": " + peers.counts[c] + " documents";
+    }).join(", ") + 
+      "</small></div>" + 
+      "</div>";
+    console.log(ret)
+    return $(ret);
+
+  };
+});
+</script>
+</body>
+</html>
+
+
