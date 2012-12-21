@@ -1,4 +1,4 @@
-# C-CDA scorecard
+# C-CDA Scorecard
 
 ## Promoting best practices in C-CDA generation
 
@@ -89,8 +89,11 @@ on the CCDA Scorecard app.
 ### Stats
 
 As documents are validated, they're logged and used to calculate statistics
-about how often best practices are followed.  Each rubric is associated
-with summary data consisting of a set of counts for each possible grade.
+about how often best practices are followed.  Each rubric is associated with
+summary data, so you can easily get a count of how often each grade is achieved
+-- and get a better sense of how conformant your document is relative to the
+broader community.
+
 For example, a rubric for a well-followed best practice might look like:
 
 ```
