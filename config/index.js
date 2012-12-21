@@ -19,7 +19,6 @@ function launch() {
   app.use(express.favicon());
 
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  app.use('/static', express.static(__dirname + '/../public'));
 
   app.enable('trust proxy');
 
@@ -47,6 +46,7 @@ function launch() {
     next();
   });
 
+  app.use('/static', express.static(__dirname + '/../public'));
   app.use(express.cookieParser('express-cookie-secret-here'));
   app.use(express.session());
   app.use(passport.initialize());

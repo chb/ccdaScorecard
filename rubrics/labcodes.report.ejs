@@ -1,0 +1,17 @@
+<% if (misses.length > 0) {%>
+
+## Some lab codes weren't in the *[Loinc Top 2000+](http://loinc.org/usage/obs)* value set.
+
+Note: This may be normal, if this C-CDA document includes unusual lab tests.
+But look through the un-matched codes below to make sure you don't have a LOINC
+mapping error in your export pipeline.
+
+<% misses.forEach(function(miss){ %>
+
+ * "<%= miss.displayName %>": *<%= miss.codeSystemName %>* code `<%= miss.code %>` 
+
+<% }); %> 
+
+
+<%}%>
+
