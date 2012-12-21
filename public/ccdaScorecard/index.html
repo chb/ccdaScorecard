@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <title>SMART C-CDA Scorecard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
 
 <!-- Le styles -->
 <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
 <script src="/static/bootstrap/js/jquery.js"></script>
+<script src="/static/js/Markdown.Converter.js"></script>
+
 <style type="text/css">
 body {
   padding-top: 60px;
@@ -24,26 +24,16 @@ body {
   display: none;
 }
 
+#feedbackSection {
+  display: none;
+}
+
 </style>
 <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-
-<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-<!-- Le fav and touch icons -->
-<link rel="shortcut icon" href="/static/bootstrap/ico/favicon.ico">
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/bootstrap/ico/apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/bootstrap/ico/apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/bootstrap/ico/apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed" href="/static/bootstrap/ico/apple-touch-icon-57-precomposed.png">
 </head>
 
 <body>
 <div class="container">
-
-
   <div class="navbar navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
@@ -53,7 +43,6 @@ body {
   </div>
 
   <div class="container">
-
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
       <h1>Your C-CDA.  Beautiful.</h1>
@@ -73,6 +62,7 @@ body {
     <div id="feedbackSection" class="row">
       <div class="span12">
         <h2>Your scorecard</h2>
+        <div id="scoring">Scoring...</div>
         <div id="scorecard">
 
         </div>
@@ -108,6 +98,7 @@ $(function(){
   var stats = $.ajax({ url: "/v1/ccda-scorecard/stats" });
   var rubrics = $.ajax({ url: "/v1/ccda-scorecard/rubrics" });
   var example = $.ajax({ url: "./example.ccda.xml", dataType: "text"});
+  var renderMarkdown = new Markdown.Converter().makeHtml; 
 
   $.when(stats, rubrics, example).then(function(s, r, e){
     stats = s[0];
@@ -130,32 +121,29 @@ $(function(){
 
 
   $("#scoreMe").click(function(){
+
+    $("#feedbackSection").show();
+    $("#scoring").show();
+    
     var content = $("#pasteHere").val().trim();
     console.log("Requesting score for ", content.length);
 
     var exampleFlag = "";
     if (content === example){
       exampleFlag = "?example=true"; 
-    } else {console.log("difference", content.length, example.length);}
+    }
 
     $.ajax({
       type: "post",
       url: "/v1/ccda-scorecard/request"+exampleFlag, 
       data: content
     }).success(function(scores){
+      $("#scoring").hide();
       scores.forEach(function(s){
         $("#scorecard").append(makeScore(s)); 
       });
     });
   });
-
-  function sum(o){
-    var ret = 0;
-    Object.keys(o).forEach(function(k){
-      ret += o[k];
-    });
-    return ret;
-  };
 
   function makeScore(s){
     console.log("one score", s);
@@ -164,16 +152,24 @@ $(function(){
     var peers = stats[s.rubric];
 
     ret = "<div>" + 
-      "<span class='badge grade'>" + s.grade + " </span>" + 
+      "<span class='badge grade'>" + s.grade + " </span><b>" + s.rubric + "</b>"+
       "<div><b>"+s.rubric+"</b>: " + rubric.description + " </div>" + 
-      "<div><b>Best practice</b>: " + rubric.bestPractice + " </div>" + 
+      "<div><b>Best practice</b>: " + rubric.bestPractice + " </div>";
 
-      "<div class='comparison'><small>How does your document stack up?: "  + 
+      // extra report details rendered in Markdown
+      if (s.details) {
+        ret += renderMarkdown(s.details);
+      }
+
+      if (peers) {
+      ret += "<div class='comparison'><small>How does your document stack up?: "  + 
       Object.keys(peers.counts).map(function(c){
       return c+": " + peers.counts[c] + " documents";
     }).join(", ") + 
-      "</small></div>" + 
-      "</div>";
+      "</small></div>";
+      }
+      ret += "</div>";
+
     console.log(ret)
     return $(ret);
 
@@ -182,5 +178,3 @@ $(function(){
 </script>
 </body>
 </html>
-
-
