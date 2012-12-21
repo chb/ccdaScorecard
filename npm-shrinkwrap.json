@@ -31,7 +31,7 @@
       "version": "2.0.1"
     },
     "express": {
-      "version": "3.0.4",
+      "version": "3.0.5",
       "dependencies": {
         "connect": {
           "version": "2.7.1",
@@ -91,7 +91,12 @@
       }
     },
     "mongodb": {
-      "version": "1.1.11"
+      "version": "1.1.11",
+      "dependencies": {
+        "bson": {
+          "version": "0.1.5"
+        }
+      }
     },
     "libxmljs": {
       "version": "0.6.1",
@@ -182,6 +187,9 @@
       "dependencies": {
         "pkginfo": {
           "version": "0.2.3"
+        },
+        "passport": {
+          "version": "0.1.15"
         }
       }
     },
@@ -190,6 +198,9 @@
       "dependencies": {
         "pkginfo": {
           "version": "0.2.3"
+        },
+        "passport": {
+          "version": "0.1.15"
         }
       }
     },
@@ -222,7 +233,12 @@
           "version": "0.2.1"
         },
         "mongodb": {
-          "version": "1.2.5"
+          "version": "1.2.5",
+          "dependencies": {
+            "bson": {
+              "version": "0.1.5"
+            }
+          }
         },
         "ms": {
           "version": "0.1.0"
@@ -238,6 +254,9 @@
     "winston": {
       "version": "0.6.2",
       "dependencies": {
+        "async": {
+          "version": "0.1.22"
+        },
         "colors": {
           "version": "0.6.0-1"
         },

@@ -20,6 +20,9 @@ body {
 }
 .comparison {margin-bottom: 20px;}
 .grade {margin-right: 10px;}
+#exampleHolder {
+  display: none;
+}
 
 </style>
 <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
@@ -60,9 +63,10 @@ body {
     <div class="row">
       <div class="span12">
         <h2>Paste and go.</h2>
+        <textarea id="exampleHolder" placeholder="Your C-CDA here"></textarea>
         <textarea AUTOFOCUS id="pasteHere" placeholder="Your C-CDA here"></textarea><br>
-        <button id="scoreMe" class="btn">Score me!</button>
-        <button id="example" class="btn">Show me an example</button>
+        <button DISABLED id="scoreMe" class="btn">Score me!</button>
+        <button DISABLED id="example" class="btn">Show me an example</button> <span id='loading'>loading...</span>
       </div>
     </div>
 
@@ -101,22 +105,24 @@ body {
 <script>
 $(function(){
 
-  var stats, rubrics, example;
+  var stats = $.ajax({ url: "/v1/ccda-scorecard/stats" });
+  var rubrics = $.ajax({ url: "/v1/ccda-scorecard/rubrics" });
+  var example = $.ajax({ url: "./example.ccda.xml", dataType: "text"});
 
-  $.ajax({ url: "/v1/ccda-scorecard/stats" }).success(function(r){
-    stats = r;
-    console.log("stats", stats);
+  $.when(stats, rubrics, example).then(function(s, r, e){
+    stats = s[0];
+    rubrics = r[0];
+
+    // not round-trippable by default
+    // so round-trip it once to comparability
+    $("#exampleHolder").val(e[0].trim());
+    example = $("#exampleHolder").val();
+
+    $("#loading").hide();
+    $("button").removeAttr("disabled");
   });
 
-  $.ajax({ url: "/v1/ccda-scorecard/rubrics" }).success(function(r){
-    rubrics = r;
-    console.log("rubrics", r);
-  });
-
-  $.ajax({ url: "./example.ccda.xml", dataType: "text"}).success(function(r){
-    example = r;
-  });
-
+  
   $("#example").click(function(){
     $("#pasteHere").val(example);
     $("#scoreMe").click();
@@ -126,9 +132,15 @@ $(function(){
   $("#scoreMe").click(function(){
     var content = $("#pasteHere").val().trim();
     console.log("Requesting score for ", content.length);
+
+    var exampleFlag = "";
+    if (content === example){
+      exampleFlag = "?example=true"; 
+    } else {console.log("difference", content.length, example.length);}
+
     $.ajax({
       type: "post",
-      url: "/v1/ccda-scorecard/request", 
+      url: "/v1/ccda-scorecard/request"+exampleFlag, 
       data: content
     }).success(function(scores){
       scores.forEach(function(s){

@@ -1,4 +1,3 @@
 { 
- "ignoreNodeModules" : true,
  "cfAutoconfig": false 
 }

@@ -48,7 +48,6 @@ function connectToDb(dburl, exportname){
       server: {auto_reconnect: true}
     }, function(err, conn){ 
       module.exports.db[exportname] = conn;
-      console.log(dburl, Object.keys( module.exports.db));
       cb(err);
     });
 
@@ -60,6 +59,10 @@ async.parallel([
   connectToDb(mongoCcdaScorecardUrl, "ccdaScorecard"),
 ],
 function(err){
+  if (err){
+    console.log("Db connect err", err);
+  }
+  var db = module.exports.db;
   dbstate.emit("ready");
   dbstate.on = function(x, f){if (x==="ready") f();};
 });

@@ -14,11 +14,12 @@ Object.keys(rubrics).forEach(function(k){
   allRubrics[k] = rubrics[k].json;
 });
 
-
-
 Controller.gradeRequest = function(req, res, next) {
   winston.info('grading a CCD request of length ' + req.rawBody.length);
-  grade(req.rawBody, function(err, report){
+  grade({
+    src: req.rawBody,
+    save: (req.query.example !== "true")
+  }, function(err, report){
     res.json(report);
   });
 };
@@ -35,15 +36,19 @@ Controller.rubricAll = function(req, res, next) {
 
 
 function allStats(done){
-  db.ccdaScorecard.collection("scoreStats", function(err, stats){
+  db.ccdaScorecard.collection("scoreStats", function(err, scoreStats){
+
+    console.log("Fond scoreStats collection", err, !!scoreStats);
     if (err){ 
-      return next(err); 
+      return done(err); 
     }
 
-    stats.find({}).toArray(function(err, allstats){
+    scoreStats.find({}).toArray(function(err, allstats){
       if (err) {
-        return next(err);
+        console.log("failed to find stats", err, allstats);
+        return done(err);
       }
+      console.log("found stats", allstats);
       var ret = {};
       allstats.forEach(function(s){
         s.id = s._id;
@@ -52,6 +57,7 @@ function allStats(done){
       });
       done(err, ret);
     });
+
   });
 };
 
