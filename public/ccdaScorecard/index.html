@@ -73,7 +73,7 @@ body {
 <div class="container">
   <hr>
   <footer>
-    <p>&copy; Harvard Medical School / Boston Children's Hospital, 2012</p>
+    <p>&copy; Harvard Medical School / Boston Children's Hospital, 2013. Source <a href="https://github.com/chb/ccdaScorecard">on GitHub</a>.</p>
   </footer>
 </div>
 
@@ -139,6 +139,7 @@ $(function(){
       data: content
     }).success(function(scores){
       $("#scoring").hide();
+      $("#scorecard").html("");
       scores.forEach(function(s){
         $("#scorecard").append(makeScore(s)); 
       });
