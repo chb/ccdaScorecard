@@ -124,6 +124,7 @@ $(function(){
 
     $("#feedbackSection").show();
     $("#scoring").show();
+    $("#scorecard").html("");
     
     var content = $("#pasteHere").val().trim();
     console.log("Requesting score for ", content.length);
@@ -139,7 +140,6 @@ $(function(){
       data: content
     }).success(function(scores){
       $("#scoring").hide();
-      $("#scorecard").html("");
       scores.forEach(function(s){
         $("#scorecard").append(makeScore(s)); 
       });

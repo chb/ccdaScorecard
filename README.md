@@ -1,5 +1,8 @@
 # C-CDA Scorecard
 
+## Demo online
+[http://smart-ccda-scorecard.aws.af.cm](http://smart-ccda-scorecard.aws.af.cm)
+
 ## Promoting best practices in C-CDA generation
 
 Achieving interoperability with Consolidated CDA documents means agreeing
