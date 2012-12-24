@@ -1,19 +1,14 @@
 {
   "id": "labcodes",
-  "description": "Percentage of lab results coded with LOINC's top 2000+ codes",
-  "bestPractice": "Lab results should be coded using LOINC. In pratice LOINC is huge, but 2000 codes cover 98% of real-world usage.  This means that most results should be covered by the 2000+ most common LOINC codes published by Regenstrief.",
-  "grades": {
-    "A": "> 90% of lab values have a top2K LOINC code",
-    "B": "> 80% of lab values have a top2K LOINC code",
-    "C": "> 70% of lab values have a top2K LOINC code",
-    "D": "> 60% of lab values have a top2K LOINC code",
-    "F": "< 60% of lab values have a top2K LOINC code"
+  "scorecards": ["c-cda", "smart"],
+  "category": ["Lab Results", "Codes"],
+  "description": "Lab Results coded with LOINC's top 2K codes",
+  "detail": "Lab results should be coded using LOINC. In pratice LOINC is huge, but 2000 codes cover 98% of real-world usage.  This means that most results should be covered by the 2000+ most common LOINC codes published by Regenstrief.",
+  "points": {
+    "3": "> 80% of lab results have a top-2K LOINC code",
+    "2": "> 50% of lab results have a top-2K LOINC code",
+    "1": "At least one lab result has a top-2K LOINC code",
+    "0": "No lab results have a top-2K LOINC code"
   },
-  "ranges": [
-    [0.9, 1.0, "A"],
-    [0.8, 0.9, "B"],
-    [0.7, 0.8, "C"],
-    [0.6, 0.7, "D"],
-    [0, 0.6, "F"]
-  ]
+  "doesNotApply": "No lab results in document"
 }
