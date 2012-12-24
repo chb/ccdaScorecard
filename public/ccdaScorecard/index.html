@@ -61,7 +61,6 @@ body {
 
     <div id="feedbackSection" class="row">
       <div class="span12">
-        <h2>Your scorecard</h2>
         <div id="scoring">Scoring...</div>
         <div id="scorecard">
 
@@ -99,6 +98,7 @@ $(function(){
   var rubrics = $.ajax({ url: "/v1/ccda-scorecard/rubrics" });
   var example = $.ajax({ url: "./example.ccda.xml", dataType: "text"});
   var renderMarkdown = new Markdown.Converter().makeHtml; 
+  var scoreSections = {};
 
   $.when(stats, rubrics, example).then(function(s, r, e){
     stats = s[0];
@@ -125,6 +125,7 @@ $(function(){
     $("#feedbackSection").show();
     $("#scoring").show();
     $("#scorecard").html("");
+    scoreSections = {};
     
     var content = $("#pasteHere").val().trim();
     console.log("Requesting score for ", content.length);
@@ -141,10 +142,20 @@ $(function(){
     }).success(function(scores){
       $("#scoring").hide();
       scores.forEach(function(s){
-        $("#scorecard").append(makeScore(s)); 
+        makeScore(s);
       });
+
+      var sections = Object.keys(scoreSections).sort();
+      sections.forEach(function(k){
+        $("#scorecard").append(scoreSections[k]);
+      });
+
     });
   });
+
+  function newSection(name){
+    return $('<h2>'+name+'</h2><table class="table table-bordered table-condensed"></table>');
+  };
 
   function makeScore(s){
     console.log("one score", s);
@@ -152,6 +163,29 @@ $(function(){
     var rubric = rubrics[s.rubric];
     var peers = stats[s.rubric];
 
+    var cat = rubric.category[0];
+    var section = scoreSections[cat] = scoreSections[cat] || newSection(cat);
+    console.log(cat, section, scoreSections);
+
+    var rowStatus = "";
+    window.ss = scoreSections;
+    if (!s.doesNotApply){
+      if (s.score === 0){
+           rowStatus = "error";
+      } else if (s.score === rubric.maxPoints){
+        rowStatus = "success";
+      }
+      else {
+        rowStatus = "warning";
+      }
+    }
+    var row = '\
+     <tr class="'+rowStatus+'">       \
+      <td>'+rubric.description+'</td>                \
+      <td>'+s.score+'/'+rubric.maxPoints+'</td>     \
+    </tr>                       \
+    ';
+/*
     ret = "<div>" + 
       "<span class='badge grade'>" + s.grade + " </span><b>" + s.rubric + "</b>"+
       "<div><b>"+s.rubric+"</b>: " + rubric.description + " </div>" + 
@@ -170,10 +204,9 @@ $(function(){
       "</small></div>";
       }
       ret += "</div>";
-
-    console.log(ret)
-    return $(ret);
-
+     */
+    console.log(section, section.length);
+    $(section[1]).append($(row));
   };
 });
 </script>
