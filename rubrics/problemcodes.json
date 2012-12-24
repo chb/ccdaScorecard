@@ -3,7 +3,8 @@
   "scorecards": ["c-cda", "smart"],
   "category": ["Problems", "Codes"],
   "description": "Problems coded with HITSP's 16K SNOMED subset",
-  "bestPractice": "Each problem in the problem list should be coded with a SNOMED code from the HITSP Problem List valueset (OID 2.16.840.1.113883.3.88.12.3221.7.4).",
+  "detail": "Each problem in the problem list should be coded with a SNOMED code from the HITSP Problem List valueset (OID 2.16.840.1.113883.3.88.12.3221.7.4).",
+  "maxPoints": 3,
   "points": {
     "3": "> 80% of problems have a HITSP 16K SNOMED code",
     "2": "> 50% of problems have a HITSP 16K SNOMED code",

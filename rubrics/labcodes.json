@@ -4,6 +4,7 @@
   "category": ["Lab Results", "Codes"],
   "description": "Lab Results coded with LOINC's top 2K codes",
   "detail": "Lab results should be coded using LOINC. In pratice LOINC is huge, but 2000 codes cover 98% of real-world usage.  This means that most results should be covered by the 2000+ most common LOINC codes published by Regenstrief.",
+  "maxPoints": 3,
   "points": {
     "3": "> 80% of lab results have a top-2K LOINC code",
     "2": "> 50% of lab results have a top-2K LOINC code",
