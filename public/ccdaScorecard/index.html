@@ -28,6 +28,24 @@ body {
   display: none;
 }
 
+.scoreTable td {
+  cursor: pointer;
+}
+
+.fadedIn {
+  opacity: 1;
+}
+
+.fadedOut {
+  opacity: 0;
+}
+
+.fade {
+  transition: opacity 2s ease-in-out;
+  -moz-transition: opacity 2s ease-in-out;
+  -webkit-transition: opacity 2s ease-in-out;
+}
+
 </style>
 <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 </head>
@@ -154,7 +172,7 @@ $(function(){
   });
 
   function newSection(name){
-    return $('<h2>'+name+'</h2><table class="table table-bordered table-condensed"></table>');
+    return $('<h2>'+name+'</h2><table class="scoreTable table table-bordered table-condensed"></table>');
   };
 
   function makeScore(s){
@@ -185,28 +203,37 @@ $(function(){
       <td>'+s.score+'/'+rubric.maxPoints+'</td>     \
     </tr>                       \
     ';
-/*
-    ret = "<div>" + 
-      "<span class='badge grade'>" + s.grade + " </span><b>" + s.rubric + "</b>"+
-      "<div><b>"+s.rubric+"</b>: " + rubric.description + " </div>" + 
-      "<div><b>Best practice</b>: " + rubric.bestPractice + " </div>";
+
+
+    var detail = "<tr class='fadedOut fade'><td colspan='2'>" + 
+      "<span class='badge grade'>" + rubric.id + " </span>"+
+      "<b>Best practice</b>: " + rubric.detail;
 
       // extra report details rendered in Markdown
       if (s.details) {
-        ret += renderMarkdown(s.details);
+        detail += renderMarkdown(s.details);
       }
 
       if (peers) {
-      ret += "<div class='comparison'><small>How does your document stack up?: "  + 
+      detail += "<div class='comparison'><small>How does your document stack up?: "  + 
       Object.keys(peers.counts).map(function(c){
       return c+": " + peers.counts[c] + " documents";
     }).join(", ") + 
       "</small></div>";
       }
-      ret += "</div>";
+      detail += "</td></tr>";
+/*
      */
     console.log(section, section.length);
-    $(section[1]).append($(row));
+    var row = $(row).click(function(){
+      console.log(row);
+      detail = $(detail);
+      row.after(detail);
+      detail.removeClass("fadedOut");
+      detail.addClass("fadedIn");
+      
+    });
+    $(section[1]).append(row);
   };
 });
 </script>

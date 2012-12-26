@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.chart rect {
+  fill: steelblue;
+  shape-rendering: crispEdges;
+  stroke: white;
+}
+.chart line {
+  stroke: steelblue;
+}
+
+.chart text {
+  color: blueblack;
+  font-size: 8pt;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v2.min.js?2.10.0"></script>
+<script>
+
+// A formatter for counts.
+var formatCount = d3.format(",.0f");
+var scores = {
+  "N/A": 3,
+  "0": 15, 
+  "1": 22,
+  "2": 18, 
+  "3": 32
+}
+
+var scoreKeys = Object.keys(scores).sort();
+
+var scoreArray = scoreKeys.map(function(k){
+  return scores[k];
+});
+
+var margin = {
+  left: 40,
+  right: 40
+}
+
+var dim = {
+  width: 150,
+  barHeight: 20
+};
+
+var bounding = d3.select("body").append("svg")
+     .attr("width", dim.width)
+     .attr("class", "chart")
+    .attr("height", dim.barHeight * scoreArray.length);
+
+var chart =bounding.append("g")
+    .attr("transform", "translate(" + margin.left + "," + 0 + ")");
+
+
+var x = d3.scale.linear()
+     .domain([0, d3.max(scoreArray)])
+     .range([0, dim.width - margin.left - margin.right]);
+
+ chart.selectAll("rect")
+     .data(scoreKeys)
+   .enter().append("rect")
+     .attr("y", function(d, i) { return i * dim.barHeight; })
+     .attr("width", function(d){return x(scores[d]);})
+     .attr("height", dim.barHeight);
+
+bounding.selectAll("line")
+     .data(scoreKeys)
+   .enter().append("line")
+     .attr("y1", function(d, i) { return (i+.5) * dim.barHeight; })
+     .attr("y2", function(d, i) { return (i+.5) * dim.barHeight; })
+     .attr("x1", function(d, i) { return margin.left-2  })
+     .attr("x2", function(d, i) { return margin.left+2; });
+
+ chart.selectAll("text.barlen")
+    .data(scoreKeys).enter()
+    .append("text")
+    .attr("class", "barlen")
+    .attr("dy", ".35em")
+    .attr("y", function(d, i) { return (i+0.5) * dim.barHeight; })
+    .attr("x", function(d){return x(scores[d])+2;})
+    .attr("text-anchor", "beginning").text(function(d) { return formatCount(scores[d]); });
+
+bounding.selectAll("text.barLabel")
+    .data(scoreKeys)
+    .enter().append("text")
+    .attr("class", "barLabel")
+    .attr("dy", ".35em")
+    .attr("y", function(d, i) { return (i+0.5) * dim.barHeight; })
+    .attr("x", margin.left-2)
+    .attr("text-anchor", "end")
+    .text(function(d){
+      if (isNaN(parseInt(d))) return d;
+      return d + " pts";
+     });
+
+</script>
