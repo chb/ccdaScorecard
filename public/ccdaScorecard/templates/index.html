@@ -1,0 +1,46 @@
+<!-- Main hero unit for a primary marketing message or call to action -->
+<div class="hero-unit">
+  <h1>Your C-CDA.  Beautiful.</h1>
+</div>
+
+<!-- Example row of columns -->
+<div class="row">
+  <div class="span12">
+    <h2>Paste and go.</h2>
+    <textarea AUTOFOCUS id="pasteHere" ng-model="submission" placeholder="Your C-CDA here"></textarea><br>
+    <button 
+      ng-click="getScore()"
+      ng-disabled="submission.length == 0" 
+      id="scoreMe" 
+      class="btn">
+      Score me!
+    </button>
+    <button 
+      ng-disabled="example.length == 0" 
+      ng-click="submission = example; getScore();"
+      class="btn">
+      Show me an example
+    </button>
+    <span ng-show="loading()" id='loading'>loading...</span>
+  </div>
+</div>
+
+<div id="feedbackSection" class="row">
+  <div class="span12">
+
+    <div ng-show="scoring" id="scoring">Scoring...</div>
+
+    <div id="scorecard">
+      <div ng-controller="ScoreSectionController" ng-repeat="section in scorecard.sections">
+        <h2> {{section.name}} </h2>
+        <table class="scoreTable table table-bordered table-condensed">
+          <tr ng-repeat="score in section.scores" ng-class="score.class">
+            <td>{{rubric.description}}</td>
+            <td>{{score.score}}/{{rubric.maxPoints}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

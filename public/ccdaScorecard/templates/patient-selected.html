@@ -1,0 +1,33 @@
+﻿<div ng-controller="PatientViewController">
+  <h1 class="pull-right"><div class="step-bubble"><span>2</span></div>App time <small>for {{patientHelper.name(patient)}}</small></h1>
+  <br style="clear: both;" />
+  <div class="row-fluid">
+    <ul class="thumbnails">
+      <li class="span4">
+        <div class="thumbnail">
+            <img src="/static/images/bp-centiles-thumbnail.png"><!--"/ui/authorize/bp-centiles?patient=123"--> 
+          <div class="caption">
+            <a ng-href="/auth/provider/launch-app?response_type=token&client_id=bp-centiles&scope=patient&patient={{patientHelper.id(patient)}}" target="_blank" class="btn btn-block btn-primary">SMART BP Centiles</a>
+          </div>
+        </div>
+      </li>
+      <li class="span4">
+        <div class="thumbnail">
+            <img src="/static/images/cardiac-risk-thumbnail.png">
+          <div class="caption">
+            <a ng-href="/auth/provider/launch-app?response_type=token&client_id=cardiac-risk&scope=patient&patient={{patientHelper.id(patient)}}" target="_blank" class="btn btn-block btn-primary">SMART Cardiac Risk</a>
+          </div>
+        </div>
+      </li>
+      <li class="span4">
+        <div class="thumbnail">
+            <img src="/static/images/twinlist-thumbnail.png">
+          <div class="caption">
+            <a ng-href="/auth/provider/launch-app?response_type=token&client_id=twinlist&scope=patient&patient={{patientHelper.id(patient)}}" target="_blank" class="btn btn-block btn-primary">Twinlist Med Rec</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+

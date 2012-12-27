@@ -31,11 +31,34 @@ function launch() {
     next();
   });
 
+  var myBodyParser = express.bodyParser();
   app.use (function(req, res, next) {
+
+    var complete = { mine: false, theirs: false };
+
+    function checkDone(){
+      if (complete.mine && complete.theirs){
+        next();
+      }
+    };
+
     req.rawBody = '';
     req.setEncoding('utf8');
-    req.on('data', function(chunk) { req.rawBody += chunk });
-    next();
+
+    myBodyParser(req, res, function(){
+      complete.theirs = true;
+      checkDone();
+    });
+
+    req.on('data', function(chunk) {
+      req.rawBody += chunk;
+      console.log("got some data", chunk.length, req.rawBody.length); 
+    });
+
+    req.on('end', function(){
+      complete.mine = true;
+      checkDone();
+    })
   });
 
   app.use(express.bodyParser());
@@ -54,7 +77,7 @@ function launch() {
   app.use(app.router);
 
   require('../routes');
-  
+
   app.listen(config.port);
   winston.info("launched server on port " + config.port);
 };

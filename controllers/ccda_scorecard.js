@@ -16,6 +16,7 @@ Object.keys(rubrics).forEach(function(k){
 
 Controller.gradeRequest = function(req, res, next) {
   winston.info('grading a CCD request of length ' + req.rawBody.length);
+  winston.info('grading a CCD request of length ' + JSON.stringify(req.headers));
   grade({
     src: req.rawBody,
     save: (req.query.example !== "true")

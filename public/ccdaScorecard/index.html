@@ -1,241 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<title>SMART C-CDA Scorecard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="utf-8">
+    <title>SMART C-CDA Scorecard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Le styles -->
-<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
-<script src="/static/bootstrap/js/jquery.js"></script>
-<script src="/static/js/Markdown.Converter.js"></script>
+    <!-- Le styles -->
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="/static/bootstrap/js/jquery.js"></script>
+    <script src="/static/js/Markdown.Converter.js"></script>
 
-<style type="text/css">
-body {
-  padding-top: 60px;
-  overflow-y: scroll;
-}
-#pasteHere {
-  width: 100%
-}
-.comparison {margin-bottom: 20px;}
-.grade {margin-right: 10px;}
-#exampleHolder {
-  display: none;
-}
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        overflow-y: scroll;
+      }
+      #pasteHere {
+        width: 100%
+      }
+      .comparison {margin-bottom: 20px;}
+      .grade {margin-right: 10px;}
+      #exampleHolder {
+        display: none;
+      }
 
-#feedbackSection {
-  display: none;
-}
+      #feedbackSection {
+        display: none;
+      }
 
-.scoreTable td {
-  cursor: pointer;
-}
+      .scoreTable td {
+        cursor: pointer;
+      }
 
-.fadedIn {
-  opacity: 1;
-}
+      .fadedIn {
+        opacity: 1;
+      }
 
-.fadedOut {
-  opacity: 0;
-}
+      .fadedOut {
+        opacity: 0;
+      }
 
-.fade {
-  transition: opacity 2s ease-in-out;
-  -moz-transition: opacity 2s ease-in-out;
-  -webkit-transition: opacity 2s ease-in-out;
-}
+      .fade {
+        transition: opacity 2s ease-in-out;
+        -moz-transition: opacity 2s ease-in-out;
+        -webkit-transition: opacity 2s ease-in-out;
+      }
 
-</style>
-<link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-</head>
+    </style>
+    <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+  </head>
 
-<body>
-<div class="container">
-  <div class="navbar navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="brand" href="#">SMART C-CDA Scorecard</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <!-- Main hero unit for a primary marketing message or call to action -->
-    <div class="hero-unit">
-      <h1>Your C-CDA.  Beautiful.</h1>
-    </div>
-
-    <!-- Example row of columns -->
-    <div class="row">
-      <div class="span12">
-        <h2>Paste and go.</h2>
-        <textarea id="exampleHolder" placeholder="Your C-CDA here"></textarea>
-        <textarea AUTOFOCUS id="pasteHere" placeholder="Your C-CDA here"></textarea><br>
-        <button DISABLED id="scoreMe" class="btn">Score me!</button>
-        <button DISABLED id="example" class="btn">Show me an example</button> <span id='loading'>loading...</span>
-      </div>
-    </div>
-
-    <div id="feedbackSection" class="row">
-      <div class="span12">
-        <div id="scoring">Scoring...</div>
-        <div id="scorecard">
-
+  <body>
+    <div class="container">
+      <div class="navbar navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#">SMART C-CDA Scorecard</a>
+          </div>
         </div>
       </div>
     </div>
-  </div> <!-- /container -->
-</div>
-<div class="container">
-  <hr>
-  <footer>
+
+    <div ng-app="ccdaScorecard" class="container" ng-controller="MainController">
+      <div ng-view> </div>
+    </div> <!-- /container -->
+
+  </div>
+  <div class="container">
+    <hr>
+    <footer>
     <p>&copy; Harvard Medical School / Boston Children's Hospital, 2013. Source <a href="https://github.com/chb/ccdaScorecard">on GitHub</a>.</p>
-  </footer>
-</div>
+    </footer>
+  </div>
 
-<!-- Le javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="/static/bootstrap/js/bootstrap-transition.js"></script>
-<script src="/static/bootstrap/js/bootstrap-alert.js"></script>
-<script src="/static/bootstrap/js/bootstrap-modal.js"></script>
-<script src="/static/bootstrap/js/bootstrap-dropdown.js"></script>
-<script src="/static/bootstrap/js/bootstrap-scrollspy.js"></script>
-<script src="/static/bootstrap/js/bootstrap-tab.js"></script>
-<script src="/static/bootstrap/js/bootstrap-tooltip.js"></script>
-<script src="/static/bootstrap/js/bootstrap-popover.js"></script>
-<script src="/static/bootstrap/js/bootstrap-button.js"></script>
-<script src="/static/bootstrap/js/bootstrap-collapse.js"></script>
-<script src="/static/bootstrap/js/bootstrap-carousel.js"></script>
-<script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
-<script>
-$(function(){
+  <!-- Le javascript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="/static/bootstrap/js/bootstrap-transition.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-alert.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-modal.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-dropdown.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-scrollspy.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-tab.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-tooltip.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-popover.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-button.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-collapse.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-carousel.js"></script>
+  <script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+  <script>
+    $(function(){
 
-  var stats = $.ajax({ url: "/v1/ccda-scorecard/stats" });
-  var rubrics = $.ajax({ url: "/v1/ccda-scorecard/rubrics" });
-  var example = $.ajax({ url: "./example.ccda.xml", dataType: "text"});
-  var renderMarkdown = new Markdown.Converter().makeHtml; 
-  var scoreSections = {};
+      var stats = $.ajax({ url: "/v1/ccda-scorecard/stats" });
+      var rubrics = $.ajax({ url: "/v1/ccda-scorecard/rubrics" });
+      var example = $.ajax({ url: "./example.ccda.xml", dataType: "text"});
+      var renderMarkdown = new Markdown.Converter().makeHtml; 
+      var scoreSections = {};
 
-  $.when(stats, rubrics, example).then(function(s, r, e){
-    stats = s[0];
-    rubrics = r[0];
+      $.when(stats, rubrics, example).then(function(s, r, e){
+        stats = s[0];
+        rubrics = r[0];
 
-    // not round-trippable by default
-    // so round-trip it once to comparability
-    $("#exampleHolder").val(e[0].trim());
-    example = $("#exampleHolder").val();
+        // not round-trippable by default
+        // so round-trip it once to comparability
+        $("#exampleHolder").val(e[0].trim());
+        example = $("#exampleHolder").val();
 
-    $("#loading").hide();
-    $("button").removeAttr("disabled");
-  });
-
-  
-  $("#example").click(function(){
-    $("#pasteHere").val(example);
-    $("#scoreMe").click();
-  });
+        $("#loading").hide();
+        $("button").removeAttr("disabled");
+      });
 
 
-  $("#scoreMe").click(function(){
+      $("#example").click(function(){
+        $("#pasteHere").val(example);
+        $("#scoreMe").click();
+      });
 
-    $("#feedbackSection").show();
-    $("#scoring").show();
-    $("#scorecard").html("");
-    scoreSections = {};
-    
-    var content = $("#pasteHere").val().trim();
-    console.log("Requesting score for ", content.length);
 
-    var exampleFlag = "";
-    if (content === example){
+      $("#scoreMe").click(function(){
+
+      $("#feedbackSection").show();
+      $("#scoring").show();
+      $("#scorecard").html("");
+      scoreSections = {};
+
+      var content = $("#pasteHere").val().trim();
+      console.log("Requesting score for ", content.length);
+
+      var exampleFlag = "";
+      if (content === example){
       exampleFlag = "?example=true"; 
-    }
+      }
 
-    $.ajax({
+      $.ajax({
       type: "post",
       url: "/v1/ccda-scorecard/request"+exampleFlag, 
       data: content
-    }).success(function(scores){
+      }).success(function(scores){
       $("#scoring").hide();
       scores.forEach(function(s){
-        makeScore(s);
+      makeScore(s);
       });
 
       var sections = Object.keys(scoreSections).sort();
       sections.forEach(function(k){
-        $("#scorecard").append(scoreSections[k]);
+      $("#scorecard").append(scoreSections[k]);
       });
 
-    });
-  });
+      });
+      });
 
-  function newSection(name){
-    return $('<h2>'+name+'</h2><table class="scoreTable table table-bordered table-condensed"></table>');
-  };
+      function newSection(name){
+        return $('<h2>'+name+'</h2><table class="scoreTable table table-bordered table-condensed"></table>');
+      };
 
-  function makeScore(s){
-    console.log("one score", s);
+      function makeScore(s){
+      console.log("one score", s);
 
-    var rubric = rubrics[s.rubric];
-    var peers = stats[s.rubric];
+      var rubric = rubrics[s.rubric];
+      var peers = stats[s.rubric];
 
-    var cat = rubric.category[0];
-    var section = scoreSections[cat] = scoreSections[cat] || newSection(cat);
-    console.log(cat, section, scoreSections);
+      var cat = rubric.category[0];
+      var section = scoreSections[cat] = scoreSections[cat] || newSection(cat);
+      console.log(cat, section, scoreSections);
 
-    var rowStatus = "";
-    window.ss = scoreSections;
-    if (!s.doesNotApply){
+      var rowStatus = "";
+      window.ss = scoreSections;
+      if (!s.doesNotApply){
       if (s.score === 0){
-           rowStatus = "error";
+      rowStatus = "error";
       } else if (s.score === rubric.maxPoints){
-        rowStatus = "success";
+      rowStatus = "success";
       }
       else {
-        rowStatus = "warning";
+      rowStatus = "warning";
       }
-    }
-    var row = '\
-     <tr class="'+rowStatus+'">       \
-      <td>'+rubric.description+'</td>                \
-      <td>'+s.score+'/'+rubric.maxPoints+'</td>     \
-    </tr>                       \
-    ';
-
-
-    var detail = "<tr class='fadedOut fade'><td colspan='2'>" + 
-      "<span class='badge grade'>" + rubric.id + " </span>"+
-      "<b>Best practice</b>: " + rubric.detail;
-
-      // extra report details rendered in Markdown
-      if (s.details) {
-        detail += renderMarkdown(s.details);
       }
+      var row = '\
+      <tr class="'+rowStatus+'">       \
+        <td>'+rubric.description+'</td>                \
+        <td>'+s.score+'/'+rubric.maxPoints+'</td>     \
+      </tr>                       \
+      ';
 
-      if (peers) {
-      detail += "<div class='comparison'><small>How does your document stack up?: "  + 
-      Object.keys(peers.counts).map(function(c){
-      return c+": " + peers.counts[c] + " documents";
-    }).join(", ") + 
-      "</small></div>";
-      }
-      detail += "</td></tr>";
-/*
-     */
-    console.log(section, section.length);
-    var row = $(row).click(function(){
+
+      var detail = "<tr class='fadedOut fade'><td colspan='2'>" + 
+          "<span class='badge grade'>" + rubric.id + " </span>"+
+          "<b>Best practice</b>: " + rubric.detail;
+
+          // extra report details rendered in Markdown
+          if (s.details) {
+          detail += renderMarkdown(s.details);
+          }
+
+          if (peers) {
+          detail += "<div class='comparison'><small>How does your document stack up?: "  + 
+              Object.keys(peers.counts).map(function(c){
+              return c+": " + peers.counts[c] + " documents";
+              }).join(", ") + 
+              "</small></div>";
+          }
+          detail += "</td></tr>";
+      /*
+      */
+      console.log(section, section.length);
+      var row = $(row).click(function(){
       console.log(row);
       detail = $(detail);
       row.after(detail);
       detail.removeClass("fadedOut");
       detail.addClass("fadedIn");
-      
-    });
-    $(section[1]).append(row);
-  };
-});
-</script>
-</body>
+
+      });
+      $(section[1]).append(row);
+      };
+      });
+    </script>
+
+    <script src="/static/angular/angular.js"></script>
+    <script src="/static/angular/angular-resource.js"></script>
+    <script src="/static/ccdaScorecard/controllers.js"></script>
+  </body>
 </html>

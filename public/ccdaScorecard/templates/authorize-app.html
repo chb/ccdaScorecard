@@ -1,0 +1,33 @@
+﻿<div ng-controller="AuthorizeAppController">
+   <h1><div class="step-bubble"><span>!</span></div><strong class="text-info" ng-bind="txn.client.name"></strong> wants permission to:  </h1>
+  <div id="auth-box"  class="span10">
+    <div class="row">
+      <div class="span8">
+        <ng-switch on="requestedScope()" class="row">
+        <div ng-switch-when="null">
+          ...
+        </div>
+        <div ng-switch-when="patient">
+          <div class="alert alert-info">
+            <h4>Connect <em>as you</em></h4>
+            Query the SMART CCDA Receiver for patient data <em>on your behalf</em>.
+          </div>
+          <div class="alert alert-info">
+            <h4>Access a single patient record: <span ng-bind="patientName"></span></h4>
+            <ng-switch on="needPatient()">
+            <div ng-switch-when="true" id="patient-results" ng-include="'/static/ccdaReceiver/templates/patient-search.html'"> </div>
+          </div>
+          </ng-switch>
+        </div>
+        <div ng-switch-when="user">
+          Hmm
+        </div>
+      </div>
+    </div>
+    </ng-switch>
+<div class="btn-toolbar">
+    <button ng-disabled='requestedScope()=="patient" && !patient' ng-click="allow()" class="btn btn-primary btn-large">Give permission</button>
+    <button ng-disabled='requestedScope()=="patient" && !patient' ng-click="deny()" class="btn btn-large">No thanks</button>
+  </div>
+  </div>
+</div>
