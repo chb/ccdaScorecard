@@ -25,7 +25,7 @@ angular.module('ccdaScorecard').controller("MainController",
       $http({
         method: "POST",
         data: data,
-        url: "/v1/ccda-scorecard/request",
+        url: "/v1/ccda-scorecard/request?example="+_.example,
         headers: {"Content-Type": "application/x-www-form-urlencoded"}
       }).success(function(r){
         console.log("got a req", r);
@@ -53,9 +53,15 @@ angular.module('ccdaScorecard').controller("MainController",
     $scope.example = Scorecard.getExample();
 
     $scope.getScore = function(){
-      console.log("requesting", $scope);
-      $scope.scores = Scorecard.request({}, $scope.submission.trim());
       $scope.scoring = true;
+
+      console.log("requesting", $scope);
+      var toSubmit = $scope.submission.trim();
+
+      $scope.scores = Scorecard.request({
+        example: (toSubmit === $scope.example.trim())
+      }, toSubmit);
+
     };
 
 
@@ -232,7 +238,7 @@ angular.module('ccdaScorecard')
         if (typeof twttr === "undefined") return;
         var score = attrs.score;
         element.html('<a href="https://twitter.com/share" class="twitter-share-button" data-text="My C-CDA scored '+newScore+'% on the SMART C-CDA Scorecard!  http://smart-ccda-scorecard.aws.af.cm" data-via="SMARTHealthIT" data-size="large" data-hashtags="HealthIT" data-dnt="true">Tweet your score</a>');      
-        twttr.widgets.load();
+          twttr.widgets.load();
       });
     }
   };
