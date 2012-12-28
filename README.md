@@ -61,22 +61,19 @@ Here's what the JSON description of a rubric might look like:
 
 ```js
 {
-  "id": "problemstatus",
-  "description": "Determine whether problem status is expressed consistently",
-  "bestPractice": "Each concern act should contain exactly one problem.  If the concern\
-                   act status code is 'completed', the problem should have a status\
-                   observation with a value of 'Resolved' or 'Inactive'.\
-                   If the concern act status code is 'active', the problem\
-                   should have a status observation with a value of 'Active'.",
-  "grades": {
-    "N/A": "Empty problem list",
-    "P": "Each problem has consistent active/complete status",
-    "F": "Some problems have inconsistent active/complete status"
+  "id": "labcodes",
+  "scorecards": ["c-cda", "smart"],
+  "category": ["Lab Results", "Codes"],
+  "description": "Lab Results coded with LOINC's top 2K codes",
+  "detail": "Lab results should be coded using LOINC. In pratice LOINC is huge, but 2000 codes cover 98% of real-world usage.  This means that most results should be covered by the 2000+ most common LOINC codes published by Regenstrief.",
+  "maxPoints": 3,
+  "points": {
+    "3": "> 80% of lab results have a top-2K LOINC code",
+    "2": "> 50% of lab results have a top-2K LOINC code",
+    "1": "At least one lab result has a top-2K LOINC code",
+    "0": "No lab results have a top-2K LOINC code"
   },
-  "ranges": [
-    [1, 1, "P"],
-    [0, 1, "F"]
-  ]
+  "doesNotApply": "No lab results in document"
 }
 ```
 
@@ -103,11 +100,11 @@ For example, a rubric for a well-followed best practice might look like:
 {
   "id": "vitals-using-loinc",
   "counts": {
-    "A": 25,
-    "B": 8,
-    "C": 2,
-    "D": 1,
-    "F": 1
+    "3": 25,
+    "2": 8,
+    "1": 2,
+    "0": 1,
+    "N/A": 4
   }
 }
 ```
