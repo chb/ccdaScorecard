@@ -5,7 +5,7 @@ angular.module('ccdaScorecard', ['ngResource'], function($routeProvider, $locati
   }) 
 
   $locationProvider.html5Mode(true);
-  console.log("Started mdoule");
+  console.log("Started module");
 });
 
 angular.module('ccdaScorecard').controller("MainController",  
@@ -68,12 +68,32 @@ angular.module('ccdaScorecard').controller("MainController",
         (sections[sectionName] || (sections[sectionName] = [])).push(score);
       }; 
 
+
+      var overallPoints = 0;
+      var overallMaxPoints = 0;
+
       Object.keys(sections).sort().forEach(function(k){
-        ret.push({
+        var section = {
           name: k,
           scores: sections[k]
+        };
+
+        var sectionPoints = 0;
+        var sectionMaxPoints = 0;
+
+        section.scores.forEach(function(s){
+          sectionPoints += s.score;
+          overallPoints += s.score;
+          sectionMaxPoints += $scope.rubrics[s.rubric].maxPoints;
+          overallMaxPoints += $scope.rubrics[s.rubric].maxPoints;
         });
+
+        section.percent = parseInt(100 * sectionPoints / sectionMaxPoints);
+
+        ret.push(section);
       });
+
+      $scope.overallPercent = parseInt(100 * overallPoints / overallMaxPoints);
 
       return ret;
 
@@ -111,7 +131,7 @@ angular.module('ccdaScorecard')
 .directive('statsHistogram', function($timeout, dateFilter) {
   // return the directive link function. (compile function not needed)
   return {
-    restrict: 'A',
+    restrict: 'AE',
     scope:  {distribution: '='},
     link: function(scope, element, attrs) {
       // A formatter for counts.
@@ -189,9 +209,7 @@ angular.module('ccdaScorecard')
 
       };
 
-      var inside = angular.element("<div>Another elemnt here</div>");
-
-      element.text("");
+      //      element.text("");
       // watch the expression, and update the UI on change.
       scope.$watch('distribution', function(value, oldval) {
         element.text("");
@@ -201,3 +219,22 @@ angular.module('ccdaScorecard')
     }
   };
 });
+
+angular.module('ccdaScorecard')
+.directive('tweetButton', function($timeout, dateFilter) {
+  // return the directive link function. (compile function not needed)
+  return {
+    restrict: 'AE',
+    scope:  {score: '@'},
+    link: function(scope, element, attrs) {
+      // A formatter for counts.
+      scope.$watch("score", function(newScore){
+        if (typeof twttr === "undefined") return;
+        var score = attrs.score;
+        element.html('<a href="https://twitter.com/share" class="twitter-share-button" data-text="My C-CDA scored '+newScore+'% on the SMART C-CDA Scorecard!  http://smart-ccda-scorecard.aws.af.cm" data-via="SMARTHealthIT" data-size="large" data-hashtags="HealthIT" data-dnt="true">Tweet your score</a>');      
+        twttr.widgets.load();
+      });
+    }
+  };
+});
+

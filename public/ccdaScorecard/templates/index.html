@@ -5,7 +5,7 @@
 
 <!-- Example row of columns -->
 <div class="row">
-  <div class="span12">
+  <div class="span12 controls">
 
     <h2>Paste and go.</h2>
     <textarea AUTOFOCUS id="pasteHere" ng-model="submission" placeholder="Your C-CDA here"></textarea><br>
@@ -26,43 +26,57 @@
     </button>
 
     <span ng-show="loading()" id='loading'>loading...</span>
-
+    <hr>
   </div>
 </div>
 
 <div id="feedbackSection" class="row">
 
   <div class="span12">
-
     <div ng-show="scoring" id="scoring">Scoring...</div>
 
-      <div ng-repeat="section in scoreSections">
-        <h2>{{section.name}}</h2>
-        <table class="scoreTable table table-bordered table-condensed">
+    <h1 ng-show="scoreSections.length > 0">
 
-          <tbody 
-            ng-repeat="score in section.scores" 
-            ng-init="c=cssClassFor(score); r = rubrics[score.rubric]; showDetails=true;" >
-            <tr ng-class="c" ng-click="showDetails=!showDetails">
-              <td>{{r.description}}</td>
-              <td><code>{{score.score}}/{{r.maxPoints}} points</code></td>
-            </tr>
-            <tr ng-switch="showDetails">
-              <td ng-switch-when="true" colspan="2">
-                <div class="histogram" stats-histogram distribution="stats[score.rubric].counts"></div>
+      Your C-CDA's overall score: {{overallPercent}}%
+      <tweet-button score="{{overallPercent}}"></tweet-button>
+
+    </h1>
+
+    <div ng-repeat="section in scoreSections">
+      <h2 class="scoreOneline" style="display: inline-block; margin-bottom: .2em;">{{section.name}}</h1>
+      <h2 style="display: inline-block; margin-bottom: .2em;">{{section.percent}}%</h1>
+
+      <table class="scoreTable table table-bordered table-condensed">
+
+        <tbody 
+          ng-repeat="score in section.scores" 
+          ng-init="c=cssClassFor(score); r = rubrics[score.rubric]; showDetails=true;" >
+          <tr ng-class="c" ng-click="showDetails=!showDetails">
+            <td class="scoreOneline">{{r.description}}</td>
+            <td class="scorePoints">{{score.score}}/{{r.maxPoints}} points</td>
+          </tr>
+          <tr ng-switch on="showDetails">
+            <td ng-switch-when="true" colspan="2">
+              <div class="comparison">
+                <div class="histogram">
+                  <stats-histogram distribution="stats[score.rubric].counts"></stats-histogram><br>
+                  All C-CDAS
+                </div>
+
                 <div class="rubricDetail"><strong>Best Practice:</strong> {{r.detail}}</div>
                 <div ng-show="score.detail">
                   <hr>
                   <strong>Your Results:</strong>
                   <span ng-bind-html-unsafe="score.detail"></span>
                 </div>
-                <div class="detailRow"></div>
-              </td>
-            </tr>
-          </tbody>
+                <br style="clear: both">
+              </div>
+            </td>
+          </tr>
+        </tbody>
 
-        </table>
-      </div>
+      </table>
+    </div>
 
   </div>
 </div>

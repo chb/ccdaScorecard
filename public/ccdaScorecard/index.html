@@ -16,13 +16,30 @@
         padding-top: 60px;
         overflow-y: scroll;
       }
+
+      .controls {
+        margin-bottom: 1em;
+      }
       #pasteHere {
         width: 100%
       }
 
+      .scoreOneline {
+        width: 90%;
+      }
+
+      .scorePoints {
+        width: 10%;
+        font-weight: bold;
+      }
+
       .rubricDetail{font-style: italic;}
-      .comparison {margin-bottom: 20px;}
+      .comparison {margin-bottom: 0.5em;}
       .grade {margin-right: 10px;}
+
+      .headerTable {
+        margin-bottom: 0px;
+      }
 
       .scoreTable td {
         cursor: pointer;
@@ -39,13 +56,15 @@
         padding-bottom: 1.5em;
       }
 
-      .histogram {float: right;}
+      table h2 {margin-bottom: 0em;}
 
-      .fade {
-        transition: opacity 2s ease-in-out;
-        -moz-transition: opacity 2s ease-in-out;
-        -webkit-transition: opacity 2s ease-in-out;
+      .histogram {
+        float: right;
+       text-align: center;
+       font-style: italic;
       }
+
+
       .chart rect {
         fill: lightslategrey;
         shape-rendering: crispEdges;
@@ -101,138 +120,11 @@
   <script src="/static/bootstrap/js/bootstrap-collapse.js"></script>
   <script src="/static/bootstrap/js/bootstrap-carousel.js"></script>
   <script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
-  <script>
-    $(function(){
-
-      var stats = $.ajax({ url: "/v1/ccda-scorecard/stats" });
-      var rubrics = $.ajax({ url: "/v1/ccda-scorecard/rubrics" });
-      var example = $.ajax({ url: "./example.ccda.xml", dataType: "text"});
-      var renderMarkdown = new Markdown.Converter().makeHtml; 
-      var scoreSections = {};
-
-      $.when(stats, rubrics, example).then(function(s, r, e){
-        stats = s[0];
-        rubrics = r[0];
-
-        // not round-trippable by default
-        // so round-trip it once to comparability
-        $("#exampleHolder").val(e[0].trim());
-        example = $("#exampleHolder").val();
-
-        $("#loading").hide();
-        $("button").removeAttr("disabled");
-      });
-
-
-      $("#example").click(function(){
-        $("#pasteHere").val(example);
-        $("#scoreMe").click();
-      });
-
-
-      $("#scoreMe").click(function(){
-
-        $("#feedbackSection").show();
-        $("#scoring").show();
-        $("#scorecard").html("");
-        scoreSections = {};
-
-        var content = $("#pasteHere").val().trim();
-        console.log("Requesting score for ", content.length);
-
-        var exampleFlag = "";
-        if (content === example){
-          exampleFlag = "?example=true"; 
-        }
-
-        $.ajax({
-          type: "post",
-          url: "/v1/ccda-scorecard/request"+exampleFlag, 
-          data: content
-          }).success(function(scores){
-          $("#scoring").hide();
-          scores.forEach(function(s){
-            makeScore(s);
-          });
-
-          var sections = Object.keys(scoreSections).sort();
-          sections.forEach(function(k){
-            $("#scorecard").append(scoreSections[k]);
-          });
-
-        });
-      });
-
-      function newSection(name){
-        return $('<h2>'+name+'</h2><table class="scoreTable table table-bordered table-condensed"></table>');
-      };
-
-      function makeScore(s){
-        console.log("one score", s);
-
-        var rubric = rubrics[s.rubric];
-        var peers = stats[s.rubric];
-
-        var cat = rubric.category[0];
-        var section = scoreSections[cat] = scoreSections[cat] || newSection(cat);
-        console.log(cat, section, scoreSections);
-
-        var rowStatus = "";
-        window.ss = scoreSections;
-        if (!s.doesNotApply){
-          if (s.score === 0){
-            rowStatus = "error";
-            } else if (s.score === rubric.maxPoints){
-            rowStatus = "success";
-          }
-          else {
-            rowStatus = "warning";
-          }
-        }
-        var row = '\
-        <tr class="'+rowStatus+'">       \
-          <td>'+rubric.description+'</td>                \
-          <td>'+s.score+'/'+rubric.maxPoints+'</td>     \
-        </tr>                       \
-        ';
-
-
-        var detail = "<tr class='fadedOut fade'><td colspan='2'>" + 
-            "<span class='badge grade'>" + rubric.id + " </span>"+
-            "<b>Best practice</b>: " + rubric.detail;
-
-            // extra report details rendered in Markdown
-            if (s.details) {
-              detail += renderMarkdown(s.details);
-            }
-
-            if (peers) {
-              detail += "<div class='comparison'><small>How does your document stack up?: "  + 
-                  Object.keys(peers.counts).map(function(c){
-                    return c+": " + peers.counts[c] + " documents";
-                  }).join(", ") + 
-                  "</small></div>";
-            }
-            detail += "</td></tr>";
-        /*
-        */
-        console.log(section, section.length);
-        var row = $(row).click(function(){
-          console.log(row);
-          detail = $(detail);
-          row.after(detail);
-          detail.removeClass("fadedOut");
-          detail.addClass("fadedIn");
-
-        });
-        $(section[1]).append(row);
-      };
-    });
-  </script>
-
   <script src="/static/angular/angular.js"></script>
   <script src="/static/angular/angular-resource.js"></script>
   <script src="/static/angular/angular-sanitize.js"></script>
   <script src="/static/ccdaScorecard/controllers.js"></script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
 </body>
 </html>
