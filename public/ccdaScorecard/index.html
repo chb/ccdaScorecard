@@ -9,6 +9,7 @@
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
     <script src="/static/bootstrap/js/jquery.js"></script>
     <script src="/static/js/Markdown.Converter.js"></script>
+    <script src="/static/js/d3.v2.min.js"></script>
 
     <style type="text/css">
       body {
@@ -20,13 +21,6 @@
       }
       .comparison {margin-bottom: 20px;}
       .grade {margin-right: 10px;}
-      #exampleHolder {
-        display: none;
-      }
-
-      #feedbackSection {
-        display: none;
-      }
 
       .scoreTable td {
         cursor: pointer;
@@ -39,13 +33,30 @@
       .fadedOut {
         opacity: 0;
       }
+      .detailRow{
+        padding-bottom: 1.5em;
+      }
+
+      .histogram {float: right;}
 
       .fade {
         transition: opacity 2s ease-in-out;
         -moz-transition: opacity 2s ease-in-out;
         -webkit-transition: opacity 2s ease-in-out;
       }
+      .chart rect {
+        fill: steelblue;
+        shape-rendering: crispEdges;
+        stroke: white;
+      }
+      .chart line {
+        stroke: steelblue;
+      }
 
+      .chart text {
+        color: blueblack;
+        font-size: 8pt;
+      }
     </style>
     <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
   </head>
@@ -119,35 +130,35 @@
 
       $("#scoreMe").click(function(){
 
-      $("#feedbackSection").show();
-      $("#scoring").show();
-      $("#scorecard").html("");
-      scoreSections = {};
+        $("#feedbackSection").show();
+        $("#scoring").show();
+        $("#scorecard").html("");
+        scoreSections = {};
 
-      var content = $("#pasteHere").val().trim();
-      console.log("Requesting score for ", content.length);
+        var content = $("#pasteHere").val().trim();
+        console.log("Requesting score for ", content.length);
 
-      var exampleFlag = "";
-      if (content === example){
-      exampleFlag = "?example=true"; 
-      }
+        var exampleFlag = "";
+        if (content === example){
+          exampleFlag = "?example=true"; 
+        }
 
-      $.ajax({
-      type: "post",
-      url: "/v1/ccda-scorecard/request"+exampleFlag, 
-      data: content
-      }).success(function(scores){
-      $("#scoring").hide();
-      scores.forEach(function(s){
-      makeScore(s);
-      });
+        $.ajax({
+          type: "post",
+          url: "/v1/ccda-scorecard/request"+exampleFlag, 
+          data: content
+          }).success(function(scores){
+          $("#scoring").hide();
+          scores.forEach(function(s){
+            makeScore(s);
+          });
 
-      var sections = Object.keys(scoreSections).sort();
-      sections.forEach(function(k){
-      $("#scorecard").append(scoreSections[k]);
-      });
+          var sections = Object.keys(scoreSections).sort();
+          sections.forEach(function(k){
+            $("#scorecard").append(scoreSections[k]);
+          });
 
-      });
+        });
       });
 
       function newSection(name){
@@ -155,70 +166,70 @@
       };
 
       function makeScore(s){
-      console.log("one score", s);
+        console.log("one score", s);
 
-      var rubric = rubrics[s.rubric];
-      var peers = stats[s.rubric];
+        var rubric = rubrics[s.rubric];
+        var peers = stats[s.rubric];
 
-      var cat = rubric.category[0];
-      var section = scoreSections[cat] = scoreSections[cat] || newSection(cat);
-      console.log(cat, section, scoreSections);
+        var cat = rubric.category[0];
+        var section = scoreSections[cat] = scoreSections[cat] || newSection(cat);
+        console.log(cat, section, scoreSections);
 
-      var rowStatus = "";
-      window.ss = scoreSections;
-      if (!s.doesNotApply){
-      if (s.score === 0){
-      rowStatus = "error";
-      } else if (s.score === rubric.maxPoints){
-      rowStatus = "success";
-      }
-      else {
-      rowStatus = "warning";
-      }
-      }
-      var row = '\
-      <tr class="'+rowStatus+'">       \
-        <td>'+rubric.description+'</td>                \
-        <td>'+s.score+'/'+rubric.maxPoints+'</td>     \
-      </tr>                       \
-      ';
-
-
-      var detail = "<tr class='fadedOut fade'><td colspan='2'>" + 
-          "<span class='badge grade'>" + rubric.id + " </span>"+
-          "<b>Best practice</b>: " + rubric.detail;
-
-          // extra report details rendered in Markdown
-          if (s.details) {
-          detail += renderMarkdown(s.details);
+        var rowStatus = "";
+        window.ss = scoreSections;
+        if (!s.doesNotApply){
+          if (s.score === 0){
+            rowStatus = "error";
+            } else if (s.score === rubric.maxPoints){
+            rowStatus = "success";
           }
-
-          if (peers) {
-          detail += "<div class='comparison'><small>How does your document stack up?: "  + 
-              Object.keys(peers.counts).map(function(c){
-              return c+": " + peers.counts[c] + " documents";
-              }).join(", ") + 
-              "</small></div>";
+          else {
+            rowStatus = "warning";
           }
-          detail += "</td></tr>";
-      /*
-      */
-      console.log(section, section.length);
-      var row = $(row).click(function(){
-      console.log(row);
-      detail = $(detail);
-      row.after(detail);
-      detail.removeClass("fadedOut");
-      detail.addClass("fadedIn");
+        }
+        var row = '\
+        <tr class="'+rowStatus+'">       \
+          <td>'+rubric.description+'</td>                \
+          <td>'+s.score+'/'+rubric.maxPoints+'</td>     \
+        </tr>                       \
+        ';
 
-      });
-      $(section[1]).append(row);
+
+        var detail = "<tr class='fadedOut fade'><td colspan='2'>" + 
+            "<span class='badge grade'>" + rubric.id + " </span>"+
+            "<b>Best practice</b>: " + rubric.detail;
+
+            // extra report details rendered in Markdown
+            if (s.details) {
+              detail += renderMarkdown(s.details);
+            }
+
+            if (peers) {
+              detail += "<div class='comparison'><small>How does your document stack up?: "  + 
+                  Object.keys(peers.counts).map(function(c){
+                    return c+": " + peers.counts[c] + " documents";
+                  }).join(", ") + 
+                  "</small></div>";
+            }
+            detail += "</td></tr>";
+        /*
+        */
+        console.log(section, section.length);
+        var row = $(row).click(function(){
+          console.log(row);
+          detail = $(detail);
+          row.after(detail);
+          detail.removeClass("fadedOut");
+          detail.addClass("fadedIn");
+
+        });
+        $(section[1]).append(row);
       };
-      });
-    </script>
+    });
+  </script>
 
-    <script src="/static/angular/angular.js"></script>
-    <script src="/static/angular/angular-resource.js"></script>
-    <script src="/static/ccdaScorecard/controllers.js"></script>
-  </body>
+  <script src="/static/angular/angular.js"></script>
+  <script src="/static/angular/angular-resource.js"></script>
+  <script src="/static/ccdaScorecard/controllers.js"></script>
+</body>
 </html>

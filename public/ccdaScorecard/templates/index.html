@@ -6,8 +6,10 @@
 <!-- Example row of columns -->
 <div class="row">
   <div class="span12">
+
     <h2>Paste and go.</h2>
     <textarea AUTOFOCUS id="pasteHere" ng-model="submission" placeholder="Your C-CDA here"></textarea><br>
+
     <button 
       ng-click="getScore()"
       ng-disabled="submission.length == 0" 
@@ -15,32 +17,47 @@
       class="btn">
       Score me!
     </button>
+
     <button 
-      ng-disabled="example.length == 0" 
+      ng-disabled="loading()" 
       ng-click="submission = example; getScore();"
       class="btn">
       Show me an example
     </button>
+
     <span ng-show="loading()" id='loading'>loading...</span>
+
   </div>
 </div>
 
 <div id="feedbackSection" class="row">
+
   <div class="span12">
 
     <div ng-show="scoring" id="scoring">Scoring...</div>
 
-    <div id="scorecard">
-      <div ng-controller="ScoreSectionController" ng-repeat="section in scorecard.sections">
-        <h2> {{section.name}} </h2>
+      <div ng-repeat="section in scoreSections">
+        <h2>{{section.name}}</h2>
         <table class="scoreTable table table-bordered table-condensed">
-          <tr ng-repeat="score in section.scores" ng-class="score.class">
-            <td>{{rubric.description}}</td>
-            <td>{{score.score}}/{{rubric.maxPoints}}</td>
-          </tr>
+
+          <tbody 
+            ng-repeat="score in section.scores" 
+            ng-init="c=cssClassFor(score); r = rubrics[score.rubric]" >
+            <tr ng-class="c" ng-click="score.showDetails=!score.showDetails">
+              <td>{{r.description}}</td>
+              <td>{{score.score}}/{{r.maxPoints}}</td>
+            </tr>
+            <tr ng-switch="score.showDetails">
+              <td ng-switch-when="true" colspan="2">
+                <div class="histogram" stats-histogram distribution="stats[score.rubric].counts"></div>
+                <div >{{r.detail}}</div>
+                <div class="detailRow"></div>
+              </td>
+            </tr>
+          </tbody>
+
         </table>
       </div>
-    </div>
 
   </div>
 </div>
