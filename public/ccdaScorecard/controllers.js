@@ -29,6 +29,7 @@ angular.module('ccdaScorecard').controller("MainController",
         headers: {"Content-Type": "application/x-www-form-urlencoded"}
       }).success(function(r){
         console.log("got a req", r);
+        $scope.scoring = false;
         for (var i = 0; i < r.length; i++){
           ret.push(r[i]);
         }
@@ -54,6 +55,7 @@ angular.module('ccdaScorecard').controller("MainController",
     $scope.getScore = function(){
       console.log("requesting", $scope);
       $scope.scores = Scorecard.request({}, $scope.submission.trim());
+      $scope.scoring = true;
     };
 
 
@@ -113,6 +115,7 @@ angular.module('ccdaScorecard')
     scope:  {distribution: '='},
     link: function(scope, element, attrs) {
       // A formatter for counts.
+      console.log("Linking histogram");
 
       var formatCount = d3.format(",.0f");
 
@@ -129,7 +132,7 @@ angular.module('ccdaScorecard')
 
       function makeHistogram(scores) {
         console.log("making histogram", element);
-        var scoreKeys = Object.keys(scores).sort();
+        var scoreKeys = Object.keys(scores).sort().reverse();
 
         var scoreArray = scoreKeys.map(function(k){
           return scores[k];

@@ -42,15 +42,20 @@
 
           <tbody 
             ng-repeat="score in section.scores" 
-            ng-init="c=cssClassFor(score); r = rubrics[score.rubric]" >
-            <tr ng-class="c" ng-click="score.showDetails=!score.showDetails">
+            ng-init="c=cssClassFor(score); r = rubrics[score.rubric]; showDetails=true;" >
+            <tr ng-class="c" ng-click="showDetails=!showDetails">
               <td>{{r.description}}</td>
-              <td>{{score.score}}/{{r.maxPoints}}</td>
+              <td><code>{{score.score}}/{{r.maxPoints}} points</code></td>
             </tr>
-            <tr ng-switch="score.showDetails">
+            <tr ng-switch="showDetails">
               <td ng-switch-when="true" colspan="2">
                 <div class="histogram" stats-histogram distribution="stats[score.rubric].counts"></div>
-                <div >{{r.detail}}</div>
+                <div class="rubricDetail"><strong>Best Practice:</strong> {{r.detail}}</div>
+                <div ng-show="score.detail">
+                  <hr>
+                  <strong>Your Results:</strong>
+                  <span ng-bind-html-unsafe="score.detail"></span>
+                </div>
                 <div class="detailRow"></div>
               </td>
             </tr>
