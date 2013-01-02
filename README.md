@@ -50,12 +50,12 @@ This can serve as a launch point for bigger and better.
 
 Best practices are encoded as scoring `rubrics` that include a description,
 scoring table, and some procedural JavaScript code that checks a C-CDA for
-conformance to the rubric.  Some rubrics feature Pass/Fail grading, while
-others offer A/B/C/D/F grading.  That is, conformance to a rubric may not be
-all-or-nothing.  For example there's a rubric to check whether problems have
-SNOMED codes.  A problem list containing *mostly* SNOMED codes is **much better**
-than a problem list with *none*, and rubrics can take this into account
-with A/B/C/D/F grading.
+conformance to the rubric.  Some rubrics feature binary grading (1 point =
+pass, 0 points = fail), while others provide point-based grading (say 0-3
+points). So conformance to a rubric may not be all-or-nothing.  For example
+there's a rubric to check whether problems have SNOMED codes.  A problem list
+containing *mostly* SNOMED codes is **much better** than a problem list with
+*none*, and rubrics can take this into account with point-based grading.
 
 Here's what the JSON description of a rubric might look like:
 
