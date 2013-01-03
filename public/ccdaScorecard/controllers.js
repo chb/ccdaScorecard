@@ -239,7 +239,7 @@ angular.module('ccdaScorecard')
       scope.$watch("score", function(newScore){
         if (typeof twttr === "undefined") return;
         var score = attrs.score;
-        element.html('<a href="https://twitter.com/share" class="twitter-share-button" data-text="My C-CDA scored '+newScore+'% on the SMART C-CDA Scorecard!  '+window.location.origin+'" data-via="SMARTHealthIT" data-size="large" data-hashtags="HealthIT" data-dnt="true">Tweet your score</a>');      
+        element.html('<a href="https://twitter.com/share" class="twitter-share-button" data-text="My C-CDA scored '+newScore+'% on the SMART C-CDA Scorecard!" data-url="'+window.location.origin+'" data-via="SMARTHealthIT" data-size="large" data-hashtags="HealthIT" data-dnt="true">Tweet your score</a>');      
           twttr.widgets.load();
       });
     }
