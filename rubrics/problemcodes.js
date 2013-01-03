@@ -12,7 +12,7 @@ rubric.prototype.report = function(done){
   var numerator = codes.inSet.length;
   var denominator = codes.notInSet.length + numerator;
 
-  var report = common.report(rubric, numerator, denominator);
+  var report = common.report(rubric, numerator, denominator, {misses: codes.notInSet});
   done(null, report);
 };
 

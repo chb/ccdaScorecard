@@ -112,11 +112,13 @@ angular.module('ccdaScorecard').controller("MainController",
     }, true);
 
     $scope.loading = function(){
-      return (
+      var ret = (
         $scope.example.length == 0 || 
         Object.keys($scope.stats).length  ==  0 || 
         Object.keys($scope.rubrics).length == 0
       );
+      console.log("loading", ret);
+      return ret;
     }
 
     $scope.cssClassFor = function(score){
@@ -237,7 +239,7 @@ angular.module('ccdaScorecard')
       scope.$watch("score", function(newScore){
         if (typeof twttr === "undefined") return;
         var score = attrs.score;
-        element.html('<a href="https://twitter.com/share" class="twitter-share-button" data-text="My C-CDA scored '+newScore+'% on the SMART C-CDA Scorecard!  http://smart-ccda-scorecard.aws.af.cm" data-via="SMARTHealthIT" data-size="large" data-hashtags="HealthIT" data-dnt="true">Tweet your score</a>');      
+        element.html('<a href="https://twitter.com/share" class="twitter-share-button" data-text="My C-CDA scored '+newScore+'% on the SMART C-CDA Scorecard!  '+window.location.origin+'" data-via="SMARTHealthIT" data-size="large" data-hashtags="HealthIT" data-dnt="true">Tweet your score</a>');      
           twttr.widgets.load();
       });
     }

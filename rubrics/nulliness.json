@@ -3,7 +3,7 @@
   "scorecards": ["smart"],
   "category": ["General", "Codes"],
   "description": "Codes are not null",
-  "detail": "High-quality data are coded. Codes should codes, not 'nullFlavor'",
+  "detail": "High-quality data are coded. Codes should not be 'nullFlavor'",
   "maxPoints": 3,
   "points": {
     "3": "> 90% code:null ratio",

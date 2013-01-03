@@ -1,0 +1,17 @@
+  
+<% if (misses.length > 0) {%>
+
+## Some drug codes weren't in the *[HITSP Medication List](http://phinvads.cdc.gov/vads/ViewValueSet.action?oid=2.16.840.1.113883.3.88.12.80.17)*.
+
+This Medication List value set consists of 31K codes from RxNorm.
+
+Note: This may be normal, if this C-CDA document includes unusual drugs for which no appropriate RxNorm code exists.  But look through the un-matched codes below to make sure you don't have a mapping error in your export pipeline.
+
+<% misses.forEach(function(miss){ %>
+
+ * "<%= miss.displayName %>": *<%= miss.codeSystemName %>* code `<%= miss.code %>` 
+
+<% }); %> 
+
+
+<%}%>

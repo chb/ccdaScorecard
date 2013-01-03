@@ -1,7 +1,7 @@
 # C-CDA Scorecard
 
 ## Demo online
-[http://smart-ccda-scorecard.aws.af.cm](http://smart-ccda-scorecard.aws.af.cm)
+[http://ccda-scorecard.smartplatforms.org](http://ccda-scorecard.smartplatforms.org)
 
 ## Promoting best practices in C-CDA generation
 

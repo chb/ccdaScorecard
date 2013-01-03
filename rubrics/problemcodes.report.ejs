@@ -1,0 +1,14 @@
+<% if (misses.length > 0) {%>
+
+## Some problem codes weren't in the *[HITSP Problem List](http://phinvads.cdc.gov/vads/ViewValueSet.action?oid=2.16.840.1.113883.3.88.12.3221.7.4)* value set, consisting of 16K codes from SNOMED CT.
+
+Note: This may be normal, if this C-CDA document includes unusual problems for which no appropriate SNOMED code exists.  But look through the un-matched codes below to make sure you don't have a mapping error in your export pipeline.
+
+<% misses.forEach(function(miss){ %>
+
+ * "<%= miss.displayName %>": *<%= miss.codeSystemName %>* code `<%= miss.code %>` 
+
+<% 
+  });  
+}
+%>
