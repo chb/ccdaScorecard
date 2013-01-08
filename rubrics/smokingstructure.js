@@ -8,7 +8,11 @@ rubric.prototype.report = function(done){
   var report;
 
   var social = xpath(ccda, socialHistory).toString();
-  if (social.match(/smoking/i) || social.match(/smoker/i)){
+  console.log("Social",social.length);
+  if (social.length == 0){
+    console.log("not counting", social);
+    report = common.report(rubric, 0, 0);
+  } else if (social.match(/smoking/i) || social.match(/smoker/i)){
     report = common.report(rubric, 0, 1);
   } else {
     report = common.report(rubric, 1, 1);

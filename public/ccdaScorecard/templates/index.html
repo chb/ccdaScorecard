@@ -1,4 +1,4 @@
-<!-- Main hero unit for a primary marketing message or call to action -->
+<!--d Main hero unit for a primary marketing message or call to action -->
 <div class="hero-unit">
   <h1>Your C-CDA.  Beautiful.</h1>
 </div>
@@ -8,7 +8,11 @@
   <div class="span12 controls">
 
     <h2>Paste and go.</h2>
-    <textarea AUTOFOCUS id="pasteHere" ng-model="submission" placeholder="Your C-CDA here"></textarea><br>
+
+    <textarea AUTOFOCUS 
+      id="pasteHere" 
+      ng-model="submission" 
+      placeholder="Your C-CDA here"></textarea><br>
 
     <button 
       ng-click="getScore()"
@@ -43,33 +47,52 @@
     </h1>
 
     <div ng-repeat="section in scoreSections">
-      <h2 class="scoreOneline" style="display: inline-block; margin-bottom: .2em;">{{section.name}}</h1>
-      <h2 style="display: inline-block; margin-bottom: .2em;">{{section.percent}}%</h1>
+
+      <h2 class="scoreOneline headerTable">{{section.name}}</h2>
+
+      <h2 class="headerTable">
+        <span ng-show="section.percent != null">{{section.percent}}%</span>
+        <span ng-hide="section.percent != null">N/A</span>
+      </h2>
 
       <table class="scoreTable table table-bordered table-condensed">
 
-        <tbody 
-          ng-repeat="score in section.scores" 
-          ng-init="c=cssClassFor(score); r = rubrics[score.rubric]; showDetails=true;" >
-          <tr ng-class="c" ng-click="showDetails=!showDetails">
-            <td class="scoreOneline">{{r.description}}</td>
-            <td class="scorePoints">{{score.score}}/{{r.maxPoints}} points</td>
+        <tbody ng-repeat="score in section.scores" ng-controller="ScoreController" >
+          <tr ng-class="cssClass()" ng-click="showDetails = !showDetails">
+            <td class="scoreOneline">{{rubric.description}}</td>
+            <td class="scorePoints">
+              <span ng-switch on="score.doesNotApply">
+                <span ng-show="score.doesNotApply">
+                  N/A
+                </span>
+                <span ng-hide="score.doesNotApply">
+                  {{score.score}}/{{rubric.maxPoints}} points 
+                </span>
+              </span>
+            </td>
           </tr>
+
           <tr ng-switch on="showDetails">
             <td ng-switch-when="true" colspan="2">
               <div class="comparison">
+
                 <div class="histogram">
-                  <stats-histogram distribution="stats[score.rubric].counts"></stats-histogram><br>
+                  <stats-histogram distribution="stats[score.rubric].counts"/><br>
                   All C-CDAS
                 </div>
 
-                <div class="rubricDetail"><strong>Best Practice:</strong> {{r.detail}}</div>
+                <div class="rubricDetail">
+                  <strong>Best Practice:</strong> {{rubric.detail}}
+                </div>
+
                 <div ng-show="score.detail">
                   <hr>
                   <strong>Your Results:</strong>
                   <span ng-bind-html-unsafe="score.detail"></span>
                 </div>
+
                 <br style="clear: both">
+
               </div>
             </td>
           </tr>

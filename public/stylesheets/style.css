@@ -1,6 +1,74 @@
+/* Custom Styles */
+
+.comparison h2{
+   font-size: 20px;
+   margin-top: 0px;
+}
+
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+   padding-top: 60px;
+   overflow-y: scroll;
 }
-a {
-  color: #00b7ff;
+
+.controls {
+   margin-bottom: 1em;
 }
+#pasteHere {
+   width: 100%
+}
+
+.scoreOneline {
+   width: 90%;
+}
+
+.scorePoints {
+   width: 10%;
+   font-weight: bold;
+}
+
+.rubricDetail{font-style: italic;}
+.comparison {margin-bottom: 0.5em;}
+.grade {margin-right: 10px;}
+
+.headerTable {
+   display: inline-block; margin-bottom: 0.2em;
+}
+
+.scoreTable td {
+   cursor: pointer;
+}
+
+.fadedIn {
+   opacity: 1;
+}
+
+.fadedOut {
+   opacity: 0;
+}
+.detailRow{
+   padding-bottom: 1.5em;
+}
+
+table h2 {margin-bottom: 0em;}
+
+.histogram {
+   float: right;
+   text-align: center;
+   font-style: italic;
+}
+
+
+.chart rect {
+   fill: lightslategrey;
+   shape-rendering: crispEdges;
+   stroke: white;
+}
+.chart line {
+   stroke: steelblue;
+}
+
+.chart text {
+   color: blueblack;
+   font-size: 8pt;
+}
+

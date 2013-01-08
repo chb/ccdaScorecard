@@ -8,49 +8,74 @@ angular.module('ccdaScorecard', ['ngResource'], function($routeProvider, $locati
   console.log("Started module");
 });
 
-angular.module('ccdaScorecard').controller("MainController",  
-  function($scope, $route, $routeParams, $rootScope, $resource, $http) {
+angular.module('ccdaScorecard').factory('Scorecard', function($resource, $http) {
 
-    // Resource to fetch data for interpreting / calculating scores.
-    // TODO: abstract this into a service when we have >1 controller.
-    var Scorecard = $resource('/v1/ccda-scorecard/:res', {}, {
-      rubrics: {method:'GET', params: {res: "rubrics"}},
-      stats: {method:'GET', params: {res: "stats"}},
+
+  // Resource to fetch data for interpreting / calculating scores.
+  // TODO: abstract this into a service when we have >1 controller.
+  var Scorecard = $resource('/v1/ccda-scorecard/:res', {}, {
+    rubrics: {method:'GET', params: {res: "rubrics"}},
+    stats: {method:'GET', params: {res: "stats"}},
+  });
+
+  // simulate a `request` method because ng's $resource doesn't (yet)
+  // support custom headers or explicit Content-type.
+  Scorecard.request = function(_, data) {
+    var ret = [];
+    $http({
+      method: "POST",
+      data: data,
+      url: "/v1/ccda-scorecard/request?example="+_.isExample,
+      headers: {"Content-Type": "application/x-www-form-urlencoded"}
+    }).success(function(r){
+      for (var i = 0; i < r.length; i++){
+        ret.push(r[i]);
+      }
     });
+    return ret;
+  }
 
-    // simulate a `request` method because ng's $resource doesn't (yet)
-    // support custom headers or explicit Content-type.
-    Scorecard.request = function(_, data) {
-      var ret = [];
-      $http({
-        method: "POST",
-        data: data,
-        url: "/v1/ccda-scorecard/request?example="+_.example,
-        headers: {"Content-Type": "application/x-www-form-urlencoded"}
-      }).success(function(r){
-        console.log("got a req", r);
-        $scope.scoring = false;
-        for (var i = 0; i < r.length; i++){
-          ret.push(r[i]);
-        }
-      });
-      return ret;
-    }
+  // ng's $resource can't grab a single string except to treat it 
+  // as a character array... so we do this the old-fashioned way, too.
+  Scorecard.getExample = function($scope) {
+    $http({method: 'GET', url: '/static/ccdaScorecard/example.ccda.xml'})
+    .success(function(data, status, headers, config) {
+      console.log("got example");
+      $scope.example = data;
+    });
+    return "";
+  }
 
-    // ng's $resource can't grab a single string except to treat it 
-    // as a character array... so we do this the old-fashioned way, too.
-    Scorecard.getExample = function() {
-      $http({method: 'GET', url: '/static/ccdaScorecard/example.ccda.xml'})
-      .success(function(data, status, headers, config) {
-        console.log("got example");
-        $scope.example = data;
-      });
-      return "";
-    }
+  Scorecard.rubrics = Scorecard.rubrics();
+  Scorecard.stats = Scorecard.stats();
 
-    $scope.stats = Scorecard.stats();
-    $scope.rubrics = Scorecard.rubrics();
-    $scope.example = Scorecard.getExample();
+  return Scorecard;
+});
+
+angular.module('ccdaScorecard').controller("ScoreController",  
+  function($scope, Scorecard) {
+
+    var rubric = $scope.rubric = Scorecard.rubrics[$scope.score.rubric];
+    console.log("r", rubric);
+
+    $scope.cssClass = function(){
+      var score = $scope.score.score;
+      var max = rubric.maxPoints;
+      if (score === max){return "success";}
+      else if (score ===0) {return "error";}
+      return "warning";
+    };
+
+    $scope.showDetails = true;
+  }
+);
+
+angular.module('ccdaScorecard').controller("MainController",  
+  function($scope, Scorecard) {
+
+    $scope.stats = Scorecard.stats;
+    $scope.rubrics = Scorecard.rubrics;
+    $scope.example = Scorecard.getExample($scope);
 
     $scope.getScore = function(){
       $scope.scoring = true;
@@ -59,7 +84,7 @@ angular.module('ccdaScorecard').controller("MainController",
       var toSubmit = $scope.submission.trim();
 
       $scope.scores = Scorecard.request({
-        example: (toSubmit === $scope.example.trim())
+        isExample: (toSubmit === $scope.example.trim())
       }, toSubmit);
 
     };
@@ -88,14 +113,20 @@ angular.module('ccdaScorecard').controller("MainController",
         var sectionMaxPoints = 0;
 
         section.scores.forEach(function(s){
+          if (s.doesNotApply) {
+            return;
+          }
           sectionPoints += s.score;
           overallPoints += s.score;
           sectionMaxPoints += $scope.rubrics[s.rubric].maxPoints;
           overallMaxPoints += $scope.rubrics[s.rubric].maxPoints;
         });
 
-        section.percent = parseInt(100 * sectionPoints / sectionMaxPoints);
-
+        if (sectionMaxPoints === 0){
+          section.percent = null;
+        } else { 
+          section.percent = parseInt(100 * sectionPoints / sectionMaxPoints);
+        }
         ret.push(section);
       });
 
@@ -107,7 +138,7 @@ angular.module('ccdaScorecard').controller("MainController",
 
     $scope.$watch("scores", function(scores){
       if (!scores) return;
-
+      $scope.scoring = false;
       $scope.scoreSections = parseSections(scores);
     }, true);
 
@@ -117,18 +148,10 @@ angular.module('ccdaScorecard').controller("MainController",
         Object.keys($scope.stats).length  ==  0 || 
         Object.keys($scope.rubrics).length == 0
       );
-      console.log("loading", ret);
       return ret;
     }
 
-    $scope.cssClassFor = function(score){
-      var max = $scope.rubrics[score.rubric].maxPoints;
-      if (score.score === max){return "success";}
-      else if (score.score ===0) {return "error";}
-      return "warning";
-    };
-
-    $scope.showDetails = function(score){
+   $scope.showDetails = function(score){
       score.showDetails = true;
     };
 
