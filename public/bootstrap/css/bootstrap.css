@@ -5772,11 +5772,3 @@ a.badge:hover {
 .affix {
   position: fixed;
 }
-
-
-/* Custom Styles */
-
-.ng-scope .comparison h2{
-  font-size: 20px;
-	margin-top: 0px;
-}
