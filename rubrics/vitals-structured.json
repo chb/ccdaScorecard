@@ -1,0 +1,13 @@
+{
+  "id": "vitals-structured",
+  "scorecards": ["smart"],
+  "category": ["Vitals", "Codes"],
+  "description": "Vitals are represented using structured entries",
+  "detail": "Vitals in C-CDA should be represented with individual structured entries corresponding to BP, Heart Rate, etc. ",
+  "maxPoints": 5,
+  "points": {
+    "5": "Vitals are represented with structure",
+    "0": "Vitals are represnted without structure"
+  },
+  "doesNotApply": "No vitals in document"
+}
