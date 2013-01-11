@@ -1,17 +1,22 @@
 <% if (misses.length > 0) {%>
 
-## Some lab codes weren't in the *[Loinc Top 2000+](http://loinc.org/usage/obs)* value set.
+<h2>
+<%= misses.length %> of <%= (misses.length + hits.length)%> 
+lab result codes weren't in the recommended value sets
+</h2>
 
-Note: This may be normal, if this C-CDA document includes unusual lab tests.
-But look through the un-matched codes below to make sure you don't have a LOINC
-mapping error in your export pipeline.
+<p>
+Recommended: <a target="_blank" href="http://loinc.org/usage/obs">
+LOINC Top 2000 Codes
+</a>
+</p>
 
-<% misses.forEach(function(miss){ %>
+<p>
+Note: This may be normal, if this C-CDA document includes unusual labs for
+which no common LOINC code exists.  But look through the un-matched codes
+below to make sure you don't have a mapping error in your export pipeline.
+</p>
 
- * "<%= miss.displayName %>": *<%= miss.codeSystemName %>* code `<%= miss.code %>` 
+<% include partials/codeTable%>
 
-<% }); %> 
-
-
-<%}%>
-
+<% } %>

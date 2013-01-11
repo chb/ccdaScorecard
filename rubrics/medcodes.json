@@ -2,7 +2,7 @@
   "id": "medcodes",
   "scorecards": ["c-cda", "smart"],
   "category": ["Medications", "Codes"],
-  "description": "Medications coded with RxNorm SCD codes",
+  "description": "Medications coded with RxNorm SCD, SBD, GPCK, or BPCPK codes",
   "detail": "C-CDA medication lists should contain medications coded as RxNorom Semantic Clinical Drugs. This means (for example) products on the level of 'loratadine 10mg oral tablet'.",
   "maxPoints": 3,
   "points": {

@@ -6,7 +6,7 @@ rubric.prototype.report = function(done){
   var ccda = this.manager.ccda;
   var vocab = this.manager.vocab;
 
-  var codes = common.valueSetMembership(ccda, labCodeXpath, valueSetOid, vocab);
+  var codes = common.valueSetMembership(ccda, labCodeXpath, recommendedValueSets, vocab);
 
   var numerator = codes.inSet.length;
   var denominator = codes.notInSet.length + numerator;
@@ -15,7 +15,7 @@ rubric.prototype.report = function(done){
     rubric, 
     numerator, 
     denominator, 
-    {misses: codes.notInSet}
+    {hits: codes.inSet, misses: codes.notInSet}
   );
 
   done(null, report);
@@ -30,4 +30,7 @@ h:code";
 
 // internal Value Set OID surrogate, since
 // there's no official OID for this top-2k extract
-var valueSetOid = "LoincTop2000CodesUSAValueSet";
+var recommendedValueSets = [
+  //  Unofficial SMART recommendation
+  "LOINC Top 2000"
+];

@@ -1,17 +1,18 @@
-  
 <% if (misses.length > 0) {%>
 
-## Some drug codes weren't in the *[HITSP Medication List](http://phinvads.cdc.gov/vads/ViewValueSet.action?oid=2.16.840.1.113883.3.88.12.80.17)*.
+<h2>
+<%= misses.length %> of <%= (misses.length + hits.length)%> 
+medication codes weren't in the recommended value sets
+</h2>
 
-This Medication List value set consists of 31K codes from RxNorm.
 
-Note: This may be normal, if this C-CDA document includes unusual drugs for which no appropriate RxNorm code exists.  But look through the un-matched codes below to make sure you don't have a mapping error in your export pipeline.
+<p>
+Recommended: <a target="_blank" href="http://phinvads.cdc.gov/vads/ViewValueSet.action?oid=2.16.840.1.113883.3.88.12.80.17">
+HITSP Clinical Drug
+</a><br>
+The expanded edition of this value set includes all current RxNorm SCD, SBD, GPCK, and BPCK terms.
+</p>
 
-<% misses.forEach(function(miss){ %>
-
- * "<%= miss.displayName %>": *<%= miss.codeSystemName %>* code `<%= miss.code %>` 
-
-<% }); %> 
-
+<% include partials/codeTable%>
 
 <%}%>

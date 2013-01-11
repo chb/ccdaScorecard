@@ -1,14 +1,21 @@
 <% if (misses.length > 0) {%>
 
-## Some problem codes weren't in the *[HITSP Problem List](http://phinvads.cdc.gov/vads/ViewValueSet.action?oid=2.16.840.1.113883.3.88.12.3221.7.4)* value set, consisting of 16K codes from SNOMED CT.
+<h2>
+<%= misses.length %> of <%= (misses.length + hits.length)%> 
+problem codes weren't in the recommended value sets
+</h2>
 
-Note: This may be normal, if this C-CDA document includes unusual problems for which no appropriate SNOMED code exists.  But look through the un-matched codes below to make sure you don't have a mapping error in your export pipeline.
+<p>
+Recommended: <a target="_blank" href="http://phinvads.cdc.gov/vads/ViewValueSet.action?oid=2.16.840.1.113883.3.88.12.3221.7.4">
+HITSP Problem List
+</a>
+</p>
 
-<% misses.forEach(function(miss){ %>
+<p>
+Note: This may be normal, if this C-CDA document includes unusual problems for
+which no appropriate SNOMED code exists.  But look through the un-matched codes
+below to make sure you don't have a mapping error in your export pipeline.
+</p>
 
- * "<%= miss.displayName %>": *<%= miss.codeSystemName %>* code `<%= miss.code %>` 
-
-<% 
-  });  
-}
-%>
+<% include partials/codeTable%>
+<% } %>
