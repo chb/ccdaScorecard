@@ -12,6 +12,7 @@
     <script src="/static/bootstrap/js/jquery.js"></script>
     <script src="/static/js/Markdown.Converter.js"></script>
     <script src="/static/js/d3.v2.min.js"></script>
+    <script src="/static/js/modernizr.js"></script>
   </head>
 
   <body>
@@ -37,6 +38,25 @@
     </footer>
   </div>
 
+  <div id="unsupportedModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="unsupportedBrowser" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="unsupportedBrowser">Browser Unsupported</h3>
+    </div>
+    <div class="modal-body">
+      <p>It looks like your browser doesn't support the SMART C-CDA Scorecard.  You can try anyway, but we recommend</p>
+      <ul>
+        <li><a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a></li>
+        <li><a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a></li>
+        <li><a href="http://www.apple.com/safari/">Safari</a></li>
+        <li><a href="http://windows.microsoft.com/en-US/internet-explorer/download-ie">IE 9+</a></li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button  data-dismiss="modal" class="btn btn-primary">I understand!</button>
+    </div>
+  </div>
+
   <!-- Le javascript
   ================================================== -->
   <!-- Placed at the end of the document so the pages load faster -->
@@ -57,6 +77,12 @@
   <script src="/static/angular/angular-sanitize.js"></script>
   <script src="/static/ccdaScorecard/controllers.js"></script>
   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+  <script>
+    if (!Modernizr.svg){
+      $('#unsupportedModal').modal();
+    }
+  </script>
 
 </body>
 </html>

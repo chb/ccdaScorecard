@@ -1,10 +1,16 @@
 angular.module('ccdaScorecard', ['ngResource'], function($routeProvider, $locationProvider){
-  $routeProvider.when('/static/ccdaScorecard/', {
+
+ $routeProvider.when('/', {
     templateUrl:'/static/ccdaScorecard/templates/index.html',
     controller: 'MainController'
   }) 
 
-  $locationProvider.html5Mode(true);
+ $routeProvider.when('/static/ccdaScorecard/', {
+    templateUrl:'/static/ccdaScorecard/templates/index.html',
+    controller: 'MainController'
+  }) 
+
+//  $locationProvider.html5Mode(true);
   console.log("Started module");
 });
 
