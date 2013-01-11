@@ -11,8 +11,6 @@ rubric.prototype.report = function(done){
   var numerator = codes.inSet.length;
   var denominator = codes.notInSet.length + numerator;
 
-  console.log("med results", codes.inSet[0].normalized);
-
   var report = common.report(rubric, numerator, denominator, {
     hits: codes.inSet, 
     misses: codes.notInSet

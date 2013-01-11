@@ -78,7 +78,6 @@ angular.module('ccdaScorecard').controller("MainController",
     $scope.example = Scorecard.getExample($scope);
 
     $scope.getScore = function(){
-      $scope.scoring = true;
 
       console.log("requesting", $scope);
       var toSubmit = $scope.submission.trim();
@@ -87,6 +86,7 @@ angular.module('ccdaScorecard').controller("MainController",
         isExample: (toSubmit === $scope.example.trim())
       }, toSubmit);
 
+      $scope.scoring = true;
     };
 
 
@@ -137,7 +137,7 @@ angular.module('ccdaScorecard').controller("MainController",
     }
 
     $scope.$watch("scores", function(scores){
-      if (!scores) return;
+      if (!scores || scores.length == 0) return;
       $scope.scoring = false;
       $scope.scoreSections = parseSections(scores);
     }, true);
