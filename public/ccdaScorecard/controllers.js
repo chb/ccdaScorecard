@@ -1,16 +1,16 @@
 angular.module('ccdaScorecard', ['ngResource'], function($routeProvider, $locationProvider){
 
- $routeProvider.when('/', {
+  $routeProvider.when('/', {
     templateUrl:'/static/ccdaScorecard/templates/index.html',
     controller: 'MainController'
   }) 
 
- $routeProvider.when('/static/ccdaScorecard/', {
+  $routeProvider.when('/static/ccdaScorecard/', {
     templateUrl:'/static/ccdaScorecard/templates/index.html',
     controller: 'MainController'
   }) 
 
-//  $locationProvider.html5Mode(true);
+  //  $locationProvider.html5Mode(true);
   console.log("Started module");
 });
 
@@ -61,6 +61,8 @@ angular.module('ccdaScorecard').factory('Scorecard', function($resource, $http) 
 angular.module('ccdaScorecard').controller("ScoreController",  
   function($scope, Scorecard) {
 
+    $scope.$parent.scoreChildren.push($scope);
+
     var rubric = $scope.rubric = Scorecard.rubrics[$scope.score.rubric];
     console.log("r", rubric);
 
@@ -79,6 +81,8 @@ angular.module('ccdaScorecard').controller("ScoreController",
 angular.module('ccdaScorecard').controller("MainController",  
   function($scope, Scorecard) {
 
+    $scope.scoreChildren = [];
+
     $scope.stats = Scorecard.stats;
     $scope.rubrics = Scorecard.rubrics;
     $scope.example = Scorecard.getExample($scope);
@@ -95,6 +99,17 @@ angular.module('ccdaScorecard').controller("MainController",
       $scope.scoring = true;
     };
 
+    function childDetails(v){
+      return function(){
+      console.log("setting kids", v, $scope.scoreChildren.length);
+        $scope.scoreChildren.forEach(function(s){
+          s.showDetails = v;
+        });
+      }
+    };
+
+    $scope.collapseAllScores = childDetails(false);
+    $scope.expandAllScores = childDetails(true);
 
     function parseSections(scoreList){
       var sections = {}, ret = [];
@@ -114,7 +129,7 @@ angular.module('ccdaScorecard').controller("MainController",
         sections[k] = sections[k].sort(function(a,b){
           return a.rubric === b.rubric ? 0 : a.rubric < b.rubric ? -1 : 1;
         });
-        
+
         var section = {
           name: k,
           scores: sections[k]
@@ -162,7 +177,7 @@ angular.module('ccdaScorecard').controller("MainController",
       return ret;
     }
 
-   $scope.showDetails = function(score){
+    $scope.showDetails = function(score){
       score.showDetails = true;
     };
 

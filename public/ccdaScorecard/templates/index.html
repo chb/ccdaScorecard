@@ -39,13 +39,15 @@
   <div class="span12">
     <div ng-show="scoring" id="scoring">Scoring...</div>
 
-    <h1 ng-show="scoreSections.length > 0">
-
+    <div ng-show="scoreSections.length > 0" >
+    <h2 id="overall">
       Your C-CDA's overall score: {{overallPercent}}%
-      <tweet-button score="{{overallPercent}}"></tweet-button>
+    </h2>
+  <a ng-click="collapseAllScores()" class="btn btn-mini"><i class="icon-minus-sign"></i> Collapse all</a>
+  <a ng-click="expandAllScores()" class="btn btn-mini"><i class="icon-plus-sign"></i> Expand all</a>
+  <tweet-button class="tweetButton" score="{{overallPercent}}"></tweet-button>
 
-    </h1>
-
+  </div>
     <div ng-repeat="section in scoreSections">
 
       <h2 class="scoreOneline headerTable">{{section.name}}</h2>
@@ -58,8 +60,13 @@
       <table class="scoreTable table table-bordered table-condensed">
 
         <tbody ng-repeat="score in section.scores" ng-controller="ScoreController" >
+
           <tr ng-class="cssClass()" ng-click="showDetails = !showDetails">
-            <td class="scoreOneline">{{rubric.description}}</td>
+            <td class="scoreOneline">
+              <i ng-show="showDetails" class="icon-chevron-down"></i>
+              <i ng-hide="showDetails" class="icon-chevron-right"></i>
+              {{rubric.description}}
+            </td>
             <td class="scorePoints">
               <span ng-switch on="score.doesNotApply">
                 <span ng-show="score.doesNotApply">

@@ -34,8 +34,25 @@ body {
    display: inline-block; margin-bottom: 0.2em;
 }
 
-.scoreTable td {
+.scoreTable  td.scoreOneline, .scoreTable td.scorePoints {
    cursor: pointer;
+}
+.pointer{
+   cursor: pointer;
+   float: right;
+   font-size: 14px;
+}
+
+.tweetButton{
+  float: right;
+  margin-top: 16px;
+}
+.pointer:last-child{
+   margin-left: 1em;
+}
+
+.spaceRight{
+   margin-right: 1em;
 }
 
 .fadedIn {
@@ -72,3 +89,8 @@ table h2 {margin-bottom: 0em;}
    font-size: 8pt;
 }
 
+#overall{
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: .5em;
+}
