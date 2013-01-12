@@ -18,8 +18,6 @@ rubric.prototype.report = function(done){
       return problemStatusMap[s.value()];
     });
 
-    console.log("problem, cocncern: ", concern, xpath(concern, xpaths.problemStatus), concernStatus, problemStatus);
-
     if (problemStatus.length === 0) {
       return numerator++;
     }

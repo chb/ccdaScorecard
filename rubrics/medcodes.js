@@ -11,6 +11,8 @@ rubric.prototype.report = function(done){
   var numerator = codes.inSet.length;
   var denominator = codes.notInSet.length + numerator;
 
+  console.log(codes.notInSet, "missed meds");
+
   var report = common.report(rubric, numerator, denominator, {
     hits: codes.inSet, 
     misses: codes.notInSet

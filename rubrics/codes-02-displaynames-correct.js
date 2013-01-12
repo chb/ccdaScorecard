@@ -46,7 +46,6 @@ rubric.prototype.report = function(done){
 
     if (unmatchedTokens.length * 1.0 / tokens.length > .5){
       c.normalized = umls;
-      console.log("unmatched tokens", unmatchedTokens, tokens, umls.conceptNameTokens);
       return misses.push(c);
     }
 

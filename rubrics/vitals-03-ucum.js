@@ -26,8 +26,6 @@ rubric.prototype.report = function(done){
       var unit = common.xpath(v, "string(./h:value/@unit)");
       var value = common.xpath(v, "string(./h:value/@value)");
 
-      console.log("expect code", code.code);
-      
       if (!unitMap[code.code]) {
         return;
        }

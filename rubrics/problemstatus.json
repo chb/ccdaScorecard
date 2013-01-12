@@ -2,7 +2,7 @@
   "scorecards": ["smart"],
   "category": ["Problems"],
   "description": "Problem statuses are internally consistent",
-  "detail": "Each concern act should contain exactly one problem.  If the concern act status code is 'completed', the problem should have a status observation with a value of 'Resolved' or 'Inactive'.  If the concern act status code is 'active', the problem should have a status observation with a value of 'Active'.",
+  "detail": "Each concern act should contain exactly one problem.  If there is a status attached to the concern act as well as the problem, these should not contradict.  A concern status of 'completed' is compatible with a problem status of 'Resolved' or 'Inactive'.  A concern status of 'active' is compatible with a problem status of 'Active'.",
   "maxPoints": 3,
   "points": {
     "3": "Each problem has consistent active/complete status",

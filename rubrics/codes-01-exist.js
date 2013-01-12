@@ -25,8 +25,6 @@ rubric.prototype.report = function(done){
     vocab.lookup(c) ? hits.push(c) : misses.push(c);
   });
 
-  console.log("umls codes", codes.length, hits.length);
-
   var points = (hits.length === codes.length)  ? codes.length : 0;
 
   var report = common.report(rubric, points, codes.length, {
