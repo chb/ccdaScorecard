@@ -12,7 +12,7 @@
     <textarea AUTOFOCUS 
       id="pasteHere" 
       ng-model="submission" 
-      placeholder="Your C-CDA here"></textarea><br>
+      placeholder="Your C-CDA here.  (No protected health information.  Submissions logged.)"></textarea><br>
 
     <button 
       ng-click="getScore()"
@@ -28,8 +28,7 @@
       class="btn">
       Show me an example
     </button>
-
-    <span ng-show="loading()" id='loading'>loading...</span>
+    <span ng-show="loading()" id='loading'>loading...</span><br>
     <hr>
   </div>
 </div>
