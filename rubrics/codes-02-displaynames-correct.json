@@ -1,8 +1,7 @@
 {
-  "id": "codes-exist",
   "scorecards": ["smart"],
   "category": ["General", "Codes"],
-  "description": "Codes from SNOMED CT, LOINC, and RxNorm match their displayName",
+  "description": "SNOMED CT, LOINC, and RxNorm codes match their displayName",
   "detail": "Codes in a C-CDA should assign a valid @displayName that reflects the meaning of the underlying concept.  A best practice is to use a preferred label from UMLS.",
   "maxPoints": 3,
   "points": {

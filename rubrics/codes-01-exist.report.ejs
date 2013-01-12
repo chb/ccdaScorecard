@@ -1,0 +1,24 @@
+<% if (misses.length > 0) {%>
+
+<h2>
+<%= misses.length %> of <%= (misses.length + hits.length)%> 
+codes weren't found in UMLS 2012AB</h2>
+<table class="table table-bordered table-striped">
+<tr>
+<th colspan="2">Your code</th>
+<th>What now?</th>
+</tr>
+
+<% misses.forEach(function(miss){ %>
+<tr>
+<td>
+<code><%= miss.codeSystemName %>:<%= miss.code %></code> 
+</td>
+<td>
+"<%= miss.displayName %>"
+</td>
+<td>Check mapping</td>
+</tr>
+<% }) %>
+</table>
+<% } %>

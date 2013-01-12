@@ -1,5 +1,4 @@
 {
-  "id": "nulliness",
   "scorecards": ["smart"],
   "category": ["General", "Codes"],
   "description": "Codes are not null",

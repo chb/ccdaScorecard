@@ -1,5 +1,4 @@
 {
-  "id": "medcodes",
   "scorecards": ["c-cda", "smart"],
   "category": ["Medications", "Codes"],
   "description": "Medications coded with RxNorm SCD, SBD, GPCK, or BPCPK codes",

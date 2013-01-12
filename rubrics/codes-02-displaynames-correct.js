@@ -24,7 +24,6 @@ rubric.prototype.report = function(done){
   codes.forEach(function(c){
     var umls = vocab.lookup(c);
 
-
     if (!umls || !c.displayName || !c.codeSystemName) {
       return; // TODO: check for this error condition in a separate rubric
     }
@@ -64,15 +63,3 @@ rubric.prototype.report = function(done){
 
   done(null, report);
 };
-
-var medCodeXpath = "//h:templateId[@root='2.16.840.1.113883.10.20.22.2.1.1']/../" + 
-  "h:entry/h:substanceAdministration/"+
-  "h:templateId[@root='2.16.840.1.113883.10.20.22.4.16']/../" + 
-  "h:consumable/h:manufacturedProduct/" + 
-  "h:manufacturedMaterial/h:code";
-
-var recommendedValueSets = [
-  //  Unofficial SMART recommendation
-  "RxNorm Generic Clinical Drug",
-  "RxNorm Branded Clinical Drug"
-];

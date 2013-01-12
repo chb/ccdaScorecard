@@ -1,5 +1,4 @@
 {
-  "id": "vitals-structured",
   "scorecards": ["smart"],
   "category": ["Vitals", "Codes"],
   "description": "Vitals are represented using structured entries",

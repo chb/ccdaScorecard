@@ -1,0 +1,40 @@
+<% if (misses.length > 0) {%>
+
+<h2>
+<%= misses.length %> of <%= (misses.length + hits.length)%> 
+vital signs weren't recorded with the recommended UCUM units</h2>
+<table class="table table-bordered table-striped">
+<tr>
+<th colspan="2">Vital</th>
+<th>Value</th>
+<th>Your units</th>
+<th>Preferred units</th>
+<th>What now?</th>
+</tr>
+
+<% misses.forEach(function(miss){ %>
+<tr>
+<td>
+<code>
+<%= miss.code.normalized.codeSystemName %>:<%= miss.code.normalized.code %>
+</code> 
+</td>
+<td>
+<%= miss.code.normalized.conceptName %>
+</td>
+<td> "<%= miss.value %>" </td>
+<td> <code><%= miss.unit %></code> </td>
+<td> 
+<ul>
+<% miss.preferred.forEach(function(preferred){ %>
+ <li><code><%= preferred %></code> </li>
+<% }); %>
+</ul>
+</td>
+<td>
+Check mapping to <a target="_blank" href="http://unitsofmeasure.org/ucum.html">UCUM</a>
+</td>
+</tr>
+<% }) %>
+</table>
+<% } %>

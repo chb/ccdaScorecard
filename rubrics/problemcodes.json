@@ -1,5 +1,4 @@
 {
-  "id": "problemcodes",
   "scorecards": ["c-cda", "smart"],
   "category": ["Problems", "Codes"],
   "description": "Problems coded with HITSP's 16K SNOMED subset",

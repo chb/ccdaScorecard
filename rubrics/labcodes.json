@@ -1,5 +1,4 @@
 {
-  "id": "labcodes",
   "scorecards": ["c-cda", "smart"],
   "category": ["Lab Results", "Codes"],
   "description": "Lab Results coded with LOINC's top 2K codes",

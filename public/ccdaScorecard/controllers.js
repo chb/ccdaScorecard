@@ -110,6 +110,11 @@ angular.module('ccdaScorecard').controller("MainController",
       var overallMaxPoints = 0;
 
       Object.keys(sections).sort().forEach(function(k){
+
+        sections[k] = sections[k].sort(function(a,b){
+          return a.rubric === b.rubric ? 0 : a.rubric < b.rubric ? -1 : 1;
+        });
+        
         var section = {
           name: k,
           scores: sections[k]

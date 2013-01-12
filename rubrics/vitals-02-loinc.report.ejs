@@ -1,0 +1,20 @@
+<% if (misses.length > 0) {%>
+
+<h2>
+<%= misses.length %> of <%= (misses.length + hits.length)%> 
+vital sign codes weren't in the recommended value set
+</h2>
+
+<p>
+Recommended value set: <a target="_blank" href="http://phinvads.cdc.gov/vads/ViewValueSet.action?oid=https://phinvads.cdc.gov/vads/ViewValueSet.action?oid=2.16.840.1.113883.3.88.12.80.62">
+HITSP Vital Sign Result
+</a>
+</p>
+
+<p> Note: This may be normal, if this C-CDA document includes unusual
+vitals for which no appropriate LOINC code exists.  But look through the
+un-matched codes below to make sure you don't have a mapping error in your
+export pipeline.  </p>
+
+<% include partials/codeTable%>
+<% } %>

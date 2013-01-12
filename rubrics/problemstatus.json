@@ -1,5 +1,4 @@
 {
-  "id": "problemstatus",
   "scorecards": ["smart"],
   "category": ["Problems"],
   "description": "Problem statuses are internally consistent",
