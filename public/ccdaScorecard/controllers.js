@@ -61,7 +61,9 @@ angular.module('ccdaScorecard').factory('Scorecard', function($resource, $http) 
 angular.module('ccdaScorecard').controller("ScoreController",  
   function($scope, Scorecard) {
 
-    $scope.$parent.scoreChildren.push($scope);
+    $scope.$on("expandRequest", function(e, state){
+      $scope.showDetails = state;
+    });
 
     var rubric = $scope.rubric = Scorecard.rubrics[$scope.score.rubric];
     console.log("r", rubric);
@@ -81,8 +83,6 @@ angular.module('ccdaScorecard').controller("ScoreController",
 angular.module('ccdaScorecard').controller("MainController",  
   function($scope, Scorecard) {
 
-    $scope.scoreChildren = [];
-
     $scope.stats = Scorecard.stats;
     $scope.rubrics = Scorecard.rubrics;
     $scope.example = Scorecard.getExample($scope);
@@ -99,17 +99,8 @@ angular.module('ccdaScorecard').controller("MainController",
       $scope.scoring = true;
     };
 
-    function childDetails(v){
-      return function(){
-      console.log("setting kids", v, $scope.scoreChildren.length);
-        $scope.scoreChildren.forEach(function(s){
-          s.showDetails = v;
-        });
-      }
-    };
-
-    $scope.collapseAllScores = childDetails(false);
-    $scope.expandAllScores = childDetails(true);
+    $scope.expandAllScores = function(){$scope.$broadcast("expandRequest", true);};
+    $scope.collapseAllScores = function(){$scope.$broadcast("expandRequest", false);};
 
     function parseSections(scoreList){
       var sections = {}, ret = [];
