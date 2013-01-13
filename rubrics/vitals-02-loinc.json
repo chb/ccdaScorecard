@@ -2,7 +2,7 @@
   "scorecards": ["smart"],
   "category": ["Vitals", "Codes"],
   "description": "Vitals are expressed with LOINC codes",
-  "detail": "Vitals in C-CDA should be coded with LOINC.  Specifically, with codes from the HITSP Vital Sign Result value set",
+  "detail": "Vitals in C-CDA should be coded with LOINC.  Specifically, with codes from the HITSP Vital Sign Result value set.",
   "maxPoints": 3,
   "points": {
     "3": "> 80% of vitals have an LOINC Vital Sign Result code",

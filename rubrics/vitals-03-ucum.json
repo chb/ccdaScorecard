@@ -2,7 +2,7 @@
   "scorecards": ["smart"],
   "category": ["Vitals", "Codes"],
   "description": "Vitals are expressed with UCUM units",
-  "detail": "Vitals in C-CDA should be represented with physical quantities that have appropriate UCUM codes",
+  "detail": "Vitals in C-CDA should be represented with physical quantities that have appropriate UCUM codes.",
   "maxPoints": 5,
   "points": {
     "5": "Vitals are represented with appropriate UCUM codes",
