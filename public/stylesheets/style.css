@@ -5,6 +5,11 @@
    margin-top: 0px;
 }
 
+img.smartlogo {
+	float: right;
+	margin-top: -0.5em;
+}
+
 body {
    padding-top: 60px;
    overflow-y: scroll;
