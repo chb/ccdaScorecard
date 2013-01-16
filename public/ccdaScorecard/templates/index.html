@@ -1,5 +1,5 @@
 <!--d Main hero unit for a primary marketing message or call to action -->
-<div class="hero-unit">
+<div class="hero-unit beautiful">
   <h1>
     <img class="smartlogo" src="/static/images/smart-logo.png"></img>
     Your C-CDA.  Beautiful.</h1>
@@ -31,24 +31,31 @@
       Show me an example.
     </button>
     <span ng-show="loading()" id='loading'>loading...</span><br>
-    <hr>
   </div>
 </div>
 
-<div id="feedbackSection" class="row">
+<div id="feedbackHeader" class="row">
 
-  <div class="span12">
-    <div ng-show="scoring" id="scoring">Scoring...</div>
 
-    <div ng-show="scoreSections.length > 0" >
+  <div class="span12" ng-show="scoring" id="scoring">Scoring...</div>
+
+  <div class="span12" ng-show="scoreSections.length > 0" >
     <h2 id="overall">
-      Your C-CDA's overall score: {{overallPercent}}%
+      Your C-CDA's overall score: <strong>{{overallPercent}}%</strong>
     </h2>
-  <a ng-click="collapseAllScores()" class="btn btn-mini"><i class="icon-minus-sign"></i> Collapse all</a>
-  <a ng-click="expandAllScores()" class="btn btn-mini"><i class="icon-plus-sign"></i> Expand all</a>
-  <tweet-button class="tweetButton" score="{{overallPercent}}"></tweet-button>
 
   </div>
+
+  <div class="span12" ng-show="scoreSections.length > 0" id="collapseButtons" >
+    <a ng-click="collapseAllScores()" class="btn btn-mini"><i class="icon-minus-sign"></i> Collapse all</a>
+    <a ng-click="expandAllScores()" class="btn btn-mini"><i class="icon-plus-sign"></i> Expand all</a>
+    <tweet-button class="tweetButton" score="{{overallPercent}}"></tweet-button>
+  </div>
+
+</div>
+
+<div id="feedbackSection" class="row">
+  <div class="span12">
     <div ng-repeat="section in scoreSections">
 
       <h2 class="scoreOneline headerTable">{{section.name}}</h2>
@@ -83,18 +90,18 @@
           <tr ng-switch on="showDetails">
             <td ng-switch-when="true" colspan="2">
               <div class="comparison">
-
+              <!--
                 <div class="histogram">
-                  <stats-histogram distribution="stats[score.rubric].counts"/><br>
-                  All C-CDAS
+                  <div class="stats-histogram" distribution="stats[score.rubric].counts"/>
+                  All C-CDAS Scored
                 </div>
+                -->
 
                 <div class="rubricDetail">
-                  <p class="text-info"><strong>Best Practice: </strong>{{rubric.detail}}</p>
+                  <p class="text-info bestPractice"><strong>Best Practice: </strong>{{rubric.detail}}</p>
                 </div>
 
                 <div ng-show="score.detail">
-                  <hr>
                   <strong>Your Results:</strong>
                   <span ng-bind-html-unsafe="score.detail"></span>
                 </div>
@@ -110,4 +117,5 @@
     </div>
 
   </div>
+</div>
 </div>

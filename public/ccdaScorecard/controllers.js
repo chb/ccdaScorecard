@@ -179,7 +179,7 @@ angular.module('ccdaScorecard')
 .directive('statsHistogram', function($timeout, dateFilter) {
   // return the directive link function. (compile function not needed)
   return {
-    restrict: 'AE',
+    restrict: 'C',
     scope:  {distribution: '='},
     link: function(scope, element, attrs) {
       // A formatter for counts.
@@ -206,6 +206,7 @@ angular.module('ccdaScorecard')
           return scores[k];
         });
 
+        angular.element(element).text("");
         var bounding = d3.select(element[0]).append("svg")
         .attr("width", dim.width)
         .attr("class", "chart")
@@ -260,7 +261,7 @@ angular.module('ccdaScorecard')
       //      element.text("");
       // watch the expression, and update the UI on change.
       scope.$watch('distribution', function(value, oldval) {
-        element.text("");
+        console.log("REplacing", element, element.text());
         makeHistogram(value);
       }, false);
 

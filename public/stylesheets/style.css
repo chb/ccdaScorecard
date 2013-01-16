@@ -49,8 +49,8 @@ body {
 }
 
 .tweetButton{
-  float: right;
-  margin-top: 16px;
+  float: left;
+  margin-top: -.25em;
 }
 .pointer:last-child{
    margin-left: 1em;
@@ -95,7 +95,35 @@ table h2 {margin-bottom: 0em;}
 }
 
 #overall{
-  display: inline-block;
   vertical-align: middle;
   margin-right: .5em;
+  font-family: 'Domine', serif;
+  font-weight: 400;
+  font-size: 4em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  float: left;
+}
+
+#overall strong{
+  font-weight: 700;
+}
+
+#collapseButtons {
+  margin-top: -3em;
+  margin-bottom: 3em;
+}
+
+#collapseButtons  a {
+  float: left;
+  margin-right: .25em;
+}
+
+.hero-unit.beautiful, .well.helpSmart {
+  background: white;
+  margin-top: 5em;
+}
+
+.bestPractice {
+  margin-bottom: 2em;
 }
