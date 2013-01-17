@@ -34,9 +34,7 @@
   </div>
 </div>
 
-<div id="feedbackHeader" class="row">
-
-
+<div id="feedbackHeader" class="row" scroll-if="scoreSections.length && !scoring" >
   <div class="span12" ng-show="scoring" id="scoring">Scoring...</div>
 
   <div class="span12" ng-show="scoreSections.length > 0" >
@@ -51,7 +49,6 @@
     <a ng-click="expandAllScores()" class="btn btn-mini"><i class="icon-plus-sign"></i> Expand all</a>
     <tweet-button class="tweetButton" score="{{overallPercent}}"></tweet-button>
   </div>
-
 </div>
 
 <div id="feedbackSection" class="row">

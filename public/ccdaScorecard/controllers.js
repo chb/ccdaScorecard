@@ -291,3 +291,15 @@ angular.module('ccdaScorecard')
   };
 });
 
+angular.module('ccdaScorecard')
+.directive('scrollIf', function () {
+  return function (scope, element, attributes) {
+    scope.$watch(attributes.scrollIf, function(v, old){
+      if (scope.$eval(attributes.scrollIf)) {
+        window.setTimeout(function(){
+          element.ScrollTo({duration: 200, offsetTop: 30})
+        }, 0);
+      }
+    });
+  }
+});
