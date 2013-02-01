@@ -1,0 +1,21 @@
+<% if (misses.length > 0) {%>
+
+<h2>
+<%= misses.length %> of <%= (misses.length + hits.length)%> 
+smoking status codes weren't drawn from the eight recommended codes.
+</h2>
+
+<p>
+<strong>Recommended codes:</strong>
+<ul>
+<li>
+<a target="_blank" href="http://www.healthit.gov/sites/default/files/170.314a11smokingstatus_2014_tp_approvedv1.2.pdf">
+8 SNOMED CT Codes
+</a>
+</li>
+</ul>
+</p>
+
+<% include partials/codeTable%>
+
+<%}%>

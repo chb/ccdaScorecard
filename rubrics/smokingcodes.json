@@ -1,0 +1,12 @@
+{
+  "scorecards": ["ccda"],
+  "category": ["Social History", "Smoking"],
+  "description": "Structured Smoking Status Observations use correct SNOMED CT Codes",
+  "detail": "Smoking Status obervations should be coded according to an explicit list of eight SNOMED CT Codes.",
+  "maxPoints": 3,
+  "points": {
+    "5": "Smoking statuses are recorded with correct SNOMED CT codes",
+    "0": "Smoking status are not recorded with correct SNOMED CT codes"
+  },
+  "doesNotApply": "No smoking status in document"
+}

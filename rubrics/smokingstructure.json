@@ -1,7 +1,7 @@
 {
   "scorecards": ["smart"],
   "category": ["Social History", "Smoking"],
-  "description": "Structured Smoking Status Observations are used",
+  "description": "Only structured Smoking Status Observations are used",
   "detail": "Smoking status should be recorded in a discrete 'smoking status observation', not in the more generic, less-computable 'social history observation'.",
   "maxPoints": 3,
   "points": {
