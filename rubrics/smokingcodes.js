@@ -43,4 +43,4 @@ rubric.prototype.report = function(done){
   done(null, report);
 };
 
-var codeXpath = "//h:templateId[@root='2.16.840.1.113883.10.22.4.78']/../h:value";
+var codeXpath = "//h:templateId[@root='2.16.840.1.113883.10.20.22.4.78']/../h:value";

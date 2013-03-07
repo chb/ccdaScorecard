@@ -1,0 +1,12 @@
+{
+  "scorecards": ["smart"],
+  "category": ["Social History", "Smoking"],
+  "description": "Smoking Status Observations have the correct template ID",
+  "detail": "Smoking status observations should have template ID 2.16.840.1.113883.10.20.22.4.78",
+  "maxPoints": 1,
+  "points": {
+    "1": "Smoking status is recorded in a discrete observation",
+    "0": "Smoking status is recorded in a non-discrete observation"
+  },
+  "doesNotApply": "No smoking status in document"
+}
