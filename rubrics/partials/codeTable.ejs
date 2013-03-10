@@ -13,8 +13,18 @@ misses.forEach(function(miss){
   else {issue = "Not in value set"} 
 %>
 <tr>
-<td><code><%= miss.codeSystemName %>:<%= miss.code %></code></td>
+<td><code>
+<% if (miss.codeSystemName && miss.code) { %>
+<%= miss.codeSystemName %>:<%= miss.code %>
+<% } else { %>
+<%= miss.node.toString() %>
+<% } %>
+</code></td>
+<% if (miss.title) { %>
 <td>"<%= miss.displayName %>"</td>
+<% } else { %>
+<td>(no title)</td>
+<% } %>
 <td><%= issue %></td>
 <td> <% if (miss.normalized){%>
   See <a target="_blank" href="<%= miss.normalized._id %>"><%= miss.normalized._id %></a>

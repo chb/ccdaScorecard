@@ -2,11 +2,11 @@ import MySQLdb, MySQLdb.cursors
 import json
 import pymongo
 import copy
-from pymongo import Connection
+from pymongo import MongoClient
 
 from nltk.tokenize import word_tokenize
 
-mconnection = Connection()
+mconnection = MongoClient()
 mdb = mconnection.vocab
 concepts = mdb.concepts
 
@@ -18,6 +18,13 @@ COUNT=0
 systems = [
         {
             'umls_sab': 'SNOMEDCT', 
+            'oid': '2.16.840.1.113883.6.96', 
+            'sab': 'SNOMED-CT', 
+            'tty': ['PT'],
+            'url': 'http://purl.bioontology.org/ontology/SNOMEDCT/'
+        },
+        {
+            'umls_sab': 'SCTUSX', 
             'oid': '2.16.840.1.113883.6.96', 
             'sab': 'SNOMED-CT', 
             'tty': ['PT'],
