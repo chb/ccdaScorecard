@@ -160,9 +160,9 @@ angular.module('ccdaScorecard').controller("MainController",
     }, true);
 
     $scope.loading = function(){
+    console.log($scope.rubrics);
       var ret = (
         $scope.example.length == 0 || 
-        Object.keys($scope.stats).length  ==  0 || 
         Object.keys($scope.rubrics).length == 0
       );
       return ret;
