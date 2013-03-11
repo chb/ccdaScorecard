@@ -109,9 +109,13 @@ table h2 {margin-bottom: 0em;}
   font-weight: 700;
 }
 
-#collapseButtons {
+#shareDocument {
   margin-top: -3em;
-  margin-bottom: 3em;
+  margin-bottom: .7em;
+}
+
+#collapseButtons {
+  margin-bottom: 2em;
 }
 
 #collapseButtons  a {
