@@ -20,10 +20,10 @@ misses.forEach(function(miss){
 <%= miss.node.toString() %>
 <% } %>
 </code></td>
-<% if (miss.title) { %>
+<% if (miss.displayName) { %>
 <td>"<%= miss.displayName %>"</td>
 <% } else { %>
-<td>(no title)</td>
+<td><nobr>(No title)</nobr></td>
 <% } %>
 <td><%= issue %></td>
 <td> <% if (miss.normalized){%>

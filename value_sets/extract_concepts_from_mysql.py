@@ -77,7 +77,7 @@ def processSet(cur, query, s):
         for v in abunch:
             COUNT += 1
             concept = makeRow(s, v)
-            concepts.insert(concept)
+            concepts.update({'_id': concept['_id']}, concept, upsert=True)
             if COUNT%2000 == 0:
                 print COUNT, concept
         abunch = cur.fetchmany()
