@@ -43,7 +43,7 @@ angular.module('ccdaScorecard').factory('Scorecard', function($resource, $http) 
     }).error(function(e){
       errors.push(e);
     });
-    return ret;
+    return;
   }
 
   // ng's $resource can't grab a single string except to treat it 
@@ -95,6 +95,7 @@ angular.module('ccdaScorecard').controller("MainController",
     $scope.getScore = function(){
 
       console.log("requesting", $scope);
+      $scope.scoring = true;
       var toSubmit = $scope.submission.trim();
 
       $scope.scores =[];
@@ -104,7 +105,6 @@ angular.module('ccdaScorecard').controller("MainController",
         isExample: (toSubmit === $scope.example.trim())
       }, toSubmit, $scope.scores, $scope.errors );
 
-      $scope.scoring = true;
     };
 
     $scope.expandAllScores = function(){$scope.$broadcast("expandRequest", true);};
