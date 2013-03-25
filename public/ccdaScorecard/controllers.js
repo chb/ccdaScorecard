@@ -26,8 +26,11 @@ angular.module('ccdaScorecard').factory('Scorecard', function($resource, $http) 
 
   // simulate a `request` method because ng's $resource doesn't (yet)
   // support custom headers or explicit Content-type.
-  Scorecard.request = function(_, data) {
-    var ret = [];
+  Scorecard.request = function(_, data, scores, errors) {
+
+    scores.length = 0;
+    errors.length = 0;
+
     $http({
       method: "POST",
       data: data,
@@ -35,8 +38,10 @@ angular.module('ccdaScorecard').factory('Scorecard', function($resource, $http) 
       headers: {"Content-Type": "application/x-www-form-urlencoded"}
     }).success(function(r){
       for (var i = 0; i < r.length; i++){
-        ret.push(r[i]);
+        scores.push(r[i]);
       }
+    }).error(function(e){
+      errors.push(e);
     });
     return ret;
   }
@@ -92,9 +97,12 @@ angular.module('ccdaScorecard').controller("MainController",
       console.log("requesting", $scope);
       var toSubmit = $scope.submission.trim();
 
-      $scope.scores = Scorecard.request({
+      $scope.scores =[];
+      $scope.errors = [];
+      
+      Scorecard.request({
         isExample: (toSubmit === $scope.example.trim())
-      }, toSubmit);
+      }, toSubmit, $scope.scores, $scope.errors );
 
       $scope.scoring = true;
     };

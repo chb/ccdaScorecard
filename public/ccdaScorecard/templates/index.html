@@ -34,6 +34,10 @@
   </div>
 </div>
 
+<div ng-show="errors.length" class="alert alert-error">
+  {{errors[0]}}
+</div>
+
 <div id="feedbackHeader" class="row" scroll-if="scoreSections.length && !scoring" >
   <div class="span12" ng-show="scoring" id="scoring">Scoring...</div>
 
