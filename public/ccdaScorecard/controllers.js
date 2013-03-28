@@ -91,6 +91,7 @@ angular.module('ccdaScorecard').controller("MainController",
     $scope.stats = Scorecard.stats;
     $scope.rubrics = Scorecard.rubrics;
     $scope.example = Scorecard.getExample($scope);
+    $scope.submission = "";
 
     $scope.getScore = function(){
 
@@ -168,7 +169,6 @@ angular.module('ccdaScorecard').controller("MainController",
     }, true);
 
     $scope.loading = function(){
-    console.log($scope.rubrics);
       var ret = (
         $scope.example.length == 0 || 
         Object.keys($scope.rubrics).length == 0

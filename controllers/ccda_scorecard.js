@@ -1,5 +1,4 @@
 var winston = require('winston');
-var rest = require('restler');
 var hashish = require('hashish');
 var async = require('async');
 var fs = require('fs');
