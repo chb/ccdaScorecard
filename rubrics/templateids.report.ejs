@@ -1,0 +1,33 @@
+<% if (Object.keys(misses).length > 0) {%>
+
+<h2>
+<%= Object.keys(misses).length %>
+non-CCDA templateIds were used without C-CDA equivalents
+</h2>
+
+<table class="table table-bordered table-striped">
+<tr>
+<th>Old templateId</th>
+<th>Times used</th>
+<th>Official C-CDA templateId</th>
+</tr>
+
+<% Object.keys(misses).forEach(function(miss){ %>
+<tr>
+<td>
+   <code><%= miss %></code> 
+</td>
+<td><%= misses[miss].length%></td>
+<td>
+<ul>
+<% misses[miss][0].goodIds.forEach(function(id){ %>
+   <li>
+   <code><%= id %></code>
+   </li>
+<% }) %>
+</ul>
+</td>
+</tr>
+<% }) %>
+</table>
+<% } %>

@@ -1,0 +1,11 @@
+{
+  "scorecards": ["c-cda", "smart"],
+  "category": ["General", "Codes"],
+  "description": "Document uses official C-CDA templateIds whenever possible",
+  "detail": "C-CDA's prescribed templateIds should be used whenever possible.  Additional templateId elements are allowed, but official C-CDA templateIds should always be present when they apply.",
+  "maxPoints": 5,
+  "points": {
+    "5": "Everywhere that old templateIds are used, official C-CDA templateIds are also present",
+    "0": "C-CDA templateIds are missing"
+  }
+}
