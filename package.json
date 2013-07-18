@@ -13,7 +13,7 @@
     "xml2js": "*",
     "async": "*",
     "hashish": "*",
-    "restler": "*",
+    "request": "*",
     "express": "*",
     "mongodb": "1.1.11",
     "libxmljs":"*",

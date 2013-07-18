@@ -1,4 +1,4 @@
-angular.module('ccdaReceiver', ['smartBox'], function($routeProvider, $locationProvider){
+angular.module('ccdaReceiver', ['ui.bootstrap', 'smartBox'], function($routeProvider, $locationProvider){
 
   $routeProvider.when('/ui/select-patient', {
     templateUrl:'/static/ccdaReceiver/templates/select-patient.html',

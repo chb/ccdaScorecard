@@ -24,12 +24,19 @@
       Score me!
     </button>
 
-    <button 
-      ng-disabled="loading()" 
-      ng-click="submission = example; getScore();"
-      class="btn">
-      Show me an example.
-    </button>
+    <span class="btn-group">
+      <a class="btn dropdown-toggle">
+        Show me an example
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a tabindex="-1"  ng-click="submission = example; getScore();">Basic C-CDA</a></li>
+        <li class="divider"></li>
+        <li ng-repeat="sample in githubFiles.tree|ccdas">
+        <a ng-click="pickExample(sample)">{{sample.path}}</a>
+        </li>
+      </ul>
+    </span>
     <span ng-show="loading()" id='loading'>loading...</span><br>
   </div>
 </div>
@@ -96,32 +103,32 @@
           <tr ng-switch on="showDetails">
             <td ng-switch-when="true" colspan="2">
               <div class="comparison">
-              <!--
+                <!--
                 <div class="histogram">
                   <div class="stats-histogram" distribution="stats[score.rubric].counts"/>
-                  All C-CDAS Scored
+                    All C-CDAS Scored
+                  </div>
+                  -->
+
+                  <div class="rubricDetail">
+                    <p class="text-info bestPractice"><strong>Best Practice: </strong>{{rubric.detail}}</p>
+                  </div>
+
+                  <div ng-show="score.detail">
+                    <strong>Your Results:</strong>
+                    <span ng-bind-html-unsafe="score.detail"></span>
+                  </div>
+
+                  <br style="clear: both">
+
                 </div>
-                -->
+              </td>
+            </tr>
+          </tbody>
 
-                <div class="rubricDetail">
-                  <p class="text-info bestPractice"><strong>Best Practice: </strong>{{rubric.detail}}</p>
-                </div>
+        </table>
+      </div>
 
-                <div ng-show="score.detail">
-                  <strong>Your Results:</strong>
-                  <span ng-bind-html-unsafe="score.detail"></span>
-                </div>
-
-                <br style="clear: both">
-
-              </div>
-            </td>
-          </tr>
-        </tbody>
-
-      </table>
     </div>
-
   </div>
-</div>
 </div>
