@@ -13,6 +13,12 @@ rubric.prototype.report = function(done){
   concerns.forEach(function(concern){
 
     var concernStatus = concernStatusMap[xpath(concern, xpaths.concernStatusText)];
+    var concernEndDate = xpath(concern, xpaths.concernDate).toString();
+
+    // active conern with an end date == mistake!
+    if (concernStatus === true && concernDate) {
+      return;
+    }
 
     var problemStatus = xpath(concern, xpaths.problemStatus).map(function(s){
       return problemStatusMap[s.value()];
@@ -38,7 +44,9 @@ rubric.prototype.report = function(done){
     return numerator++;
   });
 
-  var report = common.report(rubric, numerator, denominator);
+  var report = common.report(rubric, 
+    numerator===denominator? denominator:0, denominator);
+
   done(null, report);
 };
 
@@ -53,7 +61,8 @@ var xpaths = {
   concernStatusText: "string(h:statusCode/@code)",
   problemStatus: ".//h:templateId[@root='"+templateIds.problem+"']/.." + 
                  "//h:templateId[@root='"+templateIds.problemStatus+"']/.." + 
-                 "/h:value/@displayName"
+                 "/h:value/@displayName",
+  concernDate: "./h:effectiveTime/h:high/@value"
 }
 
 var problemStatusMap = {
