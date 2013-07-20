@@ -16,7 +16,7 @@ rubric.prototype.report = function(done){
     var concernEndDate = xpath(concern, xpaths.concernDate).toString();
 
     // active conern with an end date == mistake!
-    if (concernStatus === true && concernDate) {
+    if (concernStatus === true && concernEndDate) {
       return;
     }
 

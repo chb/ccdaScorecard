@@ -1,6 +1,6 @@
 var common = require('../lib/common');
 
-var rubric = module.exports = function(){};
+var rubric = module.exports = function(){ };
 
 var umlsSystems = [
   "2.16.840.1.113883.6.96", // snomed ct

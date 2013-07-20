@@ -1,0 +1,11 @@
+{
+  "scorecards": ["c-cda", "smart"],
+  "category": ["General", "Dates"],
+  "description": "Document uses sensible datetime precision",
+  "detail": "C-CDA's datetimes should use ISO8601 strings to express appropriate precision.",
+  "maxPoints": 1,
+  "points": {
+    "1": "Everywhere",
+    "0": "Some implausible datetime precisions"
+  }
+}

@@ -1,0 +1,21 @@
+<% if ( typeof mistakes !== "undefined" && mistakes.length > 0) {%>
+
+<h2>
+<%= mistakes.length %>
+ issue<%mistakes.length > 1 ? "s":""%>
+</h2>
+
+<table class="table table-bordered table-striped">
+
+<% mistakes.forEach(function(miss){
+ %>
+<tr>
+  <% miss.forEach(function(m){ %>
+  <td>
+     <code><%= m %></code> 
+  </td>
+  <%})%>
+</tr>
+<% }) %>
+</table>
+<% } %>

@@ -11,8 +11,9 @@ rubric.prototype.report = function(done){
 
   vitalsStructured = common.xpath(
     ccda, 
-    "//h:templateId[@root='2.16.840.1.113883.10.20.22.2.4.1']/.." + 
-      "//h:templateId[@root='2.16.840.1.113883.10.20.22.4.27']/.."
+    "(//h:templateId[@root='2.16.840.1.113883.10.20.22.2.4.1'] | \
+      //h:templateId[@root='2.16.840.1.113883.10.20.22.2.4'])/.. \
+     //h:templateId[@root='2.16.840.1.113883.10.20.22.4.27']/.."
   );
 
   var hits = [];
