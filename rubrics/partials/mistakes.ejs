@@ -1,13 +1,20 @@
-<% if ( typeof mistakes !== "undefined" && mistakes.length > 0) {%>
+<% if ( typeof mistakes !== "undefined" && mistakes.length > 0) {
+
+  var first = mistakes.length > 10 ? 10 : mistakes.length;
+%>
 
 <h2>
 <%= mistakes.length %>
- issue<%mistakes.length > 1 ? "s":""%>
+ issue<%=mistakes.length > 1 ? "s":""%>.
+<% if(first < mistakes.length){ %>
+Showing first ten...
+<% } %>
 </h2>
 
 <table class="table table-bordered table-striped">
 
-<% mistakes.forEach(function(miss){
+<% 
+mistakes.slice(0,first).forEach(function(miss){
  %>
 <tr>
   <% miss.forEach(function(m){ %>

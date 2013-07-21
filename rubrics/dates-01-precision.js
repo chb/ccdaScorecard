@@ -2,8 +2,8 @@ var common = require('../lib/common');
 var rubric = module.exports = function(){};
 
 rubric.prototype.test = function datePrecision(d){
-  if (d.match(/000/)){
-    this.fail(d);
+  if (d.match(/\.000/) || d.match(/^..+0000/)){
+    this.fail(d, "Confirm this is the intended level of precision");
   }
 }
 
