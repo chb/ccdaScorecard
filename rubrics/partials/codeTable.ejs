@@ -8,7 +8,9 @@
 <% 
 misses.forEach(function(miss){ 
   var issue = "";
-  if (!miss.normalized) {issue = "Code not found in UMLS 2012AB"}
+
+  if (miss.nullFlavor) {issue = "nullFlavor='"+miss.nullFlavor+"' was used"}
+  else if (!miss.normalized) {issue = "Code not found in UMLS 2012AB"}
   else if (!miss.normalized.active) {issue = "Obsolete"}
   else {issue = "Not in value set"} 
 %>
@@ -16,6 +18,7 @@ misses.forEach(function(miss){
 <td><code>
 <% if (miss.codeSystemName && miss.code) { %>
 <%= miss.codeSystemName %>:<%= miss.code %>
+<%= miss.nullFlavor ? " nullFlavor='"+miss.nullFlavor+"'" : "" %>
 <% } else { %>
 <%= miss.node.toString() %>
 <% } %>
@@ -26,7 +29,7 @@ misses.forEach(function(miss){
 <td><nobr>(No title)</nobr></td>
 <% } %>
 <td><%= issue %></td>
-<td> <% if (miss.normalized){%>
+<td> <% if (miss.normalized && !miss.nullFlavor){%>
   See <a target="_blank" href="<%= miss.normalized._id %>"><%= miss.normalized._id %></a>
 <%} else {%>
   Check mapping
