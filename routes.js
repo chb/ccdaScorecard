@@ -8,6 +8,7 @@ app.get('/', function(req,res){
 var Scorecard = require('./controllers/ccda_scorecard');
 var Examples = require('./controllers/examples');
 
+app.post('/v1/post-to-ui?', Scorecard.postToUi);
 app.post('/v1/ccda-scorecard/request/?', Scorecard.gradeRequest);
 app.get('/v1/ccda-scorecard/rubrics/?', Scorecard.rubricAll);
 app.get('/v1/ccda-scorecard/rubrics/:rid', Scorecard.rubricOne);

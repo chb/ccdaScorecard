@@ -11,7 +11,7 @@ config.launch = launch;
 
 function launch() {
   var app =  config.app = express();
-  app.set('views', __dirname + '/../app/views');
+  app.set('views', __dirname + '../views');
   app.set('view engine', 'ejs');
   app.engine('ejs', require('ejs').__express);
 

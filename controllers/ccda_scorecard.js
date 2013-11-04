@@ -8,10 +8,19 @@ var db = require('../config').db;
 
 var Controller = module.exports = {};
 
+var indexSource = fs.readFileSync(__dirname+"/../public/ccdaScorecard/index.html").toString();
+
 var allRubrics = {};
 Object.keys(rubrics).forEach(function(k){
   allRubrics[k] = rubrics[k].json;
 });
+
+
+Controller.postToUi = function(req, res, next){
+  console.log(req.body);
+  res.end(indexSource.replace("var defaultCcda = null;", "var defaultCcda = \""+
+                        encodeURIComponent(req.body.ccda) + "\";"));
+}
 
 Controller.gradeRequest = function(req, res, next) {
   winston.info('grading a CCD request of length ' + req.rawBody.length);

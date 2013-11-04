@@ -10,6 +10,11 @@ angular.module('ccdaScorecard', ['ui.bootstrap', 'ngResource'], function($routeP
     controller: 'MainController'
   }) 
 
+  $routeProvider.otherwise({
+    templateUrl:'/static/ccdaScorecard/templates/index.html',
+    controller: 'MainController'
+  }) 
+
   //  $locationProvider.html5Mode(true);
 });
 
@@ -115,7 +120,7 @@ angular.module('ccdaScorecard').controller("ScoreController",
 );
 
 angular.module('ccdaScorecard').controller("MainController",  
-  function($scope, Scorecard, GithubExamples) {
+  function($scope, Scorecard, GithubExamples, $timeout) {
 
     $scope.dropChoices = [{href: "#", text: "wdfa"}];
 
@@ -123,7 +128,6 @@ angular.module('ccdaScorecard').controller("MainController",
     $scope.rubrics = Scorecard.rubrics;
     $scope.example = Scorecard.getExample($scope);
     $scope.submission = $scope.current = "";
-
     $scope.getScore = function(){
       $scope.scoring = true;
       var toSubmit = $scope.submission.trim();
@@ -219,6 +223,16 @@ angular.module('ccdaScorecard').controller("MainController",
     $scope.showDetails = function(score){
       score.showDetails = true;
     };
+
+    if(window.defaultCcda !== null){
+      $scope.submission = decodeURIComponent(window.defaultCcda);
+      $scope.$watch("loading()",function(newVal){
+      console.log("loading", newVal);
+       if (newVal === true)
+        $scope.getScore();
+      });
+    }
+
 
   }
 );
