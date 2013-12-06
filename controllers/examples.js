@@ -10,7 +10,8 @@ var ghreq = function(){
     request.get({
       url: url,
       headers: {
-        "If-None-Match": tags[url] 
+        "If-None-Match": tags[url],
+        "User-Agent": "smart-ccda-scorecard"
       }
     }, function(err, response, body){
 
