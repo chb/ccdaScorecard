@@ -1,0 +1,7 @@
+{
+  "scorecards": ["c-cda", "smart"],
+  "category": ["General", "Physical Quantities"],
+  "description": "Physical units are valid UCUM expressions",
+  "detail": "Any time a physical unit is used, it should be a valid UCUM expression",
+  "maxPoints": 3
+}
