@@ -33,7 +33,7 @@ for code in loincReader:
 
 db = MySQLdb.connect(host="localhost", user="umls", passwd="UMLS", db="umls", cursorclass=MySQLdb.cursors.DictCursor)
 
-subsetq = """SELECT distinct code FROM umls.MRCONSO WHERE  sab='SNOMEDCT' and (CVF & %s > 0)"""
+subsetq = """SELECT distinct code FROM umls.MRCONSO WHERE  sab='SNOMEDCT_US' and (CVF & %s > 0)"""
 
 cur = db.cursor()
 cur.execute(subsetq%512)

@@ -2,7 +2,7 @@
   "scorecards": ["smart"],
   "category": ["General", "Codes"],
   "description": "SNOMED CT, LOINC, and RxNorm codes validate against UMLS",
-  "detail": "Codes that claim to be from SNOMED CT, LOINC, and RxNorm should be present in UMLS 2012AB.",
+  "detail": "Codes that claim to be from SNOMED CT, LOINC, and RxNorm should be present in UMLS 2014AA.",
   "maxPoints": 5,
   "points": {
     "5": "All codes that claim to be from UMLS are found there",

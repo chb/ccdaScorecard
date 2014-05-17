@@ -31,6 +31,13 @@ systems = [
             'url': 'http://purl.bioontology.org/ontology/SNOMEDCT/'
         },
         {
+            'umls_sab': 'SNOMEDCT_US', 
+            'oid': '2.16.840.1.113883.6.96', 
+            'sab': 'SNOMED-CT', 
+            'tty': ['PT'],
+            'url': 'http://purl.bioontology.org/ontology/SNOMEDCT/'
+        },
+        {
             'umls_sab': 'RXNORM', 
             'oid': '2.16.840.1.113883.6.88', 
             'sab': 'RxNorm', 
@@ -102,11 +109,9 @@ for s in systems:
 
     processSet(cur, allcodes, s)
 
-snomedRetired = """select c.cui, c.code, c.sab, c.str, c.cvf 
-from umls.MRCONSO c join umls.MRSAT a
-where 
-  c.sab='SNOMEDCT' and c.tty='OP'
-  and a.code=c.SCUI and a.atn='CONCEPTSTATUS' and a.atv != '0';
+print "Finding retired"
+snomedRetired = """select c.cui, c.code, c.sab, c.str, c.cvf from umls.MRCONSO c join umls.MRSAT a where 
+  c.sab='SNOMEDCT_US' and a.sab='SNOMEDCT_US' and c.tty='OAP' and a.code=c.SCUI and a.atn='ACTIVE' and a.atv = '0';
 """
 s = copy.deepcopy(systems[0])
 s['active'] = False

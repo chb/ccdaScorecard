@@ -10,7 +10,7 @@ misses.forEach(function(miss){
   var issue = "";
 
   if (miss.nullFlavor) {issue = "nullFlavor='"+miss.nullFlavor+"' was used"}
-  else if (!miss.normalized) {issue = "Code not found in UMLS 2012AB"}
+  else if (!miss.normalized) {issue = "Code not found in UMLS 2014AA"}
   else if (!miss.normalized.active) {issue = "Obsolete"}
   else {issue = "Not in value set"} 
 %>

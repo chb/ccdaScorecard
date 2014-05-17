@@ -32,7 +32,7 @@ rubric.prototype.report = function(done){
       return;
     }
 
-    tokens = c.displayName.split(/[^\w\/]+/)
+    tokens = c.displayName.split(/[^A-z\-\/]+/)
     .filter(function(t){return t.length > 1;})
     .map(function(t){
       return t.toLowerCase();
@@ -46,6 +46,7 @@ rubric.prototype.report = function(done){
 
     if (unmatchedTokens.length * 1.0 / tokens.length > .5){
       c.normalized = umls;
+      console.log(tokens, tokens.length, unmatchedTokens, unmatchedTokens.lenth, "UNMATCHED");
       return misses.push(c);
     }
 
