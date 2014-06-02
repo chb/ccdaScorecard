@@ -21,7 +21,8 @@ angular.module('ccdaScorecard', ['ui.bootstrap', 'ngResource'], function($routeP
 angular.module('ccdaScorecard').filter('ccdas', function(){
   return function(list) {
     var ret = list.filter(function(entry){
-      return entry.path.match(/(xml)|(txt)/i);
+      if (entry.path.match(/EMERGE\/Patient-\d\d/)) return false;
+      return entry.path.match(/(xml)|(txt)|(ccd)/i);
     });
     return ret;
   };
