@@ -2,7 +2,7 @@ var unitMap = {
   '8310-5': {units: ['Cel', '[degF]' ]},
   '8462-4': {units: ['mm[Hg]']},
   '8480-6': {units: ['mm[Hg]']},
-  '8287-5': {units: ['cm', '[in_i]']},
+  '8287-5': {units: ['cm', '[in_i]', '[in_us]']},
   '8867-4': {units: ['/min', '{beats}/min']},
   '8302-2': {units: ['cm', '[in_i]', '[in_us]']},
   '8306-3': {units: ['cm', '[in_i]', '[in_us]']},
