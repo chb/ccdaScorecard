@@ -252,13 +252,13 @@
       }
     },
     "mongodb": {
-      "version": "1.1.11",
-      "from": "mongodb@1.1.11",
-      "resolved": "https://registry.npmjs.org/mongodb/-/mongodb-1.1.11.tgz",
+      "version": "1.4.39",
+      "from": "mongodb@1.4.39",
+      "resolved": "https://registry.npmjs.org/mongodb/-/mongodb-1.4.39.tgz",
       "dependencies": {
         "bson": {
-          "version": "0.1.5",
-          "from": "bson@0.1.5"
+          "version": "0.2.21",
+          "from": "bson@0.2.21"
         }
       }
     },
